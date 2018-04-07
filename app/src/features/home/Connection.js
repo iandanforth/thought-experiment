@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import Arrowhead from './Arrowhead';
 
 export default class Connection extends Component {
   static propTypes = {
@@ -10,7 +9,6 @@ export default class Connection extends Component {
     return (
       <div className="home-connection">
         Component content: home/Connection
-        <Arrowhead />
       </div>
     );
   }

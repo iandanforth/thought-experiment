@@ -30,7 +30,7 @@ module.exports = (type) => { // eslint-disable-line
         main: [
           'react-hot-loader/patch',
           `webpack-hot-middleware/client?http://0.0.0.0:${pkgJson.rekit.devPort}`,
-          './styles/index.less',
+          './styles/index.scss',
           './index',
         ],
       },
@@ -54,7 +54,7 @@ module.exports = (type) => { // eslint-disable-line
       dist: {
         main: [
           'babel-polyfill',
-          './styles/index.less',
+          './styles/index.scss',
           './index'
         ],
       },
@@ -95,9 +95,9 @@ module.exports = (type) => { // eslint-disable-line
           test: /\.(ttf|eot|svg|woff)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
           loader: 'file-loader'
         }, {
-          test: /\.less$/,
-          loader: isDev ? 'style-loader!css-loader?sourceMap!less-loader?sourceMap'
-            : 'style-loader!css-loader!less-loader'
+          test: /\.scss$/,
+          loader: isDev ? 'style-loader!css-loader?sourceMap!sass-loader?sourceMap'
+            : 'style-loader!css-loader!sass-loader'
         }, {
           test: /\.css$/,
           loader: 'style-loader!css-loader'

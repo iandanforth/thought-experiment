@@ -16,6 +16,7 @@ export class TestPage extends Component {
   render() {
     return (
       <div className="home-test-page">
+        Page Content: home/TestPage1
         <NetworkContainer />
         <InputContainer />
         <Controls />

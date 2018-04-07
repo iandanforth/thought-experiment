@@ -11,7 +11,7 @@
     "studioPort": 6076,
     "buildPort": 6077,
     "plugins": [],
-    "css": "less"
+    "css": "sass"
   },
   "scripts": {
     "start": "node ./tools/server.js",
@@ -47,13 +47,12 @@
     "file-loader": "^1.1.6",
     "history": "^4.7.2",
     "jsdom": "^11.5.1",
-    "less": "^2.7.3",
-    "less-loader": "^4.0.5",
     "lodash": "^4.17.4",
     "lodash-webpack-plugin": "^0.11.4",
     "mocha": "^4.1.0",
     "mocha-webpack": "^1.0.1",
     "nock": "^9.1.6",
+    "node-sass": "^4.7.2",
     "npm-run": "^4.1.2",
     "nyc": "^11.4.1",
     "prop-types": "^15.5.10",
@@ -70,6 +69,7 @@
     "rekit-core": "^2.1.1",
     "rekit-studio": "^2.2.0",
     "request": "^2.83.0",
+    "sass-loader": "^6.0.6",
     "shelljs": "^0.8.0",
     "sinon": "^4.1.5",
     "style-loader": "^0.19.1",
