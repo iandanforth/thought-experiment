@@ -1,0 +1,19 @@
+Alternate Implementation Notes
+
+input - concatatenation of latteral + bottom up
+
+sounds like a simple baysian calculation
+
+on 8x8 (lateral by bottom up) 
+or 1 onehot 1x64
+
+
+"simple bayesian update of probabilities"
+
+start with a prior where each is weighted equally
+
+1 /5 and 1/5 6
+
+64 possibile inputs and 8 possible outcomes
+
+only update priors for the situation that comes in
