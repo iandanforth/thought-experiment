@@ -2,6 +2,8 @@ Alternate Implementation Notes
 
 input - concatatenation of latteral + bottom up
 
+--------------
+
 sounds like a simple baysian calculation
 
 on 8x8 (lateral by bottom up) 
@@ -17,3 +19,28 @@ start with a prior where each is weighted equally
 64 possibile inputs and 8 possible outcomes
 
 only update priors for the situation that comes in
+
+---------------
+
+Consider this as a transition matrix where you're trying to figure out the
+most likely next event.
+
+for each transition (a, b) increment the value and then divide all values
+in row a by the sum of a
+
+[0,1,0] -> 1 -> [0,1]
+[0,1,1] -> 2 -> [0.5, 0.5]
+[1, 0.5, 0.5] -> 2 -> [0.5, 0.25, 0.25]
+[0.5, 1.25, 0.25] -> 2 -> [0.25, .625, 0.125]
+...
+
+This gives priority to the most recent information and exponentially decays
+probabilities for previous transitions.
+
+To start out with non-zero values for each transition (weight) you can
+start with 1/n-1 for each possible transition where n is the number of neurons.
+
+Because the graphic doesn't show any recurrent connections values along the
+diagonal should always be 0.
+
+
