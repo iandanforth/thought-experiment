@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import * as math from 'mathjs';
 import * as actions from './redux/actions';
 import NetworkContainer from './NetworkContainer';
 import InputContainer from './InputContainer';
@@ -13,12 +14,19 @@ export class TestPage extends Component {
     actions: PropTypes.object.isRequired,
   };
 
+  componentDidMount() {
+    const { updateTransitionMatrix } = this.props.actions;
+    updateTransitionMatrix(1, 2);
+  }
+
   render() {
+    const { numNeurons, numInputNeurons, tm } = this.props.home;
+    console.log(tm);
     return (
       <div className="home-test-page">
         Page Content: home/TestPage1
-        <NetworkContainer />
-        <InputContainer />
+        <NetworkContainer numNeurons={numNeurons} weights={tm} />
+        <InputContainer numNeurons={numInputNeurons} />
         <Controls />
       </div>
     );

@@ -12,12 +12,14 @@ import { reducer as counterPlusOneReducer } from './counterPlusOne';
 import { reducer as counterMinusOneReducer } from './counterMinusOne';
 import { reducer as resetCounterReducer } from './resetCounter';
 import { reducer as fetchRedditReactjsListReducer } from './fetchRedditReactjsList';
+import { reducer as updateTransitionMatrixReducer } from './updateTransitionMatrix';
 
 const reducers = [
   counterPlusOneReducer,
   counterMinusOneReducer,
   resetCounterReducer,
   fetchRedditReactjsListReducer,
+  updateTransitionMatrixReducer,
 ];
 
 export default function reducer(state = initialState, action) {
