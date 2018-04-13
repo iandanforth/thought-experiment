@@ -2,6 +2,7 @@
 // putting related actions and reducers in one file. See more at:
 // https://medium.com/@nate_wang/a-new-approach-for-managing-redux-actions-91c26ce8b5da
 import * as math from 'mathjs';
+import { updateTransitionMatrix as uTM } from '../../../common/transitionMatrix';
 
 import {
   HOME_UPDATE_TRANSITION_MATRIX,
@@ -16,20 +17,13 @@ export function updateTransitionMatrix(previous, active) {
 }
 
 export function reducer(state, action) {
-  let TM = state.tm.clone();
-  let prev;
+  const TM = state.tm.clone();
+  const { previous, active } = action;
   switch (action.type) {
     case HOME_UPDATE_TRANSITION_MATRIX:
-      // TM(p, a) += 1;
-      // TM(p,:) /= sum(TM(p, :));
-      // UTM = TM;
-      console.log(state);
-      // TODO: Figure out how to do god damned assignment with this lib
-      prev = TM.subset(math.index(action.previous, action.active));
-      TM.subset(math.index(action.previous, action.active), prev + 1);
       return {
         ...state,
-        tm: TM
+        tm: uTM(TM, previous, active)
       };
 
     default:

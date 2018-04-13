@@ -21,7 +21,6 @@ export class TestPage extends Component {
 
   render() {
     const { numNeurons, numInputNeurons, tm } = this.props.home;
-    console.log(tm);
     return (
       <div className="home-test-page">
         Page Content: home/TestPage1

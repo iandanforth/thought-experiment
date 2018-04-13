@@ -7,3 +7,4 @@ export { default as Connection } from './Connection';
 export { default as NetworkContainer } from './NetworkContainer';
 export { default as InputContainer } from './InputContainer';
 export { default as Controls } from './Controls';
+export { default as Circle } from './Circle';

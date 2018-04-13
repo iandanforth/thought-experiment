@@ -9,3 +9,14 @@ export function initTransitionMatrix(n) {
   TM = math.divide(TM, (n - 1));
   return TM;
 }
+
+export function updateTransitionMatrix(TM, previous, active) {
+  const scope = {
+    TM,
+    previous,
+    active
+  };
+  math.eval('TM[previous,active] = TM[previous,active] + 1', scope);
+  math.eval('TM[previous,:] = TM[previous,:] / sum(TM[previous,:])', scope);
+  return TM;
+}
