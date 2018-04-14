@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Stage } from 'react-pixi-fiber';
-import * as PIXI from 'pixi.js';
 import Neuron from './Neuron';
 import Connection from './Connection';
 
@@ -31,6 +30,36 @@ export default class NetworkContainer extends Component {
     return neurons;
   }
 
+  get connections() {
+    const { numNeurons, weights } = this.props;
+    const connections = [];
+    const startX = 200;
+    const startY = 300;
+    // TODO Move radius and spacing into defaultProps
+    const radius = 15;
+    const spacing = 30 + (2 * radius);
+    const arcHeight = 30;
+
+    for (let i = 0; i < numNeurons - 1; i++) {
+      const offset = spacing * i;
+      const x = startX + offset;
+      const y = startY;
+      const endX = x + spacing;
+      console.log(x, endX);
+      const connection = (
+        <Connection
+          startX={x}
+          startY={y}
+          endX={endX}
+          endY={y}
+          radius={arcHeight}
+        />
+      );
+      connections.push(connection);
+    }
+    return connections;
+  }
+
   render() {
     const stageOptions = {
       backgroundColor: 0xFFFF22
@@ -41,8 +70,8 @@ export default class NetworkContainer extends Component {
         Component content: home/NetworkContainer
         <Stage height={800} width={800} options={stageOptions}>
           {this.neurons}
+          {this.connections}
         </Stage>
-        <Connection />
       </div>
     );
   }
