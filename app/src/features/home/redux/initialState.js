@@ -13,6 +13,8 @@ const initialState = {
   fetchRedditReactjsListError: null,
   fetchRedditReactjsListPending: false,
   numNeurons: initialNumNeurons,
+  neuronSpacing: 30,
+  baseConnectionHeight: 30,
   numInputNeurons: initialNumNeurons,
   tm: initTransitionMatrix(initialNumNeurons)
 };

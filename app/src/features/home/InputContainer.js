@@ -10,7 +10,6 @@ export default class InputContainer extends Component {
     return (
       <div className="home-input-container">
         Component content: home/InputContainer
-        <Neuron />
       </div>
     );
   }

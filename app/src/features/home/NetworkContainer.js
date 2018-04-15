@@ -8,22 +8,24 @@ import Connection from './Connection';
 export default class NetworkContainer extends Component {
   static propTypes = {
     numNeurons: PropTypes.number.isRequired,
+    neuronSpacing: PropTypes.number.isRequired,
     weights: PropTypes.object.isRequired
   };
 
   get neurons() {
-    const { numNeurons } = this.props;
+    const { numNeurons, neuronSpacing } = this.props;
     const neurons = [];
     const startX = 200;
     const startY = 300;
     const radius = 15;
-    const spacing = 30 + (2 * radius);
+    const spacing = neuronSpacing + (2 * radius);
     for (let i = 0; i < numNeurons; i++) {
+      const key = `neuron-${i}`;
       const offset = spacing * i;
       const x = startX + offset;
       const y = startY;
       const neuron = (
-        <Neuron x={x} y={y} radius={radius} />
+        <Neuron x={x} y={y} radius={radius} key={key} />
       );
       neurons.push(neuron);
     }
@@ -31,21 +33,21 @@ export default class NetworkContainer extends Component {
   }
 
   get connections() {
-    const { numNeurons, weights } = this.props;
+    const { numNeurons, neuronSpacing, weights } = this.props;
     const connections = [];
     const startX = 200;
     const startY = 300;
     // TODO Move radius and spacing into defaultProps
     const radius = 15;
-    const spacing = 30 + (2 * radius);
+    const spacing = neuronSpacing + (2 * radius);
     const arcHeight = 30;
 
     for (let i = 0; i < numNeurons - 1; i++) {
+      const key = `connection-${i}`;
       const offset = spacing * i;
       const x = startX + offset;
       const y = startY;
       const endX = x + spacing;
-      console.log(x, endX);
       const connection = (
         <Connection
           startX={x}
@@ -53,6 +55,7 @@ export default class NetworkContainer extends Component {
           endX={endX}
           endY={y}
           radius={arcHeight}
+          key={key}
         />
       );
       connections.push(connection);
@@ -68,7 +71,7 @@ export default class NetworkContainer extends Component {
     return (
       <div className="home-network-container">
         Component content: home/NetworkContainer
-        <Stage height={800} width={800} options={stageOptions}>
+        <Stage height={500} width={800} options={stageOptions}>
           {this.neurons}
           {this.connections}
         </Stage>

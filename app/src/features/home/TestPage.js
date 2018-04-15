@@ -20,11 +20,20 @@ export class TestPage extends Component {
   }
 
   render() {
-    const { numNeurons, numInputNeurons, tm } = this.props.home;
+    const {
+      numNeurons,
+      neuronSpacing,
+      numInputNeurons,
+      tm,
+    } = this.props.home;
     return (
       <div className="home-test-page">
         Page Content: home/TestPage1
-        <NetworkContainer numNeurons={numNeurons} weights={tm} />
+        <NetworkContainer
+          numNeurons={numNeurons}
+          weights={tm}
+          neuronSpacing={neuronSpacing}
+        />
         <InputContainer numNeurons={numInputNeurons} />
         <Controls />
       </div>

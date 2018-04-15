@@ -13,6 +13,7 @@ import { reducer as counterMinusOneReducer } from './counterMinusOne';
 import { reducer as resetCounterReducer } from './resetCounter';
 import { reducer as fetchRedditReactjsListReducer } from './fetchRedditReactjsList';
 import { reducer as updateTransitionMatrixReducer } from './updateTransitionMatrix';
+import { reducer as updateNeuronSpacingReducer } from './updateNeuronSpacing';
 
 const reducers = [
   counterPlusOneReducer,
@@ -20,6 +21,7 @@ const reducers = [
   resetCounterReducer,
   fetchRedditReactjsListReducer,
   updateTransitionMatrixReducer,
+  updateNeuronSpacingReducer,
 ];
 
 export default function reducer(state = initialState, action) {

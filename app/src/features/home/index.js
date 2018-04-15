@@ -6,6 +6,6 @@ export { default as Neuron } from './Neuron';
 export { default as Connection } from './Connection';
 export { default as NetworkContainer } from './NetworkContainer';
 export { default as InputContainer } from './InputContainer';
-export { default as Controls } from './Controls';
 export { default as Circle } from './Circle';
 export { default as Arc } from './Arc';
+export { default as Controls } from './Controls';
