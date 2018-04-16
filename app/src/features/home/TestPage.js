@@ -13,11 +13,6 @@ export class TestPage extends Component {
     actions: PropTypes.object.isRequired,
   };
 
-  componentDidMount() {
-    // const { updateTransitionMatrix } = this.props.actions;
-    // updateTransitionMatrix(1, 2);
-  }
-
   render() {
     const {
       numNeurons,

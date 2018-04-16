@@ -19,14 +19,20 @@ class Controls extends Component {
 
     this.startCycle = this.startCycle.bind(this);
     this.update = this.update.bind(this);
+    this.getTransition = this.getTransition.bind(this);
     this.updateTimeout = null;
   }
 
-  getNextIV() {
-    const { iv, numNeurons } = this.props.home;
+  getTransition() {
+    const { numNeurons, iv } = this.props.home;
     // If there are no elements that === 1, we get -1 back which still works.
     const prevIndex = iv.findIndex(el => el === 1);
     const nextIndex = (prevIndex + 1) % numNeurons;
+    return [prevIndex, nextIndex];
+  }
+
+  getNextIV(nextIndex) {
+    const { numNeurons } = this.props.home;
     const nextIV = initInputVector(numNeurons);
     nextIV[nextIndex] = 1;
     return nextIV;
@@ -37,9 +43,13 @@ class Controls extends Component {
     this.updateTimeout = setTimeout(this.update, updateDelay);
     // Keep checking but don't do anything if we're not running
     if (!running) { return; }
-    const { updateInputVector } = this.props.actions;
-    const nextIV = this.getNextIV();
+    const { updateInputVector, updateTransitionMatrix } = this.props.actions;
+    const [prevIndex, nextIndex] = this.getTransition();
+    const nextIV = this.getNextIV(nextIndex);
     updateInputVector(nextIV);
+    if (prevIndex !== -1) {
+      updateTransitionMatrix(prevIndex, nextIndex);
+    }
   }
 
   startCycle() {
