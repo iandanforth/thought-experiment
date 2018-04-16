@@ -18,8 +18,10 @@ const initialState = {
   neuronSpacing: 30,
   baseConnectionHeight: 30,
   numInputNeurons: initialNumNeurons,
+  updateDelay: 1000,
   tm: initTransitionMatrix(initialNumNeurons),
-  iv: initInputVector(initialNumNeurons)
+  iv: initInputVector(initialNumNeurons),
+  running: false
 };
 
 export default initialState;

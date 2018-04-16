@@ -17,6 +17,9 @@ import { reducer as updateNeuronSpacingReducer } from './updateNeuronSpacing';
 import { reducer as updateConnectionHeightReducer } from './updateConnectionHeight';
 import { reducer as updateNeuronRadiusReducer } from './updateNeuronRadius';
 import { reducer as updateInputVectorReducer } from './updateInputVector';
+import { reducer as updateUpdateDelayReducer } from './updateUpdateDelay';
+import { reducer as startRunningReducer } from './startRunning';
+import { reducer as stopRunningReducer } from './stopRunning';
 
 const reducers = [
   counterPlusOneReducer,
@@ -28,6 +31,9 @@ const reducers = [
   updateConnectionHeightReducer,
   updateNeuronRadiusReducer,
   updateInputVectorReducer,
+  updateUpdateDelayReducer,
+  startRunningReducer,
+  stopRunningReducer,
 ];
 
 export default function reducer(state = initialState, action) {

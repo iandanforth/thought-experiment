@@ -9,3 +9,6 @@ export { updateNeuronSpacing } from './updateNeuronSpacing';
 export { updateConnectionHeight } from './updateConnectionHeight';
 export { updateNeuronRadius } from './updateNeuronRadius';
 export { updateInputVector } from './updateInputVector';
+export { updateUpdateDelay } from './updateUpdateDelay';
+export { startRunning } from './startRunning';
+export { stopRunning } from './stopRunning';
