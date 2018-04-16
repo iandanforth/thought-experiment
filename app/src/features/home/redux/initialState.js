@@ -16,7 +16,7 @@ const initialState = {
   numNeurons: initialNumNeurons,
   neuronRadius: 15,
   neuronSpacing: 30,
-  baseConnectionHeight: 30,
+  baseConnectionHeight: 5,
   numInputNeurons: initialNumNeurons,
   updateDelay: 1000,
   tm: initTransitionMatrix(initialNumNeurons),

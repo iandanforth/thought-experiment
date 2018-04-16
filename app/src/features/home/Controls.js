@@ -7,7 +7,6 @@ import { connect } from 'react-redux';
 import * as actions from './redux/actions';
 import { initInputVector } from '../../common/inputVector';
 
-
 class Controls extends Component {
   static propTypes = {
     home: PropTypes.object.isRequired,
@@ -25,7 +24,7 @@ class Controls extends Component {
 
   getTransition() {
     const { numNeurons, iv } = this.props.home;
-    // If there are no elements that === 1, we get -1 back which still works.
+    // If there are no elements that === 1, we get -1 back
     const prevIndex = iv.findIndex(el => el === 1);
     const nextIndex = (prevIndex + 1) % numNeurons;
     return [prevIndex, nextIndex];
@@ -78,11 +77,13 @@ class Controls extends Component {
       stopRunning,
       resetTransitionMatrix
     } = this.props.actions;
-    const connectionHeight = baseConnectionHeight;
 
     const sliderClasses = classNames({
       'slider-container': true
     });
+
+    console.log('FOOOOOOO');
+    console.log(baseConnectionHeight);
 
     return (
       <div className="home-controls">
@@ -106,7 +107,7 @@ class Controls extends Component {
             min={0}
             max={200}
             step={1}
-            value={connectionHeight}
+            value={baseConnectionHeight}
             tooltip={false}
             labels={{ 0: '0', 100: '100', 200: '200' }}
             onChange={updateConnectionHeight}
