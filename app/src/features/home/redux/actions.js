@@ -6,3 +6,6 @@ export { resetCounter } from './resetCounter';
 export { fetchRedditReactjsList, dismissFetchRedditReactjsListError } from './fetchRedditReactjsList';
 export { updateTransitionMatrix } from './updateTransitionMatrix';
 export { updateNeuronSpacing } from './updateNeuronSpacing';
+export { updateConnectionHeight } from './updateConnectionHeight';
+export { updateNeuronRadius } from './updateNeuronRadius';
+export { updateInputVector } from './updateInputVector';

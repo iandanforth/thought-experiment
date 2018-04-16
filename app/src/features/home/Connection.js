@@ -8,7 +8,7 @@ export default class Connection extends Component {
     startY: PropTypes.number.isRequired,
     endX: PropTypes.number.isRequired,
     endY: PropTypes.number.isRequired,
-    radius: PropTypes.number,
+    height: PropTypes.number.isRequired,
     fill: PropTypes.number,
     lineWidth: PropTypes.number,
     color: PropTypes.number,
@@ -16,10 +16,9 @@ export default class Connection extends Component {
   };
 
   static defaultProps = {
-    radius: 20,
-    fill: 0x003399,
+    fill: 0xf7842c,
     lineWidth: 5,
-    color: 0x003399,
+    color: 0xf7842c,
     alpha: 1.0
   };
 
@@ -27,8 +26,9 @@ export default class Connection extends Component {
     const {
       startX,
       startY,
-      endX, endY,
-      radius,
+      endX,
+      endY,
+      height,
       fill,
       lineWidth,
       color,
@@ -40,7 +40,7 @@ export default class Connection extends Component {
         startY={startY}
         endX={endX}
         endY={endY}
-        radius={radius}
+        midpointYOffset={height}
         fill={fill}
         lineWidth={lineWidth}
         color={color}

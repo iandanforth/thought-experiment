@@ -7,15 +7,37 @@ import { connect } from 'react-redux';
 import * as actions from './redux/actions';
 
 
-export class Controls extends Component {
+class Controls extends Component {
   static propTypes = {
     home: PropTypes.object.isRequired,
     actions: PropTypes.object.isRequired,
   };
 
+  constructor() {
+    super();
+
+    this.startCycle = this.startCycle.bind(this);
+  }
+
+  startCycle() {
+    const { iv } = this.props.home;
+    const { updateInputVector } = this.props.actions;
+
+    setTimeout(() => {
+      console.log('Lunch time!');
+      this.startCycle();
+    }, 1000);
+  }
+
   render() {
-    const { neuronSpacing, showSlider } = this.props.home;
-    const { updateNeuronSpacing } = this.props.actions;
+    const { neuronSpacing, neuronRadius, showSlider, baseConnectionHeight } = this.props.home;
+    const {
+      updateNeuronSpacing,
+      updateConnectionHeight,
+      updateNeuronRadius,
+      updateInputVector,
+    } = this.props.actions;
+    const connectionHeight = baseConnectionHeight;
 
     const sliderClasses = classNames({
       'slider-container': true,
@@ -24,6 +46,9 @@ export class Controls extends Component {
 
     return (
       <div className="home-controls">
+        <div>
+          Network Display controls
+        </div>
         <div className={sliderClasses}>
           <Slider
             min={0}
@@ -34,6 +59,27 @@ export class Controls extends Component {
             labels={{ 0: '0', 100: '100', 200: '200' }}
             onChange={updateNeuronSpacing}
           />
+          <Slider
+            min={0}
+            max={200}
+            step={1}
+            value={connectionHeight}
+            tooltip={false}
+            labels={{ 0: '0', 100: '100', 200: '200' }}
+            onChange={updateConnectionHeight}
+          />
+          <Slider
+            min={0}
+            max={200}
+            step={1}
+            value={neuronRadius}
+            tooltip={false}
+            labels={{ 0: '0', 100: '100', 200: '200' }}
+            onChange={updateNeuronRadius}
+          />
+        </div>
+        <div className="buttons-container">
+          <button onClick={this.startCycle}>Play</button>
         </div>
       </div>
     );

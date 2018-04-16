@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Stage } from 'react-pixi-fiber';
-import Neuron from './Neuron';
+import { Neuron } from './Neuron';
 import Connection from './Connection';
 
 
@@ -9,23 +9,24 @@ export default class NetworkContainer extends Component {
   static propTypes = {
     numNeurons: PropTypes.number.isRequired,
     neuronSpacing: PropTypes.number.isRequired,
+    neuronRadius: PropTypes.number.isRequired,
+    baseConnectionHeight: PropTypes.number.isRequired,
     weights: PropTypes.object.isRequired
   };
 
   get neurons() {
-    const { numNeurons, neuronSpacing } = this.props;
+    const { numNeurons, neuronSpacing, neuronRadius } = this.props;
     const neurons = [];
     const startX = 200;
     const startY = 300;
-    const radius = 15;
-    const spacing = neuronSpacing + (2 * radius);
+    const spacing = neuronSpacing + (2 * neuronRadius);
     for (let i = 0; i < numNeurons; i++) {
       const key = `neuron-${i}`;
       const offset = spacing * i;
       const x = startX + offset;
       const y = startY;
       const neuron = (
-        <Neuron x={x} y={y} radius={radius} key={key} />
+        <Neuron x={x} y={y} radius={neuronRadius} key={key} />
       );
       neurons.push(neuron);
     }
@@ -33,14 +34,17 @@ export default class NetworkContainer extends Component {
   }
 
   get connections() {
-    const { numNeurons, neuronSpacing, weights } = this.props;
+    const {
+      numNeurons,
+      neuronSpacing,
+      neuronRadius,
+      baseConnectionHeight,
+      weights 
+    } = this.props;
     const connections = [];
     const startX = 200;
-    const startY = 300;
-    // TODO Move radius and spacing into defaultProps
-    const radius = 15;
-    const spacing = neuronSpacing + (2 * radius);
-    const arcHeight = 30;
+    const startY = 300 - neuronRadius;
+    const spacing = neuronSpacing + (2 * neuronRadius);
 
     for (let i = 0; i < numNeurons - 1; i++) {
       const key = `connection-${i}`;
@@ -54,7 +58,7 @@ export default class NetworkContainer extends Component {
           startY={y}
           endX={endX}
           endY={y}
-          radius={arcHeight}
+          height={baseConnectionHeight}
           key={key}
         />
       );
@@ -65,15 +69,16 @@ export default class NetworkContainer extends Component {
 
   render() {
     const stageOptions = {
-      backgroundColor: 0xFFFF22
+      backgroundColor: 0xFFFFFF,
+      antialias: true,
+      resolution: 2
     };
 
     return (
       <div className="home-network-container">
-        Component content: home/NetworkContainer
-        <Stage height={500} width={800} options={stageOptions}>
-          {this.neurons}
+        <Stage height={400} width={800} options={stageOptions}>
           {this.connections}
+          {this.neurons}
         </Stage>
       </div>
     );

@@ -4,6 +4,7 @@
 // So Rekit extracts the initial state definition into a separate module so that you can have
 // a quick view about what data is used for the feature, at any time.
 import { initTransitionMatrix } from '../../../common/transitionMatrix';
+import { initInputVector } from '../../../common/inputVector';
 
 // NOTE: initialState constant is necessary so that Rekit could auto add initial state when creating async actions.
 const initialNumNeurons = 8;
@@ -13,10 +14,12 @@ const initialState = {
   fetchRedditReactjsListError: null,
   fetchRedditReactjsListPending: false,
   numNeurons: initialNumNeurons,
+  neuronRadius: 15,
   neuronSpacing: 30,
   baseConnectionHeight: 30,
   numInputNeurons: initialNumNeurons,
-  tm: initTransitionMatrix(initialNumNeurons)
+  tm: initTransitionMatrix(initialNumNeurons),
+  iv: initInputVector(initialNumNeurons)
 };
 
 export default initialState;

@@ -12,7 +12,7 @@ export const behavior = {
       startY,
       endX,
       endY,
-      radius,
+      midpointYOffset,
       fill,
       lineWidth,
       color,
@@ -20,12 +20,14 @@ export const behavior = {
     } = newProps;
     // TODO make direction independant
     const midpointX = startX + ((endX - startX) / 2);
-    const midpointY = startY - radius;
+    const midpointY = startY - midpointYOffset;
     instance.clear();
     instance.lineStyle(lineWidth, color, alpha);
-    instance.moveTo(startX,startY);
+    instance.moveTo(startX, startY);
     instance.quadraticCurveTo(midpointX, midpointY, endX, endY);
-    console.log('Trying to draw arc');
+    // const blurFilter = new PIXI.filters.BlurFilter();
+    // instance.filters = [blurFilter];
+    // blurFilter.blur = 0.3;
   }
 };
 export default CustomPIXIComponent(behavior, TYPE);

@@ -6,7 +6,6 @@ import * as math from 'mathjs';
 import * as actions from './redux/actions';
 import NetworkContainer from './NetworkContainer';
 import InputContainer from './InputContainer';
-import Controls from './Controls';
 
 export class TestPage extends Component {
   static propTypes = {
@@ -23,19 +22,20 @@ export class TestPage extends Component {
     const {
       numNeurons,
       neuronSpacing,
-      numInputNeurons,
+      neuronRadius,
+      baseConnectionHeight,
       tm,
     } = this.props.home;
     return (
       <div className="home-test-page">
-        Page Content: home/TestPage1
         <NetworkContainer
           numNeurons={numNeurons}
           weights={tm}
           neuronSpacing={neuronSpacing}
+          neuronRadius={neuronRadius}
+          baseConnectionHeight={baseConnectionHeight}
         />
-        <InputContainer numNeurons={numInputNeurons} />
-        <Controls />
+        <InputContainer />
       </div>
     );
   }
