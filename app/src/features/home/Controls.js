@@ -57,7 +57,6 @@ class Controls extends Component {
     const {
       neuronSpacing,
       neuronRadius,
-      showSlider,
       baseConnectionHeight,
       updateDelay
     } = this.props.home;
@@ -71,14 +70,15 @@ class Controls extends Component {
     const connectionHeight = baseConnectionHeight;
 
     const sliderClasses = classNames({
-      'slider-container': true,
-      hidden: !showSlider
+      'slider-container': true
     });
 
     return (
       <div className="home-controls">
         <div className={sliderClasses}>
-          Neuron Spacing
+          <div className="slider-label">
+            Neuron Spacing
+          </div>
           <Slider
             min={0}
             max={200}
@@ -88,7 +88,9 @@ class Controls extends Component {
             labels={{ 0: '0', 100: '100', 200: '200' }}
             onChange={updateNeuronSpacing}
           />
-          Connection Height
+          <div className="slider-label">
+            Connection Height
+          </div>
           <Slider
             min={0}
             max={200}
@@ -98,7 +100,9 @@ class Controls extends Component {
             labels={{ 0: '0', 100: '100', 200: '200' }}
             onChange={updateConnectionHeight}
           />
-          Neuron Radius
+          <div className="slider-label">
+            Neuron Radius
+          </div>
           <Slider
             min={0}
             max={200}
@@ -108,7 +112,9 @@ class Controls extends Component {
             labels={{ 0: '0', 100: '100', 200: '200' }}
             onChange={updateNeuronRadius}
           />
-          Update Delay
+          <div className="slider-label">
+            Update Delay
+          </div>
           <Slider
             min={100}
             max={1000}

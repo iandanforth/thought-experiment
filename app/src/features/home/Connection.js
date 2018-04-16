@@ -10,14 +10,14 @@ export default class Connection extends Component {
     endY: PropTypes.number.isRequired,
     height: PropTypes.number.isRequired,
     fill: PropTypes.number,
-    lineWidth: PropTypes.number,
+    weight: PropTypes.number,
     color: PropTypes.number,
     alpha: PropTypes.number
   };
 
   static defaultProps = {
     fill: 0xf7842c,
-    lineWidth: 5,
+    weight: 5,
     color: 0xf7842c,
     alpha: 1.0
   };
@@ -30,10 +30,12 @@ export default class Connection extends Component {
       endY,
       height,
       fill,
-      lineWidth,
+      weight,
       color,
       alpha
     } = this.props;
+
+    const lineWidth = weight * 10;
     return (
       <Arc
         startX={startX}

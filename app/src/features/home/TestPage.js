@@ -14,8 +14,8 @@ export class TestPage extends Component {
   };
 
   componentDidMount() {
-    const { updateTransitionMatrix } = this.props.actions;
-    updateTransitionMatrix(1, 2);
+    // const { updateTransitionMatrix } = this.props.actions;
+    // updateTransitionMatrix(1, 2);
   }
 
   render() {

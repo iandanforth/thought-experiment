@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Stage } from 'react-pixi-fiber';
+import * as math from 'mathjs';
 import { Neuron } from './Neuron';
 import Connection from './Connection';
 
@@ -18,7 +19,7 @@ export default class NetworkContainer extends Component {
     const { numNeurons, neuronSpacing, neuronRadius } = this.props;
     const neurons = [];
     const startX = 200;
-    const startY = 300;
+    const startY = 200;
     const spacing = neuronSpacing + (2 * neuronRadius);
     for (let i = 0; i < numNeurons; i++) {
       const key = `neuron-${i}`;
@@ -39,31 +40,71 @@ export default class NetworkContainer extends Component {
       neuronSpacing,
       neuronRadius,
       baseConnectionHeight,
-      weights 
+      weights
     } = this.props;
+
+    const [numRows, numColumns] = weights.size();
+
     const connections = [];
     const startX = 200;
-    const startY = 300 - neuronRadius;
+    const startY = 200;
     const spacing = neuronSpacing + (2 * neuronRadius);
+    const vertSpacing = 30;
 
-    for (let i = 0; i < numNeurons - 1; i++) {
-      const key = `connection-${i}`;
-      const offset = spacing * i;
-      const x = startX + offset;
-      const y = startY;
-      const endX = x + spacing;
-      const connection = (
-        <Connection
-          startX={x}
-          startY={y}
-          endX={endX}
-          endY={y}
-          height={baseConnectionHeight}
-          key={key}
-        />
-      );
-      connections.push(connection);
+    for (let ri = 0; ri < numRows; ri++) {
+      for (let ci = 0; ci < numColumns; ci++) {
+        // Ignore diagonal / recurrent connections
+        if (ri !== ci) {
+          // BUG: ri = 1, ci =2
+          const weight = weights.subset(math.index(ri, ci));
+          const key = `connection-${ri}-${ci}`;
+          const startOffset = spacing * ri;
+          // How far away (by count of neurons) is our end?
+          const targetDistance = Math.abs(ri - ci);
+          const endOffset = spacing * targetDistance;
+          const vertOffset = vertSpacing * targetDistance;
+          const x = startX + startOffset;
+
+          let direction = 1;
+          if (ci < ri) {
+            direction = -1;
+          }
+          const y = startY - (neuronRadius * direction);
+          const connectionHeight = (baseConnectionHeight + vertOffset) * direction;
+          const endX = x + (endOffset * direction);
+          const connection = (
+            <Connection
+              startX={x}
+              startY={y}
+              endX={endX}
+              endY={y}
+              height={connectionHeight}
+              weight={weight}
+              key={key}
+            />
+          );
+          connections.push(connection);
+        }
+      }
     }
+    // for (let i = 0; i < numNeurons - 1; i++) {
+    //   const key = `connection-${i}`;
+    //   const offset = spacing * i;
+    //   const x = startX + offset;
+    //   const y = startY;
+    //   const endX = x + spacing;
+    //   const connection = (
+    //     <Connection
+    //       startX={x}
+    //       startY={y}
+    //       endX={endX}
+    //       endY={y}
+    //       height={baseConnectionHeight}
+    //       key={key}
+    //     />
+    //   );
+    //   connections.push(connection);
+    // }
     return connections;
   }
 
