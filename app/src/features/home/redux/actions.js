@@ -12,3 +12,4 @@ export { updateInputVector } from './updateInputVector';
 export { updateUpdateDelay } from './updateUpdateDelay';
 export { startRunning } from './startRunning';
 export { stopRunning } from './stopRunning';
+export { resetTransitionMatrix } from './resetTransitionMatrix';

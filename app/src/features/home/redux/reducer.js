@@ -20,6 +20,7 @@ import { reducer as updateInputVectorReducer } from './updateInputVector';
 import { reducer as updateUpdateDelayReducer } from './updateUpdateDelay';
 import { reducer as startRunningReducer } from './startRunning';
 import { reducer as stopRunningReducer } from './stopRunning';
+import { reducer as resetTransitionMatrixReducer } from './resetTransitionMatrix';
 
 const reducers = [
   counterPlusOneReducer,
@@ -34,6 +35,7 @@ const reducers = [
   updateUpdateDelayReducer,
   startRunningReducer,
   stopRunningReducer,
+  resetTransitionMatrixReducer,
 ];
 
 export default function reducer(state = initialState, action) {

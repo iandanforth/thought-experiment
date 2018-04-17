@@ -23,7 +23,7 @@ export function reducer(state, action) {
     case HOME_UPDATE_TRANSITION_MATRIX:
       return {
         ...state,
-        tm: uTM(TM, previous + 1, active + 1) // 1 index shift
+        tm: uTM(TM, previous + 1, active + 1) // 1-based index shift
       };
 
     default:

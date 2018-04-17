@@ -75,7 +75,8 @@ class Controls extends Component {
       updateConnectionHeight,
       updateNeuronRadius,
       updateUpdateDelay,
-      stopRunning
+      stopRunning,
+      resetTransitionMatrix
     } = this.props.actions;
     const connectionHeight = baseConnectionHeight;
 
@@ -136,8 +137,13 @@ class Controls extends Component {
           />
         </div>
         <div className="buttons-container">
-          <button onClick={this.startCycle}>Start</button>
-          <button onClick={stopRunning}>Stop</button>
+          <div>
+            <button onClick={this.startCycle}>Start</button>
+            <button onClick={stopRunning}>Stop</button>
+          </div>
+          <div>
+            <button onClick={resetTransitionMatrix}>Reset Matrix</button>
+          </div>
         </div>
       </div>
     );
