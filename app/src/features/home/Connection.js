@@ -3,7 +3,12 @@ import PropTypes from 'prop-types';
 import * as math from 'mathjs';
 import Arc from './Arc';
 
-export default class Connection extends Component {
+export const ConnectionColor = {
+  RIGHT: 0xf7842c,
+  LEFT: 0x006EED,
+};
+
+export class Connection extends Component {
   static propTypes = {
     startX: PropTypes.number.isRequired,
     startY: PropTypes.number.isRequired,
@@ -17,9 +22,9 @@ export default class Connection extends Component {
   };
 
   static defaultProps = {
-    fill: 0xf7842c,
+    fill: ConnectionColor.RIGHT,
     weight: 5,
-    color: 0xf7842c,
+    color: ConnectionColor.RIGHT,
     alpha: 1.0
   };
 
