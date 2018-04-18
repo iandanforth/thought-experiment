@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import Animated from 'animated';
 import Circle from './Circle';
 
 export const NeuronState = {
@@ -15,10 +16,27 @@ export class Neuron extends Component {
     y: PropTypes.number.isRequired,
     radius: PropTypes.number.isRequired,
     neuronState: PropTypes.number,
+    interactive: PropTypes.bool,
+    pointerdown: PropTypes.func,
+    pointerup: PropTypes.func
   };
 
   static defaultProps = {
-    neuronState: NeuronState.INACTIVE
+    neuronState: NeuronState.INACTIVE,
+    interactive: false,
+    pointerdown: null,
+    pointerup: null
+  }
+
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      scale: new Animated.Value(1)
+    };
+
+    this.grow = this.grow.bind(this);
+    this.shrink = this.shrink.bind(this);
   }
 
   getFillForState() {
@@ -43,11 +61,30 @@ export class Neuron extends Component {
     return fill;
   }
 
+  grow() {
+    Animated.spring(this.state.scale, { toValue: 8 }).start();
+    console.log('Growing!');
+  }
+
+  shrink() {
+    Animated.spring(this.state.scale, { toValue: 1 }).start();
+    console.log('Shrinking!');
+  }
+
   render() {
-    const { x, y, radius } = this.props;
     const fill = this.getFillForState();
+    const propSubset = Object.assign({}, this.props);
+    delete propSubset.style; // Pixi throws warning if not removed
+    const AnimatedCircle = Animated.createAnimatedComponent(Circle);
     return (
-      <Circle x={x} y={y} radius={radius} fill={fill} />
+      <AnimatedCircle
+        {...propSubset}
+        fill={fill}
+        interactive
+        pointerdown={this.grow}
+        pointerup={this.shrink}
+        scale={this.state.scale}
+      />
     );
   }
 }

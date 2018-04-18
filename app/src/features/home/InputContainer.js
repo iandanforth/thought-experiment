@@ -19,18 +19,25 @@ class InputContainer extends Component {
     const startX = 200;
     const startY = 100;
     const spacing = neuronSpacing + (2 * neuronRadius);
-    
+
     for (let i = 0; i < numNeurons; i++) {
       let neuronState = NeuronState.OFF_INPUT;
       if (iv[i] === 1) {
         neuronState = NeuronState.ON_INPUT;
       }
+      neuronState = NeuronState.ON_INPUT; // TODO: Debugging - remove
       const key = `input-neuron-${i}`;
       const offset = spacing * i;
       const x = startX + offset;
       const y = startY;
       const neuron = (
-        <Neuron x={x} y={y} radius={neuronRadius} key={key} neuronState={neuronState} />
+        <Neuron
+          x={x}
+          y={y}
+          radius={neuronRadius}
+          key={key}
+          neuronState={neuronState}
+        />
       );
       neurons.push(neuron);
     }
