@@ -82,9 +82,6 @@ class Controls extends Component {
       'slider-container': true
     });
 
-    console.log('FOOOOOOO');
-    console.log(baseConnectionHeight);
-
     return (
       <div className="home-controls">
         <div className={sliderClasses}>

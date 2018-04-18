@@ -82,6 +82,7 @@
     "webpack-node-externals": "^1.6.0"
   },
   "dependencies": {
+    "animated": "^0.2.2",
     "mathjs": "^4.1.1",
     "pixi.js": "^4.7.3",
     "react-pixi-fiber": "^0.4.3",
