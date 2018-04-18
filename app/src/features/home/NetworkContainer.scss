@@ -1,8 +1,11 @@
 @import '../../styles/mixins';
 
 .home-network-container {
+  display: flex;
+  justify-content: center;
 
   canvas {
+    // border: 1px solid red; // Layout debugging
     height: 400px;
     width: 800px;
   }
