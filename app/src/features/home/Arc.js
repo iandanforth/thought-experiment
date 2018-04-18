@@ -13,21 +13,16 @@ export const behavior = {
       endX,
       endY,
       midpointYOffset,
-      fill,
       lineWidth,
       color,
       alpha
     } = newProps;
-    // TODO make direction independant
     const midpointX = startX + ((endX - startX) / 2);
     const midpointY = startY - midpointYOffset;
     instance.clear();
     instance.lineStyle(lineWidth, color, alpha);
     instance.moveTo(startX, startY);
     instance.quadraticCurveTo(midpointX, midpointY, endX, endY);
-    // const blurFilter = new PIXI.filters.BlurFilter();
-    // instance.filters = [blurFilter];
-    // blurFilter.blur = 0.3;
   }
 };
 export default CustomPIXIComponent(behavior, TYPE);

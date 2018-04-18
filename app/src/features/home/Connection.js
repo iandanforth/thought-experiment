@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import * as math from 'mathjs';
 import Arc from './Arc';
@@ -8,21 +8,21 @@ export const ConnectionColor = {
   LEFT: 0x006EED,
 };
 
-export class Connection extends Component {
+// Inheriting from PureComponent to avoid costly pixi re-renders
+// See https://reactjs.org/docs/react-component.html#shouldcomponentupdate
+export class Connection extends PureComponent {
   static propTypes = {
     startX: PropTypes.number.isRequired,
     startY: PropTypes.number.isRequired,
     endX: PropTypes.number.isRequired,
     endY: PropTypes.number.isRequired,
     height: PropTypes.number.isRequired,
-    fill: PropTypes.number,
     weight: PropTypes.number,
     color: PropTypes.number,
     alpha: PropTypes.number
   };
 
   static defaultProps = {
-    fill: ConnectionColor.RIGHT,
     weight: 5,
     color: ConnectionColor.RIGHT,
     alpha: 1.0
@@ -35,7 +35,6 @@ export class Connection extends Component {
       endX,
       endY,
       height,
-      fill,
       weight,
       color,
       alpha
@@ -52,7 +51,6 @@ export class Connection extends Component {
         endX={endX}
         endY={endY}
         midpointYOffset={height}
-        fill={fill}
         lineWidth={lineWidth}
         color={color}
         alpha={alpha}

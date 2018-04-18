@@ -1,6 +1,7 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import Animated from 'animated';
+import chroma from 'chroma-js';
 import Circle from './Circle';
 
 export const NeuronState = {
@@ -10,7 +11,9 @@ export const NeuronState = {
   ON_INPUT: 3
 };
 
-export class Neuron extends Component {
+// Inheriting from PureComponent to avoid costly pixi re-renders
+// See https://reactjs.org/docs/react-component.html#shouldcomponentupdate
+export class Neuron extends PureComponent {
   static propTypes = {
     x: PropTypes.number.isRequired,
     y: PropTypes.number.isRequired,
@@ -31,59 +34,99 @@ export class Neuron extends Component {
   constructor(props) {
     super(props);
 
+    const animValue = new Animated.Value(1);
     this.state = {
-      scale: new Animated.Value(1)
+      animValue,
     };
+
+    // Default color interpolation
+    this.interpInputRange = [1, 8];
+    this.interpolatedValue = animValue.interpolate({
+      inputRange: this.interpInputRange,
+      outputRange: ['rgb(136, 136, 152)', 'rgb(255, 121, 0)']
+    });
 
     this.grow = this.grow.bind(this);
     this.shrink = this.shrink.bind(this);
   }
 
-  getFillForState() {
+  componentDidMount() {
+    this.setInterpolationRangeForState();
+  }
+
+  componentDidUpdate(prevProps) {
     const { neuronState } = this.props;
-    let fill = 0x888898;
+    const prevNeuronState = prevProps.neuronState;
+
+    let changeHandled = 0;
+    // TODO: Simplify this. Maybe a 2x2 array with handlers.
+    if (neuronState !== prevNeuronState) {
+      this.setInterpolationRangeForState();
+      if (prevNeuronState === NeuronState.INACTIVE && neuronState === NeuronState.ACTIVE) {
+        this.grow();
+        changeHandled += 1;
+      }
+      if (prevNeuronState === NeuronState.ACTIVE && neuronState === NeuronState.INACTIVE) {
+        this.shrink();
+        changeHandled += 1;
+      }
+      if (prevNeuronState === NeuronState.OFF_INPUT && neuronState === NeuronState.ON_INPUT) {
+        this.grow();
+        changeHandled += 1;
+      }
+      if (prevNeuronState === NeuronState.ON_INPUT && neuronState === NeuronState.OFF_INPUT) {
+        this.shrink();
+        changeHandled += 1;
+      }
+      if (changeHandled !== 1) {
+        console.warn(`Neuron had an unexpected state change. 
+          prev: ${prevNeuronState} next: ${neuronState} total: ${changeHandled}`);
+      }
+    }
+  }
+
+  setInterpolationRangeForState() {
+    const { neuronState } = this.props;
+    let startFill = 'rgb(136, 136, 152)';
+    let endFill = 'rgb(255, 121, 0)';
     switch (neuronState) {
       case NeuronState.ACTIVE:
-        fill = 0xFF867B;
-        break;
       case NeuronState.INACTIVE:
-        fill = 0x888898;
-        break;
-      case NeuronState.OFF_INPUT:
-        fill = 0xFFFFFF;
+        startFill = 'rgb(136, 136, 152)';
+        endFill = 'rgb(255, 121, 0)';
         break;
       case NeuronState.ON_INPUT:
-        fill = 0xC0DDF2;
+      case NeuronState.OFF_INPUT:
+        startFill = 'rgb(255, 255, 255)';
+        endFill = 'rgb(192, 221, 242)';
         break;
       default:
-        return fill;
+        break;
     }
-    return fill;
+    this.interpolatedValue = this.state.animValue.interpolate({
+      inputRange: this.interpInputRange,
+      outputRange: [startFill, endFill]
+    });
   }
 
   grow() {
-    Animated.spring(this.state.scale, { toValue: 8 }).start();
-    console.log('Growing!');
+    Animated.timing(this.state.animValue, { toValue: 8 }).start();
   }
 
   shrink() {
-    Animated.spring(this.state.scale, { toValue: 1 }).start();
-    console.log('Shrinking!');
+    Animated.timing(this.state.animValue, { toValue: 1 }).start();
   }
 
   render() {
-    const fill = this.getFillForState();
-    const propSubset = Object.assign({}, this.props);
-    delete propSubset.style; // Pixi throws warning if not removed
     const AnimatedCircle = Animated.createAnimatedComponent(Circle);
     return (
       <AnimatedCircle
-        {...propSubset}
-        fill={fill}
+        {...this.props}
+        fill={this.interpolatedValue}
         interactive
         pointerdown={this.grow}
         pointerup={this.shrink}
-        scale={this.state.scale}
+        scale={1}
       />
     );
   }

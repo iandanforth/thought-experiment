@@ -25,7 +25,6 @@ class InputContainer extends Component {
       if (iv[i] === 1) {
         neuronState = NeuronState.ON_INPUT;
       }
-      neuronState = NeuronState.ON_INPUT; // TODO: Debugging - remove
       const key = `input-neuron-${i}`;
       const offset = spacing * i;
       const x = startX + offset;
