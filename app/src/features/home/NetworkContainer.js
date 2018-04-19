@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Stage } from 'react-pixi-fiber';
 import * as math from 'mathjs';
-import { Neuron } from './Neuron';
+import Neuron from './Neuron';
 import { Connection, ConnectionColor } from './Connection';
 
 

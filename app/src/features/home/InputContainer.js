@@ -4,6 +4,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Stage } from 'react-pixi-fiber';
 import { Neuron, NeuronState } from './Neuron';
+import InputNeuron from './InputNeuron';
 import * as actions from './redux/actions';
 
 
@@ -21,21 +22,21 @@ class InputContainer extends Component {
     const spacing = neuronSpacing + (2 * neuronRadius);
 
     for (let i = 0; i < numNeurons; i++) {
-      let neuronState = NeuronState.OFF_INPUT;
+      let active = false;
       if (iv[i] === 1) {
-        neuronState = NeuronState.ON_INPUT;
+        active = true;
       }
       const key = `input-neuron-${i}`;
       const offset = spacing * i;
       const x = startX + offset;
       const y = startY;
       const neuron = (
-        <Neuron
+        <InputNeuron
           x={x}
           y={y}
           radius={neuronRadius}
           key={key}
-          neuronState={neuronState}
+          active={active}
         />
       );
       neurons.push(neuron);
