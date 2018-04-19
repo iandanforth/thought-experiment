@@ -1,7 +1,10 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import Animated from 'animated';
+import { Sprite } from 'react-pixi-fiber';
+import * as PIXI from 'pixi.js';
 import Circle from './Circle';
+import sphere from '../../images/small-sphere-transparent.png';
 
 // Inheriting from PureComponent to avoid costly pixi re-renders
 // See https://reactjs.org/docs/react-component.html#shouldcomponentupdate
@@ -67,7 +70,12 @@ export default class Neuron extends PureComponent {
 
   render() {
     const AnimatedCircle = Animated.createAnimatedComponent(Circle);
-    return (
+    const { x, y, radius } = this.props;
+    const spriteWidth = radius * 2;
+    const spriteX = x - radius;
+    const spriteY = y - radius;
+    const alpha = 0.6;
+    return ([
       <AnimatedCircle
         {...this.props}
         fill={this.interpolatedValue}
@@ -75,7 +83,15 @@ export default class Neuron extends PureComponent {
         pointerdown={this.grow}
         pointerup={this.shrink}
         scale={1}
+      />,
+      <Sprite
+        texture={PIXI.Texture.fromImage(sphere)}
+        width={spriteWidth}
+        height={spriteWidth}
+        x={spriteX}
+        y={spriteY}
+        alpha={alpha}
       />
-    );
+    ]);
   }
 }

@@ -5,7 +5,6 @@ import * as math from 'mathjs';
 import Neuron from './Neuron';
 import { Connection, ConnectionColor } from './Connection';
 
-
 export default class NetworkContainer extends Component {
   static propTypes = {
     numNeurons: PropTypes.number.isRequired,
@@ -32,7 +31,13 @@ export default class NetworkContainer extends Component {
       const x = networkX + offset;
       const y = networkY;
       const neuron = (
-        <Neuron x={x} y={y} radius={neuronRadius} key={key} />
+        <Neuron
+          x={x}
+          y={y}
+          radius={neuronRadius}
+          inactiveColor="rgb(212, 225, 246)"
+          key={key}
+        />
       );
       neurons.push(neuron);
     }
@@ -98,7 +103,7 @@ export default class NetworkContainer extends Component {
 
   render() {
     const stageOptions = {
-      backgroundColor: 0xFFFFFF,
+      backgroundColor: 0xC7DAF2,
       antialias: true,
       resolution: 2
     };

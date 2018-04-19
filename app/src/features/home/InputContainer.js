@@ -46,7 +46,7 @@ class InputContainer extends Component {
 
   render() {
     const stageOptions = {
-      backgroundColor: 0xFFFFFF,
+      backgroundColor: 0xC7DAF2,
       antialias: true,
       resolution: 2
     };
