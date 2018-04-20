@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Stage } from 'react-pixi-fiber';
 import * as math from 'mathjs';
 import Neuron from './Neuron';
-import { Connection, ConnectionColor } from './Connection';
+import { Connection, ConnectionDirection } from './Connection';
 
 export default class NetworkContainer extends Component {
   static propTypes = {
@@ -73,11 +73,9 @@ export default class NetworkContainer extends Component {
           const vertOffset = vertSpacing * targetDistance;
           const x = networkX + startOffset;
 
-          let direction = 1;
-          let color;
+          let direction = ConnectionDirection.RIGHT;
           if (ci < ri) {
-            direction = -1;
-            color = ConnectionColor.LEFT;
+            direction = ConnectionDirection.LEFT;
           }
           const y = networkY - (neuronRadius * direction);
           const connectionHeight = (baseConnectionHeight + vertOffset) * direction;
@@ -90,7 +88,7 @@ export default class NetworkContainer extends Component {
               endY={y}
               height={connectionHeight}
               weight={weight}
-              color={color}
+              direction={direction}
               key={key}
             />
           );

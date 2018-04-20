@@ -10,3 +10,6 @@ export { default as Arc } from './Arc';
 export { default as Controls } from './Controls';
 export { default as InputContainer } from './InputContainer';
 export { default as InputNeuron } from './InputNeuron';
+export { default as Arrowhead } from './Arrowhead';
+export { default as ConnectionRight } from './ConnectionRight';
+export { default as ConnectionLeft } from './ConnectionLeft';

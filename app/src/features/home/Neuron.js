@@ -83,6 +83,7 @@ export default class Neuron extends PureComponent {
         pointerdown={this.grow}
         pointerup={this.shrink}
         scale={1}
+        key="circle"
       />,
       <Sprite
         texture={PIXI.Texture.fromImage(sphere)}
@@ -91,6 +92,7 @@ export default class Neuron extends PureComponent {
         x={spriteX}
         y={spriteY}
         alpha={alpha}
+        key="sprite"
       />
     ]);
   }
