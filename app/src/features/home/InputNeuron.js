@@ -8,6 +8,7 @@ export default class InputNeuron extends PureComponent {
 
   activeColor = 'rgb(255, 255, 255)';
   inactiveColor = 'rgb(192, 221, 242)';
+  displayTexture = false;
 
   render() {
     return (
@@ -15,7 +16,7 @@ export default class InputNeuron extends PureComponent {
         {...this.props}
         inactiveColor={this.inactiveColor}
         activeColor={this.activeColor}
-        displayTexture={false}
+        displayTexture={this.displayTexture}
       />
     );
   }

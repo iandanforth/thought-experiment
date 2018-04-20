@@ -21,6 +21,7 @@ import { reducer as updateUpdateDelayReducer } from './updateUpdateDelay';
 import { reducer as startRunningReducer } from './startRunning';
 import { reducer as stopRunningReducer } from './stopRunning';
 import { reducer as resetTransitionMatrixReducer } from './resetTransitionMatrix';
+import { reducer as updateNeuronVectorReducer } from './updateNeuronVector';
 
 const reducers = [
   counterPlusOneReducer,
@@ -36,6 +37,7 @@ const reducers = [
   startRunningReducer,
   stopRunningReducer,
   resetTransitionMatrixReducer,
+  updateNeuronVectorReducer,
 ];
 
 export default function reducer(state = initialState, action) {

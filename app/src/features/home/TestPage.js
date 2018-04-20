@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import * as math from 'mathjs';
 import * as actions from './redux/actions';
 import NetworkContainer from './NetworkContainer';
 import InputContainer from './InputContainer';
@@ -15,7 +14,7 @@ export class TestPage extends Component {
 
   render() {
     const {
-      numNeurons,
+      nv,
       neuronSpacing,
       neuronRadius,
       baseConnectionHeight,
@@ -24,7 +23,7 @@ export class TestPage extends Component {
     return (
       <div className="home-test-page">
         <NetworkContainer
-          numNeurons={numNeurons}
+          nv={nv}
           weights={tm}
           neuronSpacing={neuronSpacing}
           neuronRadius={neuronRadius}

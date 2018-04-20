@@ -7,7 +7,7 @@ import { Connection, ConnectionDirection } from './Connection';
 
 export default class NetworkContainer extends Component {
   static propTypes = {
-    numNeurons: PropTypes.number.isRequired,
+    nv: PropTypes.array.isRequired,
     neuronSpacing: PropTypes.number.isRequired,
     neuronRadius: PropTypes.number.isRequired,
     baseConnectionHeight: PropTypes.number.isRequired,
@@ -22,10 +22,14 @@ export default class NetworkContainer extends Component {
   };
 
   get neurons() {
-    const { numNeurons, neuronSpacing, neuronRadius, networkX, networkY } = this.props;
+    const { nv, neuronSpacing, neuronRadius, networkX, networkY } = this.props;
     const neurons = [];
     const spacing = neuronSpacing + (2 * neuronRadius);
-    for (let i = 0; i < numNeurons; i++) {
+    for (let i = 0; i < nv.length; i++) {
+      let active = false;
+      if (nv[i] === 1) {
+        active = true;
+      }
       const key = `neuron-${i}`;
       const offset = spacing * i;
       const x = networkX + offset;
@@ -36,6 +40,7 @@ export default class NetworkContainer extends Component {
           y={y}
           radius={neuronRadius}
           inactiveColor="rgb(212, 225, 246)"
+          active={active}
           key={key}
         />
       );

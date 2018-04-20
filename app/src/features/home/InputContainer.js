@@ -14,13 +14,13 @@ class InputContainer extends Component {
   };
 
   get inputNeurons() {
-    const { numNeurons, neuronSpacing, neuronRadius, iv } = this.props.home;
+    const { neuronSpacing, neuronRadius, iv } = this.props.home;
     const neurons = [];
     const startX = 200;
     const startY = 100;
     const spacing = neuronSpacing + (2 * neuronRadius);
 
-    for (let i = 0; i < numNeurons; i++) {
+    for (let i = 0; i < iv.length; i++) {
       let active = false;
       if (iv[i] === 1) {
         active = true;

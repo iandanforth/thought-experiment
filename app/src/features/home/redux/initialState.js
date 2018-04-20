@@ -19,7 +19,9 @@ const initialState = {
   baseConnectionHeight: 5,
   numInputNeurons: initialNumNeurons,
   updateDelay: 1000,
+  propagationDelay: 800,
   tm: initTransitionMatrix(initialNumNeurons),
+  nv: initInputVector(initialNumNeurons),
   iv: initInputVector(initialNumNeurons),
   running: false
 };

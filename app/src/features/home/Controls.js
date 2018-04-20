@@ -37,18 +37,30 @@ class Controls extends Component {
     return nextIV;
   }
 
+  feedForwardWithDelay(nextIV, prevIndex, nextIndex) {
+    // TODO: Figure out principle of when to pull from props or get things passed in
+    const { propagationDelay } = this.props.home;
+    const { updateTransitionMatrix, updateNeuronVector } = this.props.actions;
+    setTimeout(() => {
+      if (prevIndex !== -1) {
+        updateNeuronVector(nextIV);
+        updateTransitionMatrix(prevIndex, nextIndex);
+      }
+    }, propagationDelay);
+  }
+
   update() {
     const { running, updateDelay } = this.props.home;
     this.updateTimeout = setTimeout(this.update, updateDelay);
     // Keep checking but don't do anything if we're not running
     if (!running) { return; }
-    const { updateInputVector, updateTransitionMatrix } = this.props.actions;
+    const { updateInputVector } = this.props.actions;
+    // For now we always advance to the next input being on in a repeating cycle
     const [prevIndex, nextIndex] = this.getTransition();
     const nextIV = this.getNextIV(nextIndex);
     updateInputVector(nextIV);
-    if (prevIndex !== -1) {
-      updateTransitionMatrix(prevIndex, nextIndex);
-    }
+    // After propagationDelay we'll activate the neuron connected to the active input(s) in this timestep
+    this.feedForwardWithDelay(nextIV, prevIndex, nextIndex);
   }
 
   startCycle() {

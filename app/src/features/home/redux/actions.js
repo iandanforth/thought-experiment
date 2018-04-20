@@ -13,3 +13,4 @@ export { updateUpdateDelay } from './updateUpdateDelay';
 export { startRunning } from './startRunning';
 export { stopRunning } from './stopRunning';
 export { resetTransitionMatrix } from './resetTransitionMatrix';
+export { updateNeuronVector } from './updateNeuronVector';
