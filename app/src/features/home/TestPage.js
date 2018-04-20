@@ -19,6 +19,7 @@ export class TestPage extends Component {
       neuronRadius,
       baseConnectionHeight,
       tm,
+      updateDelay
     } = this.props.home;
     return (
       <div className="home-test-page">
@@ -28,6 +29,7 @@ export class TestPage extends Component {
           neuronSpacing={neuronSpacing}
           neuronRadius={neuronRadius}
           baseConnectionHeight={baseConnectionHeight}
+          updateDelay={updateDelay}
         />
         <InputContainer />
       </div>

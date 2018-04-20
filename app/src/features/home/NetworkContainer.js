@@ -12,6 +12,7 @@ export default class NetworkContainer extends Component {
     neuronRadius: PropTypes.number.isRequired,
     baseConnectionHeight: PropTypes.number.isRequired,
     weights: PropTypes.object.isRequired,
+    updateDelay: PropTypes.number.isRequired,
     networkX: PropTypes.number,
     networkY: PropTypes.number
   };
@@ -22,9 +23,10 @@ export default class NetworkContainer extends Component {
   };
 
   get neurons() {
-    const { nv, neuronSpacing, neuronRadius, networkX, networkY } = this.props;
+    const { nv, neuronSpacing, neuronRadius, networkX, networkY, updateDelay } = this.props;
     const neurons = [];
     const spacing = neuronSpacing + (2 * neuronRadius);
+    const fadeDuration = updateDelay / 3;
     for (let i = 0; i < nv.length; i++) {
       let active = false;
       if (nv[i] === 1) {
@@ -41,6 +43,7 @@ export default class NetworkContainer extends Component {
           radius={neuronRadius}
           inactiveColor="rgb(212, 225, 246)"
           active={active}
+          fadeDuration={fadeDuration}
           key={key}
         />
       );

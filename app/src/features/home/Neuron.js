@@ -19,7 +19,8 @@ export default class Neuron extends PureComponent {
     displayTexture: PropTypes.bool,
     interactive: PropTypes.bool,
     pointerdown: PropTypes.func,
-    pointerup: PropTypes.func
+    pointerup: PropTypes.func,
+    fadeDuration: PropTypes.number
   };
 
   static defaultProps = {
@@ -29,7 +30,8 @@ export default class Neuron extends PureComponent {
     displayTexture: true,
     interactive: false,
     pointerdown: null,
-    pointerup: null
+    pointerup: null,
+    fadeDuration: 200
   }
 
   constructor(props) {
@@ -83,20 +85,29 @@ export default class Neuron extends PureComponent {
   }
 
   grow() {
-    Animated.timing(this.state.animValue, { toValue: this.interpInputRange[1] }).start();
+    const { fadeDuration } = this.props;
+    Animated.timing(
+      this.state.animValue,
+      {
+        toValue: this.interpInputRange[1],
+        duration: fadeDuration
+      }
+    ).start();
   }
 
   shrink() {
-    Animated.timing(this.state.animValue, { toValue: this.interpInputRange[0] }).start();
+    const { fadeDuration } = this.props;
+    Animated.timing(
+      this.state.animValue,
+      {
+        toValue: this.interpInputRange[0],
+        duration: fadeDuration
+      }
+    ).start();
   }
 
   render() {
     const AnimatedCircle = Animated.createAnimatedComponent(Circle);
-    const { x, y, radius } = this.props;
-    const spriteWidth = radius * 2;
-    const spriteX = x - radius;
-    const spriteY = y - radius;
-    const alpha = 0.6;
     return ([
       <AnimatedCircle
         {...this.props}

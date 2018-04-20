@@ -113,9 +113,7 @@ class Controls extends Component {
       updateNeuronSpacing,
       updateConnectionHeight,
       updateNeuronRadius,
-      updateUpdateDelay,
-      stopRunning,
-      resetTransitionMatrix
+      updateUpdateDelay
     } = this.props.actions;
 
     const sliderClasses = classNames({
