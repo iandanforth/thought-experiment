@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Stage } from 'react-pixi-fiber';
-import { Neuron, NeuronState } from './Neuron';
 import InputNeuron from './InputNeuron';
 import * as actions from './redux/actions';
 

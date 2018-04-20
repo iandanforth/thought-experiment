@@ -16,6 +16,7 @@ export default class Neuron extends PureComponent {
     active: PropTypes.bool,
     inactiveColor: PropTypes.string,
     activeColor: PropTypes.string,
+    displayTexture: PropTypes.bool,
     interactive: PropTypes.bool,
     pointerdown: PropTypes.func,
     pointerup: PropTypes.func
@@ -25,6 +26,7 @@ export default class Neuron extends PureComponent {
     active: false,
     inactiveColor: 'rgb(136, 136, 152)',
     activeColor: 'rgb(255, 121, 0)',
+    displayTexture: true,
     interactive: false,
     pointerdown: null,
     pointerup: null
@@ -60,6 +62,26 @@ export default class Neuron extends PureComponent {
     }
   }
 
+  get texture() {
+    const { x, y, radius, displayTexture } = this.props;
+    if (!displayTexture) { return null; }
+    const spriteWidth = radius * 2;
+    const spriteX = x - radius;
+    const spriteY = y - radius;
+    const alpha = 0.6;
+    return (
+      <Sprite
+        texture={PIXI.Texture.fromImage(sphere)}
+        width={spriteWidth}
+        height={spriteWidth}
+        x={spriteX}
+        y={spriteY}
+        alpha={alpha}
+        key="sprite"
+      />
+    );
+  }
+
   grow() {
     Animated.timing(this.state.animValue, { toValue: this.interpInputRange[1] }).start();
   }
@@ -85,15 +107,7 @@ export default class Neuron extends PureComponent {
         scale={1}
         key="circle"
       />,
-      <Sprite
-        texture={PIXI.Texture.fromImage(sphere)}
-        width={spriteWidth}
-        height={spriteWidth}
-        x={spriteX}
-        y={spriteY}
-        alpha={alpha}
-        key="sprite"
-      />
+      this.texture
     ]);
   }
 }
