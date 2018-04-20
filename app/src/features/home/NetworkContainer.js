@@ -1,33 +1,34 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
 import { Stage } from 'react-pixi-fiber';
 import * as math from 'mathjs';
+import * as actions from './redux/actions';
 import Neuron from './Neuron';
 import { Connection, ConnectionDirection } from './Connection';
 
-export default class NetworkContainer extends Component {
+class NetworkContainer extends Component {
   static propTypes = {
-    nv: PropTypes.array.isRequired,
-    neuronSpacing: PropTypes.number.isRequired,
-    neuronRadius: PropTypes.number.isRequired,
-    baseConnectionHeight: PropTypes.number.isRequired,
-    weights: PropTypes.object.isRequired,
-    updateDelay: PropTypes.number.isRequired,
-    networkX: PropTypes.number,
-    networkY: PropTypes.number
-  };
-
-  static defaultProps = {
-    networkX: 200,
-    networkY: 200
+    home: PropTypes.shape({
+      nv: PropTypes.array.isRequired,
+      neuronSpacing: PropTypes.number.isRequired,
+      neuronRadius: PropTypes.number.isRequired,
+      baseConnectionHeight: PropTypes.number.isRequired,
+      tm: PropTypes.object.isRequired,
+      updateDelay: PropTypes.number.isRequired,
+      networkX: PropTypes.number.isRequired,
+      networkY: PropTypes.number.isRequired
+    }).isRequired,
+    actions: PropTypes.object.isRequired,
   };
 
   get neurons() {
-    const { nv, neuronSpacing, neuronRadius, networkX, networkY, updateDelay } = this.props;
+    const { nv, neuronSpacing, neuronRadius, networkX, networkY, updateDelay } = this.props.home;
     const neurons = [];
     const spacing = neuronSpacing + (2 * neuronRadius);
     const fadeDuration = updateDelay / 3;
-    for (let i = 0; i < nv.length; i++) {
+    for (let i = nv.length - 1; i >= 0; i--) {
       let active = false;
       if (nv[i] === 1) {
         active = true;
@@ -57,12 +58,12 @@ export default class NetworkContainer extends Component {
       neuronSpacing,
       neuronRadius,
       baseConnectionHeight,
-      weights,
+      tm,
       networkX,
       networkY
-    } = this.props;
+    } = this.props.home;
 
-    const [numRows, numColumns] = weights.size();
+    const [numRows, numColumns] = tm.size();
 
     const connections = [];
     const spacing = neuronSpacing + (2 * neuronRadius);
@@ -72,7 +73,7 @@ export default class NetworkContainer extends Component {
       for (let ci = 0; ci < numColumns; ci++) {
         // Ignore diagonal / recurrent connections
         if (ri !== ci) {
-          const weight = weights.subset(math.index(ri, ci));
+          const weight = tm.subset(math.index(ri, ci));
           const key = `connection-${ri}-${ci}`;
           const startOffset = spacing * ri;
           // How far away (by count of neurons) is our end?
@@ -124,3 +125,22 @@ export default class NetworkContainer extends Component {
     );
   }
 }
+
+/* istanbul ignore next */
+function mapStateToProps(state) {
+  return {
+    home: state.home,
+  };
+}
+
+/* istanbul ignore next */
+function mapDispatchToProps(dispatch) {
+  return {
+    actions: bindActionCreators({ ...actions }, dispatch)
+  };
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(NetworkContainer);

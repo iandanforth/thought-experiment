@@ -13,24 +13,9 @@ export class TestPage extends Component {
   };
 
   render() {
-    const {
-      nv,
-      neuronSpacing,
-      neuronRadius,
-      baseConnectionHeight,
-      tm,
-      updateDelay
-    } = this.props.home;
     return (
       <div className="home-test-page">
-        <NetworkContainer
-          nv={nv}
-          weights={tm}
-          neuronSpacing={neuronSpacing}
-          neuronRadius={neuronRadius}
-          baseConnectionHeight={baseConnectionHeight}
-          updateDelay={updateDelay}
-        />
+        <NetworkContainer />
         <InputContainer />
       </div>
     );

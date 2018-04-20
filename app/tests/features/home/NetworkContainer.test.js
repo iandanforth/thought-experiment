@@ -1,12 +1,16 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import { expect } from 'chai';
-import { NetworkContainer } from 'src/features/home';
+import { NetworkContainer } from 'src/features/home/NetworkContainer';
 
 describe('home/NetworkContainer', () => {
   it('renders node with correct class name', () => {
+    const props = {
+      home: {},
+      actions: {},
+    };
     const renderedComponent = shallow(
-      <NetworkContainer />
+      <NetworkContainer {...props} />
     );
 
     expect(

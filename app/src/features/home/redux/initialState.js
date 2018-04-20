@@ -13,6 +13,8 @@ const initialState = {
   redditReactjsList: [],
   fetchRedditReactjsListError: null,
   fetchRedditReactjsListPending: false,
+  networkX: 200,
+  networkY: 200,
   numNeurons: initialNumNeurons,
   neuronRadius: 15,
   neuronSpacing: 30,

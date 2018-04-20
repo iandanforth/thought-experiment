@@ -9,8 +9,12 @@ import * as actions from './redux/actions';
 
 class InputContainer extends Component {
   static propTypes = {
-    home: PropTypes.object.isRequired,
-    actions: PropTypes.object.isRequired,
+    home: PropTypes.shape({
+      neuronSpacing: PropTypes.number.isRequired,
+      neuronRadius: PropTypes.number.isRequired,
+      iv: PropTypes.array.isRequired,
+      updateDelay: PropTypes.number.isRequired
+    }).isRequired,
   };
 
   get inputNeurons() {
