@@ -22,6 +22,8 @@ import { reducer as startRunningReducer } from './startRunning';
 import { reducer as stopRunningReducer } from './stopRunning';
 import { reducer as resetTransitionMatrixReducer } from './resetTransitionMatrix';
 import { reducer as updateNeuronVectorReducer } from './updateNeuronVector';
+import { reducer as resetInputVectorReducer } from './resetInputVector';
+import { reducer as resetNeuronVectorReducer } from './resetNeuronVector';
 
 const reducers = [
   counterPlusOneReducer,
@@ -38,6 +40,8 @@ const reducers = [
   stopRunningReducer,
   resetTransitionMatrixReducer,
   updateNeuronVectorReducer,
+  resetInputVectorReducer,
+  resetNeuronVectorReducer,
 ];
 
 export default function reducer(state = initialState, action) {

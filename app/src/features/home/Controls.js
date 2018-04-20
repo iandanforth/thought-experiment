@@ -18,8 +18,11 @@ class Controls extends Component {
 
     this.startCycle = this.startCycle.bind(this);
     this.update = this.update.bind(this);
+    this.reset = this.reset.bind(this);
+    this.stop = this.stop.bind(this);
     this.getTransition = this.getTransition.bind(this);
     this.updateTimeout = null;
+    this.propagationTimeout = null;
   }
 
   getTransition() {
@@ -41,10 +44,12 @@ class Controls extends Component {
     // TODO: Figure out principle of when to pull from props or get things passed in
     const { propagationDelay } = this.props.home;
     const { updateTransitionMatrix, updateNeuronVector } = this.props.actions;
-    setTimeout(() => {
-      if (prevIndex !== -1) {
+    this.propagationTimeout = setTimeout(() => {
+      if (this.props.home.running) {
         updateNeuronVector(nextIV);
-        updateTransitionMatrix(prevIndex, nextIndex);
+        if (prevIndex !== -1) {
+          updateTransitionMatrix(prevIndex, nextIndex);
+        }
       }
     }, propagationDelay);
   }
@@ -63,6 +68,14 @@ class Controls extends Component {
     this.feedForwardWithDelay(nextIV, prevIndex, nextIndex);
   }
 
+  reset() {
+    const { resetTransitionMatrix, resetInputVector, resetNeuronVector } = this.props.actions;
+    this.stop();
+    resetTransitionMatrix();
+    resetInputVector();
+    resetNeuronVector();
+  }
+
   startCycle() {
     const { running } = this.props.home;
     const { startRunning } = this.props.actions;
@@ -72,6 +85,21 @@ class Controls extends Component {
     // Don't start a second loop
     if (this.updateTimeout !== null) { return; }
     this.update();
+  }
+
+  stop() {
+    const { stopRunning } = this.props.actions;
+    if (this.updateTimeout !== null) {
+      clearTimeout(this.updateTimeout);
+      console.log(this.updateTimeout);
+      this.updateTimeout = null;
+    }
+    if (this.propagationTimeout !== null) {
+      clearTimeout(this.propagationTimeout);
+      console.log(this.propagationTimeout);
+      this.propagationTimeout = null;
+    }
+    stopRunning();
   }
 
   render() {
@@ -149,10 +177,10 @@ class Controls extends Component {
         <div className="buttons-container">
           <div>
             <button onClick={this.startCycle}>Start</button>
-            <button onClick={stopRunning}>Stop</button>
+            <button onClick={this.stop}>Stop</button>
           </div>
           <div>
-            <button onClick={resetTransitionMatrix}>Reset Matrix</button>
+            <button onClick={this.reset}>Reset</button>
           </div>
         </div>
       </div>
