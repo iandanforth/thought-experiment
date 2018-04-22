@@ -6,6 +6,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import * as actions from './redux/actions';
 import { initInputVector } from '../../common/inputVector';
+import * as math from 'mathjs';
 
 class Controls extends Component {
   static propTypes = {
@@ -40,13 +41,62 @@ class Controls extends Component {
     return nextIV;
   }
 
+  getNextNV(nv, iv, TM) {
+    // IV is our input vector. Normally we'd just delay a bit and then use that as our neuron vector.
+    // Instead we want to have our next neuron vector be a product of the previous neuron vector as well
+
+    // Any neuron strongly connected to a neuron active in the last timestep should become active in the next
+    /*
+        A    B   C
+    A 0.0  0.8 0.1
+    B 0.1  0.0 0.8
+    C 0.8  0.1 0.0
+
+    1,3 * 3,3 = 1, 3
+
+    If we multiply nv by our transition matrix we'll get a sum of the connection strengths between neurons
+    active in the previous timestep and all the rest.
+
+    sumOfConnectionStrengths = nv * tm
+
+    We can then threshold that vector to get which neurons should be active in the next step
+
+    activationsFromPrevNV = sumOfConnectionStrengths > threhshold
+
+    Next we add in any activity from the bottom up
+
+    nextNV = iv + activityFromPrevNV
+    */
+    // Any neuron being driven from bottom up input should also become active
+
+    let nextNV;
+    const threshold = 0.7;
+    const scope = {
+      TM,
+      nv,
+      iv,
+      threshold,
+      nextNV
+    };
+    // TODO: Bug - After it hits threshold a value in nextNV goes to 2
+    const foo = math.eval(`
+      sumOfConnectionStrengths = nv * TM
+      activationsFromPrevNV = sumOfConnectionStrengths > threshold
+      nextNV = iv + activationsFromPrevNV
+      `, scope
+    );
+    console.log(foo);
+    return scope.nextNV.toArray();
+  }
+
   feedForwardWithDelay(nextIV, prevIndex, nextIndex) {
     // TODO: Figure out principle of when to pull from props or get things passed in
-    const { propagationDelay } = this.props.home;
+    const { propagationDelay, nv, tm } = this.props.home;
     const { updateTransitionMatrix, updateNeuronVector } = this.props.actions;
     this.propagationTimeout = setTimeout(() => {
       if (this.props.home.running) {
-        updateNeuronVector(nextIV);
+        const nextNV = this.getNextNV(nv, nextIV, tm);
+        updateNeuronVector(nextNV);
         if (prevIndex !== -1) {
           updateTransitionMatrix(prevIndex, nextIndex);
         }
