@@ -7,7 +7,7 @@ import InputNeuron from './InputNeuron';
 import * as actions from './redux/actions';
 
 
-class InputContainer extends Component {
+export class InputContainer extends Component {
   static propTypes = {
     home: PropTypes.shape({
       neuronSpacing: PropTypes.number.isRequired,

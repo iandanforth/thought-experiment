@@ -8,7 +8,7 @@ import * as actions from './redux/actions';
 import Neuron from './Neuron';
 import { Connection, ConnectionDirection } from './Connection';
 
-class NetworkContainer extends Component {
+export class NetworkContainer extends Component {
   static propTypes = {
     home: PropTypes.shape({
       nv: PropTypes.array.isRequired,

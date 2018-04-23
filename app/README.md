@@ -45,4 +45,52 @@ can prevent costly re-renders of your Pixi components.
 If nothing has changed in your scene Pixi's render method should not be called
 to prevent this ...
 
+#### Exports for connected components
+
+It's tricky to get this right to play well with the testing framework.
+
+A connected component should define *and export* a class Foo
+
+```js
+
+
+export class Foo extends Component {
+
+}
+```
+
+it should *also* provide a default connected version of that component
+
+```js
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Foo);
+```
+
+In test files you can import the non-connected version using the destructuring syntax
+
+```js
+import { Foo } from './Foo';
+```
+
+In application files you should import the default object and give it a name that follows the pattern Connected<Classname>
+
+```js
+import ConnectedFoo from './Foo';
+```
+
+This gives you all the benefits of being able to test a 'raw' component and a clear indication of which components are
+connected and which arn't wherever they are used in your application.
+
+One easy-to-make mistake is to import the unconnected name using default syntax
+
+```js
+import Foo from './Foo'; // BAD - Don't do this!
+```
+
+Luckily this is caught by eslint with the `import/no-named-as-default` rule.
+
+
+
 

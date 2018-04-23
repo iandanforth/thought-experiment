@@ -18,7 +18,8 @@ export function reducer(state, action) {
     case HOME_UPDATE_UPDATE_DELAY:
       return {
         ...state,
-        updateDelay: action.newDelay
+        updateDelay: action.newDelay,
+        propagationDelay: action.newDelay * state.propagationDelayRatio
       };
 
     default:

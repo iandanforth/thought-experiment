@@ -5,10 +5,11 @@ import classNames from 'classnames';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import * as actions from './redux/actions';
-import { initInputVector } from '../../common/inputVector';
-import * as math from 'mathjs';
+import { getNextInputVector } from '../../common/inputVector';
+import { getNextNeuronVector } from '../../common/neuronVector';
+import { getNextTransitionMatrix } from '../../common/transitionMatrix';
 
-class Controls extends Component {
+export class Controls extends Component {
   static propTypes = {
     home: PropTypes.object.isRequired,
     actions: PropTypes.object.isRequired,
@@ -17,139 +18,70 @@ class Controls extends Component {
   constructor() {
     super();
 
-    this.startCycle = this.startCycle.bind(this);
-    this.update = this.update.bind(this);
-    this.reset = this.reset.bind(this);
-    this.stop = this.stop.bind(this);
-    this.getTransition = this.getTransition.bind(this);
+    this.startSim = this.startSim.bind(this);
+    this.stopSim = this.stopSim.bind(this);
+    this.updateSim = this.updateSim.bind(this);
+    this.resetSim = this.resetSim.bind(this);
+    this.stepInput = this.stepInput.bind(this);
     this.updateTimeout = null;
-    this.propagationTimeout = null;
   }
 
-  getTransition() {
-    const { numNeurons, iv } = this.props.home;
-    // If there are no elements that === 1, we get -1 back
-    const prevIndex = iv.findIndex(el => el === 1);
-    const nextIndex = (prevIndex + 1) % numNeurons;
-    return [prevIndex, nextIndex];
+  // Updates both the neuron vector and the transition matrix
+  updateNetwork(inputVector) {
+    // ES6 absurdity asignment is right to left. prevNV is assigned value of nv.
+    const { nv: prevNV, tm: prevTM } = this.props.home;
+    const { updateNeuronVector, updateTransitionMatrix } = this.props.actions;
+    // Our neuron vector is now up to date
+    const nextNV = getNextNeuronVector(prevNV, inputVector, prevTM);
+    updateNeuronVector(nextNV);
+    const nextTM = getNextTransitionMatrix(prevTM, prevNV, nextNV);
+    updateTransitionMatrix(nextTM);
   }
 
-  getNextIV(nextIndex) {
-    const { numNeurons } = this.props.home;
-    const nextIV = initInputVector(numNeurons);
-    nextIV[nextIndex] = 1;
+  updateSim() {
+    const { running, inputRunning, updateDelay, iv } = this.props.home;
+    // Queue the next update
+    this.updateTimeout = setTimeout(this.updateSim, updateDelay);
+    if (!running) { return; }
+    let nextIV = iv;
+    if (inputRunning) {
+      nextIV = this.stepInput();
+    }
+    this.updateNetwork(nextIV);
+  }
+
+  stepInput() {
+    const { iv } = this.props.home;
+    const { updateInputVector } = this.props.actions;
+    // For now we always advance to the next input being on in a repeating cycle
+    const nextIV = getNextInputVector(iv);
+    updateInputVector(nextIV);
     return nextIV;
   }
 
-  getNextNV(nv, iv, TM) {
-    // IV is our input vector. Normally we'd just delay a bit and then use that as our neuron vector.
-    // Instead we want to have our next neuron vector be a product of the previous neuron vector as well
-
-    // Any neuron strongly connected to a neuron active in the last timestep should become active in the next
-    /*
-        A    B   C
-    A 0.0  0.8 0.1
-    B 0.1  0.0 0.8
-    C 0.8  0.1 0.0
-
-    1,3 * 3,3 = 1, 3
-
-    If we multiply nv by our transition matrix we'll get a sum of the connection strengths between neurons
-    active in the previous timestep and all the rest.
-
-    sumOfConnectionStrengths = nv * tm
-
-    We can then threshold that vector to get which neurons should be active in the next step
-
-    activationsFromPrevNV = sumOfConnectionStrengths > threhshold
-
-    Next we add in any activity from the bottom up
-
-    nextNV = iv + activityFromPrevNV
-    */
-    // Any neuron being driven from bottom up input should also become active
-
-    let nextNV;
-    const threshold = 0.7;
-    const scope = {
-      TM,
-      nv,
-      iv,
-      threshold,
-      nextNV
-    };
-    // TODO: Bug - After it hits threshold a value in nextNV goes to 2
-    const foo = math.eval(`
-      sumOfConnectionStrengths = nv * TM
-      activationsFromPrevNV = sumOfConnectionStrengths > threshold
-      nextNV = iv + activationsFromPrevNV
-      `, scope
-    );
-    console.log(foo);
-    return scope.nextNV.toArray();
+  startSim() {
+    const { startRunning, startInputRunning } = this.props.actions;
+    startInputRunning();
+    startRunning();
+    this.updateSim();
   }
 
-  feedForwardWithDelay(nextIV, prevIndex, nextIndex) {
-    // TODO: Figure out principle of when to pull from props or get things passed in
-    const { propagationDelay, nv, tm } = this.props.home;
-    const { updateTransitionMatrix, updateNeuronVector } = this.props.actions;
-    this.propagationTimeout = setTimeout(() => {
-      if (this.props.home.running) {
-        const nextNV = this.getNextNV(nv, nextIV, tm);
-        updateNeuronVector(nextNV);
-        if (prevIndex !== -1) {
-          updateTransitionMatrix(prevIndex, nextIndex);
-        }
-      }
-    }, propagationDelay);
+  stopSim() {
+    const { stopRunning, stopInputRunning } = this.props.actions;
+    stopRunning();
+    stopInputRunning();
+    if (this.updateTimeout !== null) {
+      clearTimeout(this.updateTimeout);
+      this.updateTimeout = null;
+    }
   }
 
-  update() {
-    const { running, updateDelay } = this.props.home;
-    this.updateTimeout = setTimeout(this.update, updateDelay);
-    // Keep checking but don't do anything if we're not running
-    if (!running) { return; }
-    const { updateInputVector } = this.props.actions;
-    // For now we always advance to the next input being on in a repeating cycle
-    const [prevIndex, nextIndex] = this.getTransition();
-    const nextIV = this.getNextIV(nextIndex);
-    updateInputVector(nextIV);
-    // After propagationDelay we'll activate the neuron connected to the active input(s) in this timestep
-    this.feedForwardWithDelay(nextIV, prevIndex, nextIndex);
-  }
-
-  reset() {
+  resetSim() {
     const { resetTransitionMatrix, resetInputVector, resetNeuronVector } = this.props.actions;
-    this.stop();
+    this.stopSim();
     resetTransitionMatrix();
     resetInputVector();
     resetNeuronVector();
-  }
-
-  startCycle() {
-    const { running } = this.props.home;
-    const { startRunning } = this.props.actions;
-    // No-op if already running
-    if (running) { return; }
-    startRunning();
-    // Don't start a second loop
-    if (this.updateTimeout !== null) { return; }
-    this.update();
-  }
-
-  stop() {
-    const { stopRunning } = this.props.actions;
-    if (this.updateTimeout !== null) {
-      clearTimeout(this.updateTimeout);
-      console.log(this.updateTimeout);
-      this.updateTimeout = null;
-    }
-    if (this.propagationTimeout !== null) {
-      clearTimeout(this.propagationTimeout);
-      console.log(this.propagationTimeout);
-      this.propagationTimeout = null;
-    }
-    stopRunning();
   }
 
   render() {
@@ -163,7 +95,10 @@ class Controls extends Component {
       updateNeuronSpacing,
       updateConnectionHeight,
       updateNeuronRadius,
-      updateUpdateDelay
+      updateUpdateDelay,
+      resetInputVector,
+      startInputRunning,
+      stopInputRunning
     } = this.props.actions;
 
     const sliderClasses = classNames({
@@ -224,11 +159,25 @@ class Controls extends Component {
         </div>
         <div className="buttons-container">
           <div>
-            <button onClick={this.startCycle}>Start</button>
-            <button onClick={this.stop}>Stop</button>
+            <button onClick={this.startSim}>Start Sim</button>
           </div>
           <div>
-            <button onClick={this.reset}>Reset</button>
+            <button onClick={this.stopSim}>Stop Sim</button>
+          </div>
+          <div>
+            <button onClick={this.resetSim}>Reset Sim</button>
+          </div>
+          <div>
+            <button onClick={startInputRunning}>Start Input</button>
+          </div>
+          <div>
+            <button onClick={stopInputRunning}>Stop Input</button>
+          </div>
+          <div>
+            <button onClick={resetInputVector}>Reset Input</button>
+          </div>
+          <div>
+            <button onClick={this.stepInput}>Step Input</button>
           </div>
         </div>
       </div>

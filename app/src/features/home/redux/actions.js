@@ -16,3 +16,5 @@ export { resetTransitionMatrix } from './resetTransitionMatrix';
 export { updateNeuronVector } from './updateNeuronVector';
 export { resetInputVector } from './resetInputVector';
 export { resetNeuronVector } from './resetNeuronVector';
+export { startInputRunning } from './startInputRunning';
+export { stopInputRunning } from './stopInputRunning';

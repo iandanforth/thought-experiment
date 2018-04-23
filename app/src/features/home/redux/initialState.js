@@ -8,6 +8,9 @@ import { initInputVector } from '../../../common/inputVector';
 
 // NOTE: initialState constant is necessary so that Rekit could auto add initial state when creating async actions.
 const initialNumNeurons = 8;
+const initialUpdateDelay = 1000;
+const propegationDelayRatio = 0.8;
+const initialPropegationDelay = initialUpdateDelay * propegationDelayRatio;
 const initialState = {
   count: 0,
   redditReactjsList: [],
@@ -20,12 +23,14 @@ const initialState = {
   neuronSpacing: 30,
   baseConnectionHeight: 5,
   numInputNeurons: initialNumNeurons,
-  updateDelay: 1000,
-  propagationDelay: 800,
+  updateDelay: initialUpdateDelay,
+  propegationDelayRatio,
+  propagationDelay: initialPropegationDelay,
   tm: initTransitionMatrix(initialNumNeurons),
   nv: initInputVector(initialNumNeurons),
   iv: initInputVector(initialNumNeurons),
-  running: false
+  running: false,
+  inputRunning: false
 };
 
 export default initialState;

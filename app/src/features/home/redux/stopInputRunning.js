@@ -3,22 +3,21 @@
 // https://medium.com/@nate_wang/a-new-approach-for-managing-redux-actions-91c26ce8b5da
 
 import {
-  HOME_UPDATE_TRANSITION_MATRIX,
+  HOME_STOP_INPUT_RUNNING,
 } from './constants';
 
-export function updateTransitionMatrix(newMatrix) {
+export function stopInputRunning() {
   return {
-    type: HOME_UPDATE_TRANSITION_MATRIX,
-    newMatrix
+    type: HOME_STOP_INPUT_RUNNING,
   };
 }
 
 export function reducer(state, action) {
   switch (action.type) {
-    case HOME_UPDATE_TRANSITION_MATRIX:
+    case HOME_STOP_INPUT_RUNNING:
       return {
         ...state,
-        tm: action.newMatrix
+        inputRunning: false
       };
 
     default:

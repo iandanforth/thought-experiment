@@ -69,7 +69,8 @@ export class Connection extends PureComponent {
     // Our weights currently decay at 2^-x but we want a more gradual visual dropopff
     // Take the log to get a linear dropoff and then hand tweak that line for a pleasing
     // effect
-    const lineWidth = Math.max(0.5, (math.log(weight) + 6) * 0.8);
+    // const lineWidth = Math.max(0.5, (math.log(weight) + 6) * 0.8);
+    const lineWidth = weight * 7;
     return ([
       <Arc
         startX={startX}
