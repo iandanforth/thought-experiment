@@ -6,7 +6,9 @@ import { Stage } from 'react-pixi-fiber';
 import * as math from 'mathjs';
 import * as actions from './redux/actions';
 import Neuron from './Neuron';
-import { Connection, ConnectionDirection } from './Connection';
+import { ConnectionDirection } from './Connection';
+import ConnectionRight from './ConnectionRight';
+import ConnectionLeft from './ConnectionLeft';
 
 export class NetworkContainer extends Component {
   static propTypes = {
@@ -68,9 +70,9 @@ export class NetworkContainer extends Component {
 
     const connections = [];
     const vertSpacing = 30;
-    // TODO: Make sure closest connections are displayed on top
     for (let ri = 0; ri < numRows; ri++) {
-      for (let ci = 0; ci < numColumns; ci++) {
+      // Go in reverse order so that closest connections are on top
+      for (let ci = numColumns - 1; ci >= 0; ci--) {
         // Ignore diagonal / recurrent connections
         if (ri !== ci) {
           const weight = tm.subset(math.index(ri, ci));
@@ -87,19 +89,26 @@ export class NetworkContainer extends Component {
           const y = networkY - (neuronRadius * direction);
           const connectionHeight = (baseConnectionHeight + vertOffset) * direction;
           const endX = this.calcNeuronX(ci);
-          const connection = (
-            <Connection
-              startX={x}
-              startY={y}
-              endX={endX}
-              endY={y}
-              height={connectionHeight}
-              width={baseConnectionWidth}
-              weight={weight}
-              direction={direction}
-              key={key}
-            />
-          );
+          let connection;
+          const connectionProps = {
+            startX: x,
+            startY: y,
+            endX,
+            endY: y,
+            height: connectionHeight,
+            width: baseConnectionWidth,
+            weight,
+            key
+          };
+          if (direction === ConnectionDirection.RIGHT) {
+            connection = (
+              <ConnectionRight {...connectionProps} />
+            );
+          } else if (direction === ConnectionDirection.LEFT) {
+            connection = (
+              <ConnectionLeft {...connectionProps} />
+            );
+          }
           connections.push(connection);
         }
       }

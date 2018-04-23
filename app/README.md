@@ -9,12 +9,21 @@ changes (weight updates) using the proposed Hebbian rules.
 
 ## Network Dynamics
 
+### Perpetual sequences
 The initial implementation of combining previous neuron activity with bottom up
 activity resulted in sequences that would continue perpetually. Since the activity
 of each neuron is binary and the 'memory' of the system is only 1 timestep there
 is no way to decay a sequence propagating from previous neuron activity alone.
 
 If your only choice of signal is all or nothing the signal doesn't decay.
+
+### Saturation
+
+If you probe the network while it's got a perpetual sequence running you can
+start two sets of neurons firing in a progressive sequence, but this is not stable.
+
+As the connections adapt to the new sequence they eventually cause all the
+neurons to activate and then the network is locked in a saturated perpetually firing state.
 
 ## React Pixi Fiber Notes
 
@@ -32,6 +41,12 @@ Users should note you still have to think about two types of components, those
 that make up part of a Pixi Stage and those that make up parts of the browser
 DOM. You can put one or more Stages in your DOM but you cannot put DOM elements
 inside a Pixi stage.
+
+#### Use PureComponents
+
+React provides a base Component and a PureComponent to extend. While PureComponents
+have other uses they also implement a shallow props and state comparison which
+can prevent costly re-renders of your Pixi components.
 
 ## Main Libraries
 
@@ -79,13 +94,8 @@ Notes:
 If nothing has changed in your scene Pixi's render method should not be called
 to prevent this ...
 
-### React/Redux/Rekit
+### Rekit
 
-#### Use PureComponents
-
-React provides a base Component and a PureComponent to extend. While PureComponents
-have other uses they also implement a shallow props and state comparison which
-can prevent costly re-renders of your Pixi components.
 
 #### Exports for connected components
 
@@ -133,6 +143,23 @@ import Foo from './Foo'; // BAD - Don't do this!
 
 Luckily this is caught by eslint with the `import/no-named-as-default` rule.
 
+#### SimpleNave is Simple
 
+This default nav component for Rekit isn't really production worthy.
+It also does some funky stuff like displaying the catchall /* route from
+common/routeConfig.js visually. 
+
+#### Deleting a .scss file doesn't clean up indexes
+
+If you remove a .scss file using the IDE delete option it doesn't clean that
+file out of the relevant .scss index files.
+
+## CSS Reminders
+
+Center justify text? - text-align: center
+
+## Chrome Devtools
+
+Adjust the value of a property by 0.1? ctrl+option and up/down (OSX)
 
 
