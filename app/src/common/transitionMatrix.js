@@ -13,6 +13,9 @@ export function initTransitionMatrix(n) {
 /**
  * Increment or Decrement, heh :)
  * delta should either be -1 or 1
+ *
+ * See https://www.desmos.com/calculator/yadurf7yzd
+ * for an explanation of equations and magic numbers slope/expansion
  */
 function xcrement(delta, matrix, slope, expansion, mask) {
   const scope = {

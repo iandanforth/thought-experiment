@@ -31,19 +31,52 @@ Redux - Centralized state management
 Pixi.js/react-pixi-fiber - Drawing Library
 Animated - Animation Library
 Rekit - Web based React/Redux IDE
+Math.js - An extensive math library with a flexible expression parser with support for symbolic computation
 
 ## Tips about these libraries
+
+### Math.js
+
+While the expression parser works *a little* like octave there are some big gaps. For example:
+
+ - max(matrix, 0) does NOT return a matrix. It returns a single number from the 0th dim.
+   - There's no equivalent built-in function to max() in octave
+ - you can't use an array or a matrix as an index into another array or matrix
+ - matrix > value returns a boolean matrix
+   - you can force it into 0's and 1's with number(matrix > value)
+
+'scope' is a big part of using math.js. You pass in this object to the math.eval() function
+along with your expression string. Then after calculations have been performed you
+get your answer out through scope.property
+
+```js
+const scope = { foo: 1, bar: 2};
+const resultSet = math.eval(`
+  foo = foo + bar
+`, scope);
+console.log(scope.foo); // 3
+```
+
+Notes:
+ - Use back-ticks for multi-line expressions
+ - eval returns a resultSet for every line that doesn't end in a ; (like octave)
+ - += doesn't work.
+
+
+### Pixi.js
+
+#### Avoid calling render()
+
+If nothing has changed in your scene Pixi's render method should not be called
+to prevent this ...
+
+### React/Redux/Rekit
 
 #### Use PureComponents
 
 React provides a base Component and a PureComponent to extend. While PureComponents
 have other uses they also implement a shallow props and state comparison which
 can prevent costly re-renders of your Pixi components.
-
-#### Avoid calling render()
-
-If nothing has changed in your scene Pixi's render method should not be called
-to prevent this ...
 
 #### Exports for connected components
 
