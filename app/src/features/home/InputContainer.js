@@ -10,19 +10,19 @@ import * as actions from './redux/actions';
 export class InputContainer extends Component {
   static propTypes = {
     home: PropTypes.shape({
+      numNeurons: PropTypes.number.isRequired,
       neuronSpacing: PropTypes.number.isRequired,
       neuronRadius: PropTypes.number.isRequired,
       iv: PropTypes.array.isRequired,
-      updateDelay: PropTypes.number.isRequired
+      updateDelay: PropTypes.number.isRequired,
+      stageWidth: PropTypes.number.isRequired
     }).isRequired,
   };
 
   get inputNeurons() {
-    const { neuronSpacing, neuronRadius, iv, updateDelay } = this.props.home;
+    const { neuronRadius, iv, updateDelay } = this.props.home;
     const neurons = [];
-    const startX = 200;
-    const startY = 100;
-    const spacing = neuronSpacing + (2 * neuronRadius);
+    const startY = 50;
     const fadeDuration = updateDelay / 3;
     for (let i = 0; i < iv.length; i++) {
       let active = false;
@@ -30,8 +30,7 @@ export class InputContainer extends Component {
         active = true;
       }
       const key = `input-neuron-${i}`;
-      const offset = spacing * i;
-      const x = startX + offset;
+      const x = this.calcNeuronX(i);
       const y = startY;
       const neuron = (
         <InputNeuron
@@ -48,15 +47,29 @@ export class InputContainer extends Component {
     return neurons;
   }
 
+  calcNeuronX(index) {
+    const { stageWidth, neuronSpacing, neuronRadius, numNeurons } = this.props.home;
+    const stageCenter = stageWidth / 2;
+    const middleNeuron = (numNeurons / 2) - 0.5; // 0 based
+    const neuronOffest = index - middleNeuron;
+    const spacing = neuronSpacing + (2 * neuronRadius);
+    const offset = spacing * neuronOffest;
+    const neuronX = stageCenter + offset;
+    return neuronX;
+  }
+
   render() {
     const stageOptions = {
       backgroundColor: 0xC7DAF2,
       antialias: true,
       resolution: 2
     };
+
+    const { stageWidth } = this.props.home;
+
     return (
       <div className="home-input-container">
-        <Stage height={200} width={800} options={stageOptions}>
+        <Stage height={100} width={stageWidth} options={stageOptions}>
           {this.inputNeurons}
         </Stage>
       </div>

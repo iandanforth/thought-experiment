@@ -1,9 +1,5 @@
 // AUTO MAINTAINED FILE: DO NOT CHANGE
 
-export { counterPlusOne } from './counterPlusOne';
-export { counterMinusOne } from './counterMinusOne';
-export { resetCounter } from './resetCounter';
-export { fetchRedditReactjsList, dismissFetchRedditReactjsListError } from './fetchRedditReactjsList';
 export { updateTransitionMatrix } from './updateTransitionMatrix';
 export { updateNeuronSpacing } from './updateNeuronSpacing';
 export { updateConnectionHeight } from './updateConnectionHeight';
@@ -18,3 +14,5 @@ export { resetInputVector } from './resetInputVector';
 export { resetNeuronVector } from './resetNeuronVector';
 export { startInputRunning } from './startInputRunning';
 export { stopInputRunning } from './stopInputRunning';
+export { enableProbe } from './enableProbe';
+export { disableProbe } from './disableProbe';

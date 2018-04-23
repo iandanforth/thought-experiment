@@ -1,5 +1,7 @@
 import * as math from 'mathjs';
 
+const DEBUG = false;
+
 // Re-export this until we find a need for differentiation
 export { initInputVector as initNeuronVector } from './inputVector';
 
@@ -36,14 +38,18 @@ export function getNextNeuronVector(prevNV, iv, TM, threshold = 0.7) {
     threshold,
     nextNV
   };
-  math.eval(`
-    sumOfConnectionStrengths = prevNV * TM;
-    inputTotals = sumOfConnectionStrengths + iv;
-    nextNV = number(inputTotals > threshold);
+  const resultSet = math.eval(`
+    sumOfConnectionStrengths = prevNV * TM
+    inputTotals = sumOfConnectionStrengths + iv
+    nextNV = number(inputTotals > threshold)
     `, scope
   );
   nextNV = scope.nextNV.toArray();
-  console.log(scope.inputTotals.toArray());
-  console.log(nextNV);
+  if (DEBUG) {
+    console.log('Calculating next neuron vector');
+    console.log(resultSet);
+    console.log(scope.inputTotals.toArray());
+    console.log(nextNV);
+  }
   return nextNV;
 }

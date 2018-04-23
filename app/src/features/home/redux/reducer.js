@@ -8,10 +8,6 @@
 
 
 import initialState from './initialState';
-import { reducer as counterPlusOneReducer } from './counterPlusOne';
-import { reducer as counterMinusOneReducer } from './counterMinusOne';
-import { reducer as resetCounterReducer } from './resetCounter';
-import { reducer as fetchRedditReactjsListReducer } from './fetchRedditReactjsList';
 import { reducer as updateTransitionMatrixReducer } from './updateTransitionMatrix';
 import { reducer as updateNeuronSpacingReducer } from './updateNeuronSpacing';
 import { reducer as updateConnectionHeightReducer } from './updateConnectionHeight';
@@ -26,12 +22,10 @@ import { reducer as resetInputVectorReducer } from './resetInputVector';
 import { reducer as resetNeuronVectorReducer } from './resetNeuronVector';
 import { reducer as startInputRunningReducer } from './startInputRunning';
 import { reducer as stopInputRunningReducer } from './stopInputRunning';
+import { reducer as enableProbeReducer } from './enableProbe';
+import { reducer as disableProbeReducer } from './disableProbe';
 
 const reducers = [
-  counterPlusOneReducer,
-  counterMinusOneReducer,
-  resetCounterReducer,
-  fetchRedditReactjsListReducer,
   updateTransitionMatrixReducer,
   updateNeuronSpacingReducer,
   updateConnectionHeightReducer,
@@ -46,6 +40,8 @@ const reducers = [
   resetNeuronVectorReducer,
   startInputRunningReducer,
   stopInputRunningReducer,
+  enableProbeReducer,
+  disableProbeReducer,
 ];
 
 export default function reducer(state = initialState, action) {

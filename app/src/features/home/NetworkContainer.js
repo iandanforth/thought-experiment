@@ -11,22 +11,25 @@ import { Connection, ConnectionDirection } from './Connection';
 export class NetworkContainer extends Component {
   static propTypes = {
     home: PropTypes.shape({
+      numNeurons: PropTypes.number.isRequired,
       nv: PropTypes.array.isRequired,
       neuronSpacing: PropTypes.number.isRequired,
       neuronRadius: PropTypes.number.isRequired,
       baseConnectionHeight: PropTypes.number.isRequired,
+      baseConnectionWidth: PropTypes.number.isRequired,
       tm: PropTypes.object.isRequired,
       updateDelay: PropTypes.number.isRequired,
       networkX: PropTypes.number.isRequired,
-      networkY: PropTypes.number.isRequired
+      networkY: PropTypes.number.isRequired,
+      stageWidth: PropTypes.number.isRequired
     }).isRequired,
     actions: PropTypes.object.isRequired,
   };
 
+  // TODO: Make neuron position relative to center of stage
   get neurons() {
-    const { nv, neuronSpacing, neuronRadius, networkX, networkY, updateDelay } = this.props.home;
+    const { nv, neuronRadius, networkY, updateDelay } = this.props.home;
     const neurons = [];
-    const spacing = neuronSpacing + (2 * neuronRadius);
     const fadeDuration = updateDelay / 3;
     for (let i = nv.length - 1; i >= 0; i--) {
       let active = false;
@@ -34,8 +37,7 @@ export class NetworkContainer extends Component {
         active = true;
       }
       const key = `neuron-${i}`;
-      const offset = spacing * i;
-      const x = networkX + offset;
+      const x = this.calcNeuronX(i);
       const y = networkY;
       const neuron = (
         <Neuron
@@ -55,32 +57,28 @@ export class NetworkContainer extends Component {
 
   get connections() {
     const {
-      neuronSpacing,
       neuronRadius,
       baseConnectionHeight,
+      baseConnectionWidth,
       tm,
-      networkX,
       networkY
     } = this.props.home;
 
     const [numRows, numColumns] = tm.size();
 
     const connections = [];
-    const spacing = neuronSpacing + (2 * neuronRadius);
     const vertSpacing = 30;
-
+    // TODO: Make sure closest connections are displayed on top
     for (let ri = 0; ri < numRows; ri++) {
       for (let ci = 0; ci < numColumns; ci++) {
         // Ignore diagonal / recurrent connections
         if (ri !== ci) {
           const weight = tm.subset(math.index(ri, ci));
           const key = `connection-${ri}-${ci}`;
-          const startOffset = spacing * ri;
           // How far away (by count of neurons) is our end?
           const targetDistance = Math.abs(ri - ci);
-          const endOffset = spacing * targetDistance;
           const vertOffset = vertSpacing * targetDistance;
-          const x = networkX + startOffset;
+          const x = this.calcNeuronX(ri);
 
           let direction = ConnectionDirection.RIGHT;
           if (ci < ri) {
@@ -88,7 +86,7 @@ export class NetworkContainer extends Component {
           }
           const y = networkY - (neuronRadius * direction);
           const connectionHeight = (baseConnectionHeight + vertOffset) * direction;
-          const endX = x + (endOffset * direction);
+          const endX = this.calcNeuronX(ci);
           const connection = (
             <Connection
               startX={x}
@@ -96,6 +94,7 @@ export class NetworkContainer extends Component {
               endX={endX}
               endY={y}
               height={connectionHeight}
+              width={baseConnectionWidth}
               weight={weight}
               direction={direction}
               key={key}
@@ -108,6 +107,17 @@ export class NetworkContainer extends Component {
     return connections;
   }
 
+  calcNeuronX(index) {
+    const { stageWidth, neuronSpacing, neuronRadius, numNeurons } = this.props.home;
+    const stageCenter = stageWidth / 2;
+    const middleNeuron = (numNeurons / 2) - 0.5; // 0 based
+    const neuronOffest = index - middleNeuron;
+    const spacing = neuronSpacing + (2 * neuronRadius);
+    const offset = spacing * neuronOffest;
+    const neuronX = stageCenter + offset;
+    return neuronX;
+  }
+
   render() {
     const stageOptions = {
       backgroundColor: 0xC7DAF2,
@@ -115,9 +125,11 @@ export class NetworkContainer extends Component {
       resolution: 2
     };
 
+    const { stageWidth } = this.props.home;
+
     return (
       <div className="home-network-container">
-        <Stage height={400} width={800} options={stageOptions}>
+        <Stage height={350} width={stageWidth} options={stageOptions}>
           {this.connections}
           {this.neurons}
         </Stage>

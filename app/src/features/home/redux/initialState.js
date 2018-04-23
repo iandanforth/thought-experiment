@@ -14,14 +14,13 @@ const initialPropegationDelay = initialUpdateDelay * propegationDelayRatio;
 const initialState = {
   count: 0,
   redditReactjsList: [],
-  fetchRedditReactjsListError: null,
-  fetchRedditReactjsListPending: false,
-  networkX: 200,
   networkY: 200,
+  stageWidth: 800,
   numNeurons: initialNumNeurons,
-  neuronRadius: 15,
-  neuronSpacing: 30,
-  baseConnectionHeight: 5,
+  neuronRadius: 18,
+  neuronSpacing: 25,
+  baseConnectionHeight: 10,
+  baseConnectionWidth: 7,
   numInputNeurons: initialNumNeurons,
   updateDelay: initialUpdateDelay,
   propegationDelayRatio,
@@ -30,7 +29,8 @@ const initialState = {
   nv: initInputVector(initialNumNeurons),
   iv: initInputVector(initialNumNeurons),
   running: false,
-  inputRunning: false
+  inputRunning: false,
+  probeOnce: false
 };
 
 export default initialState;

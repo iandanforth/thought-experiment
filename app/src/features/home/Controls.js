@@ -22,6 +22,7 @@ export class Controls extends Component {
     this.stopSim = this.stopSim.bind(this);
     this.updateSim = this.updateSim.bind(this);
     this.resetSim = this.resetSim.bind(this);
+    this.resetInput = this.resetInput.bind(this);
     this.stepInput = this.stepInput.bind(this);
     this.updateTimeout = null;
   }
@@ -39,7 +40,16 @@ export class Controls extends Component {
   }
 
   updateSim() {
-    const { running, inputRunning, updateDelay, iv } = this.props.home;
+    const { running, inputRunning, updateDelay, iv, probeOnce } = this.props.home;
+    const { disableProbe } = this.props.actions;
+
+    // Special case where we want to probe the network with a single
+    // 'flash' of an input
+    // TODO: This is an ugly hack ... figure out something better
+    if (probeOnce) {
+      disableProbe();
+    }
+
     // Queue the next update
     this.updateTimeout = setTimeout(this.updateSim, updateDelay);
     if (!running) { return; }
@@ -48,6 +58,12 @@ export class Controls extends Component {
       nextIV = this.stepInput();
     }
     this.updateNetwork(nextIV);
+  }
+
+  resetInput() {
+    const { stopInputRunning, resetInputVector } = this.props.actions;
+    stopInputRunning();
+    resetInputVector();
   }
 
   stepInput() {
@@ -60,10 +76,12 @@ export class Controls extends Component {
   }
 
   startSim() {
-    const { startRunning, startInputRunning } = this.props.actions;
-    startInputRunning();
+    const { startRunning } = this.props.actions;
     startRunning();
-    this.updateSim();
+    // Don't start a second loop
+    if (this.updateTimeout === null) {
+      this.updateSim();
+    }
   }
 
   stopSim() {
@@ -96,9 +114,10 @@ export class Controls extends Component {
       updateConnectionHeight,
       updateNeuronRadius,
       updateUpdateDelay,
-      resetInputVector,
       startInputRunning,
-      stopInputRunning
+      stopInputRunning,
+      resetNeuronVector,
+      enableProbe
     } = this.props.actions;
 
     const sliderClasses = classNames({
@@ -162,22 +181,22 @@ export class Controls extends Component {
             <button onClick={this.startSim}>Start Sim</button>
           </div>
           <div>
+            <button onClick={startInputRunning}>Start Input</button>
+          </div>
+          <div>
+            <button onClick={this.resetInput}>Stop Input</button>
+          </div>
+          <div>
+            <button onClick={resetNeuronVector}>Reset Neurons</button>
+          </div>
+          <div>
+            <button onClick={enableProbe}>Probe</button>
+          </div>
+          <div>
             <button onClick={this.stopSim}>Stop Sim</button>
           </div>
           <div>
             <button onClick={this.resetSim}>Reset Sim</button>
-          </div>
-          <div>
-            <button onClick={startInputRunning}>Start Input</button>
-          </div>
-          <div>
-            <button onClick={stopInputRunning}>Stop Input</button>
-          </div>
-          <div>
-            <button onClick={resetInputVector}>Reset Input</button>
-          </div>
-          <div>
-            <button onClick={this.stepInput}>Step Input</button>
           </div>
         </div>
       </div>

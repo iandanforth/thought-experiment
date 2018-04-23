@@ -1,9 +1,9 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import * as math from 'mathjs';
 import Arc from './Arc';
 import Arrowhead from './Arrowhead';
 
+// TODO implement left and right connections
 const ConnectionColor = {
   RIGHT: 0xfc8c67,
   LEFT: 0x66D2F8,
@@ -33,6 +33,7 @@ export class Connection extends PureComponent {
     endX: PropTypes.number.isRequired,
     endY: PropTypes.number.isRequired,
     height: PropTypes.number.isRequired,
+    width: PropTypes.number.isRequired,
     weight: PropTypes.number,
     direction: PropTypes.number
   };
@@ -42,7 +43,7 @@ export class Connection extends PureComponent {
     direction: ConnectionDirection.RIGHT,
   };
 
-  render() {
+  get arrowhead() {
     const {
       startX,
       startY,
@@ -53,24 +54,54 @@ export class Connection extends PureComponent {
       direction,
     } = this.props;
 
+    if (weight === 0) return null;
+
     let primaryColor = ConnectionColor.RIGHT;
     let secondaryColor = ArrowCenterColor.RIGHT;
     let arrowSize = ArrowSize.RIGHT;
-    let highlight = true;
-    let alpha = 1.0;
     if (direction === ConnectionDirection.LEFT) {
       primaryColor = ConnectionColor.LEFT;
       secondaryColor = ArrowCenterColor.LEFT;
       arrowSize = ArrowSize.LEFT;
+    }
+
+    return (
+      <Arrowhead
+        startX={startX}
+        startY={startY}
+        endX={endX}
+        endY={endY}
+        midpointYOffset={height}
+        primaryColor={primaryColor}
+        secondaryColor={secondaryColor}
+        size={arrowSize}
+        key="arrowhead"
+      />
+    );
+  }
+
+  render() {
+    const {
+      startX,
+      startY,
+      endX,
+      endY,
+      height,
+      width,
+      weight,
+      direction,
+    } = this.props;
+
+    let primaryColor = ConnectionColor.RIGHT;
+    let highlight = true;
+    let alpha = 1.0;
+    if (direction === ConnectionDirection.LEFT) {
+      primaryColor = ConnectionColor.LEFT;
       highlight = false;
       alpha = 0.7;
     }
 
-    // Our weights currently decay at 2^-x but we want a more gradual visual dropopff
-    // Take the log to get a linear dropoff and then hand tweak that line for a pleasing
-    // effect
-    // const lineWidth = Math.max(0.5, (math.log(weight) + 6) * 0.8);
-    const lineWidth = weight * 7;
+    const lineWidth = weight * width;
     return ([
       <Arc
         startX={startX}
@@ -84,19 +115,7 @@ export class Connection extends PureComponent {
         highlight={highlight}
         key="arc"
       />,
-      <Arrowhead
-        startX={startX}
-        startY={startY}
-        endX={endX}
-        endY={endY}
-        midpointYOffset={height}
-        lineWidth={lineWidth}
-        primaryColor={primaryColor}
-        secondaryColor={secondaryColor}
-        alpha={alpha}
-        size={arrowSize}
-        key="arrowhead"
-      />
+      this.arrowhead
     ]);
   }
 }

@@ -11,6 +11,7 @@ import Root from './Root';
 
 const store = configStore();
 
+
 function renderApp(app) {
   render(
     <AppContainer>

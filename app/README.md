@@ -7,6 +7,15 @@ Mu-ming Poo at Canonical Computation in Brains and Machines 2018.
 It re-implements his video as an interactive tool and computes the synaptic
 changes (weight updates) using the proposed Hebbian rules.
 
+## Network Dynamics
+
+The initial implementation of combining previous neuron activity with bottom up
+activity resulted in sequences that would continue perpetually. Since the activity
+of each neuron is binary and the 'memory' of the system is only 1 timestep there
+is no way to decay a sequence propagating from previous neuron activity alone.
+
+If your only choice of signal is all or nothing the signal doesn't decay.
+
 ## React Pixi Fiber Notes
 
 React-pixi-fiber is an updated version of react-pixi which works with the

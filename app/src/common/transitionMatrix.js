@@ -1,5 +1,6 @@
 import * as math from 'mathjs';
 
+const DEBUG = false;
 /**
  * Create an n by n matrix where transition probabilities are evenly distributed across
  * non-diagnonal values.
@@ -34,8 +35,9 @@ function xcrement(delta, matrix, slope, expansion, mask) {
     matrix = tanh(linear * slope) * expansion
     matrix = matrix + masked
   `, scope);
-  // DEBUG
-  console.log(resultSet);
+  if (DEBUG) {
+    console.log(resultSet);
+  }
 
   return scope.matrix;
 }
@@ -74,8 +76,10 @@ function min(matrix, value) {
  * The rest of the transitions should be left alone.
  */
 export function getNextTransitionMatrix(TM, previousNeuronVector, neuronVector) {
-  console.log('PrevNV', previousNeuronVector);
-  console.log('NextNV', neuronVector);
+  if (DEBUG) {
+    console.log('PrevNV', previousNeuronVector);
+    console.log('NextNV', neuronVector);
+  }
   let predictiveTransitions;
   let nonpredictiveTransitions;
   const scope = {
@@ -89,12 +93,13 @@ export function getNextTransitionMatrix(TM, previousNeuronVector, neuronVector) 
     predictiveTransitions = [previousNeuronVector]' * [neuronVector]
     nonpredictiveTransitions = predictiveTransitions'
   `, scope);
-  console.log(resultSet);
+
+  if (DEBUG) console.log(resultSet);
   const slope = 0.15;
   const expansion = 1.01;
-  console.log('Incrementing');
+  if (DEBUG) console.log('Incrementing');
   let newTM = xcrement(1, TM, slope, expansion, scope.predictiveTransitions);
-  console.log('Decrementing');
+  if (DEBUG) console.log('Decrementing');
   newTM = xcrement(-1, newTM, slope, expansion, scope.nonpredictiveTransitions);
   newTM = max(newTM, 0);
   newTM = min(newTM, 1);

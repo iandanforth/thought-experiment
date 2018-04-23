@@ -1,0 +1,17 @@
+@import '../../styles/mixins';
+
+.home-training {
+
+  .title-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 1.5rem;
+
+    .slide-title {
+      font-size: 2.4rem;
+      /* justify-content: center; */
+      text-align: center;
+      color: #bb5bac;
+    }
+  }
+}
