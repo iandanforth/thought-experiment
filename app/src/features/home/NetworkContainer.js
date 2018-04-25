@@ -21,7 +21,6 @@ export class NetworkContainer extends Component {
       baseConnectionWidth: PropTypes.number.isRequired,
       tm: PropTypes.object.isRequired,
       updateDelay: PropTypes.number.isRequired,
-      networkX: PropTypes.number.isRequired,
       networkY: PropTypes.number.isRequired,
       stageWidth: PropTypes.number.isRequired
     }).isRequired,

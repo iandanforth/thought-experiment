@@ -1,0 +1,17 @@
+@import '../../styles/mixins';
+
+.home-network-control-buttons {
+  display: flex;
+  justify-content: center;
+
+
+  button {
+      margin: 6px;
+      width: 137px;
+      border-radius: 0px;
+      border: 1px solid gray;
+      font-size: 1.0rem;
+      font-weight: 100;
+  }
+
+}

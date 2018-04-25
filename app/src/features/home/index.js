@@ -12,3 +12,4 @@ export { default as Arrowhead } from './Arrowhead';
 export { default as ConnectionRight } from './ConnectionRight';
 export { default as ConnectionLeft } from './ConnectionLeft';
 export { default as NetworkContainer } from './NetworkContainer';
+export { default as NetworkControlButtons } from './NetworkControlButtons';
