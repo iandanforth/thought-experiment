@@ -12,10 +12,10 @@ changes (weight updates) using the proposed Hebbian rules.
 ### Perpetual sequences
 The initial implementation of combining previous neuron activity with bottom up
 activity resulted in sequences that would continue perpetually. Since the activity
-of each neuron is binary and the 'memory' of the system is only 1 timestep there
+of each neuron is binary and the 'memory' of the system is only 1 time-step there
 is no way to decay a sequence propagating from previous neuron activity alone.
 
-If your only choice of signal is all or nothing the signal doesn't decay.
+If your only choice of signal is all or nothing (and you choose all) the signal doesn't decay.
 
 ### Saturation
 
