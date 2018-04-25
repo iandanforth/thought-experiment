@@ -70,7 +70,7 @@ export class Controls extends Component {
             onChange={updateNeuronRadius}
           />
           <div className="slider-label">
-            Update Delay
+            Simulation Speed
           </div>
           <Slider
             min={100}

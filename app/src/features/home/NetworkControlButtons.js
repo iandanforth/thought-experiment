@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import * as actions from './redux/actions';
@@ -102,14 +103,31 @@ export class NetworkControlButtons extends Component {
   }
 
   render() {
-    const { enableProbe, resetNeuronVector } = this.props.actions;
+    const { running, inputRunning } = this.props.home;
+    const { enableProbe, resetNeuronVector, startInputRunning } = this.props.actions;
+
+    // Start/Reset Sim button
+    const startButtonText = !running ? 'Start Simulation' : 'Reset Simulation';
+    const startButtonCB = !running ? this.startSim : this.resetSim;
+
+    // Stop/Start Input button
+    const inputButtonText = inputRunning ? 'Stop Input' : 'Start Input';
+    const inputButtonCB = inputRunning ? this.resetInput : startInputRunning;
+    const iDisabled = !running;
+
+    // Single Input button
+    const siDisabled = !running || inputRunning;
+
+    // Reset Neurons button
+    const rnDisabled = !running;
+
     return (
       <div className="home-network-control-buttons">
         <div className="buttons-container">
-          <button onClick={this.startSim}>Start Simulation</button>
-          <button onClick={this.resetInput}>Stop Input</button>
-          <button onClick={enableProbe}>Probe</button>
-          <button onClick={resetNeuronVector}>Reset Neurons</button>
+          <button onClick={startButtonCB}>{startButtonText}</button>
+          <button onClick={inputButtonCB} disabled={iDisabled}>{inputButtonText}</button>
+          <button onClick={enableProbe} disabled={siDisabled}>Single Input</button>
+          <button onClick={resetNeuronVector} disabled={rnDisabled}>Reset Neurons</button>
         </div>
       </div>
     );
