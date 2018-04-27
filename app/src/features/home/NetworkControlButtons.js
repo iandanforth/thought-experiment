@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import * as actions from './redux/actions';
@@ -46,7 +45,7 @@ export class NetworkControlButtons extends Component {
     // 'flash' of an input
     // TODO: This is an ugly hack ... figure out something better
     if (probeOnce) {
-      disableProbe();
+      setTimeout(disableProbe, updateDelay / 2);
     }
 
     // Queue the next update

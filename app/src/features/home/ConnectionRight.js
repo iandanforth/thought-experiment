@@ -6,8 +6,9 @@ export default class ConnectionRight extends PureComponent {
 
   };
 
-  connectionColor = 0xfc8c67;
+  connectionColor = 0xFC8C67;
   arrowCenterColor = 0xFF0094;
+  aboveThresholdColor = 0xf96c40;
   arrowSize = 15;
   highlight = true;
   alpha = 1.0;
@@ -18,6 +19,7 @@ export default class ConnectionRight extends PureComponent {
         {...this.props}
         connectionColor={this.connectionColor}
         arrowCenterColor={this.arrowCenterColor}
+        aboveThresholdColor={this.aboveThresholdColor}
         arrowSize={this.arrowSize}
         highlight={this.highlight}
         alpha={this.alpha}

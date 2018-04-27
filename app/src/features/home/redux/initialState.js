@@ -8,7 +8,7 @@ import { initInputVector } from '../../../common/inputVector';
 
 // NOTE: initialState constant is necessary so that Rekit could auto add initial state when creating async actions.
 const initialNumNeurons = 8;
-const initialUpdateDelay = 1000;
+const initialUpdateDelay = 500;
 const propegationDelayRatio = 0.8;
 const initialPropegationDelay = initialUpdateDelay * propegationDelayRatio;
 const initialState = {

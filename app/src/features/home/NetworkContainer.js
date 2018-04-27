@@ -128,6 +128,11 @@ export class NetworkContainer extends Component {
     return neuronX;
   }
 
+  componentDidUnmount() {
+    const { resetNetwork } = this.props.actions;
+    resetNetwork();
+  }
+
   render() {
     const stageOptions = {
       backgroundColor: 0xC7DAF2,

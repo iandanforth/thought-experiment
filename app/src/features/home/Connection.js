@@ -20,6 +20,7 @@ export class Connection extends PureComponent {
     width: PropTypes.number.isRequired,
     connectionColor: PropTypes.number.isRequired,
     arrowCenterColor: PropTypes.number.isRequired,
+    aboveThresholdColor: PropTypes.number.isRequired,
     arrowSize: PropTypes.number.isRequired,
     highlight: PropTypes.bool.isRequired,
     alpha: PropTypes.number.isRequired,
@@ -70,11 +71,13 @@ export class Connection extends PureComponent {
       width,
       weight,
       connectionColor,
+      aboveThresholdColor,
       highlight,
       alpha,
     } = this.props;
 
     const lineWidth = weight * width;
+    const color = (weight > 0.7) ? aboveThresholdColor : connectionColor;
     return ([
       <Arc
         startX={startX}
@@ -83,7 +86,7 @@ export class Connection extends PureComponent {
         endY={endY}
         midpointYOffset={height}
         lineWidth={lineWidth}
-        color={connectionColor}
+        color={color}
         alpha={alpha}
         highlight={highlight}
         key="arc"

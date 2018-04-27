@@ -1,7 +1,7 @@
 # Thought Experiment
 
 This is an implementation of the thought experiment proposed and shown by
-Mu-ming Poo at Canonical Computation in Brains and Machines 2018. 
+Dr. Mu-ming Poo at Canonical Computation in Brains and Machines 2018. 
 (Main Talk - Thought Experiment Portion)
 
 It re-implements his video as an interactive tool and computes the synaptic

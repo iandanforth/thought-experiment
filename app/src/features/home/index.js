@@ -14,3 +14,5 @@ export { default as ConnectionLeft } from './ConnectionLeft';
 export { default as NetworkContainer } from './NetworkContainer';
 export { default as NetworkControlButtons } from './NetworkControlButtons';
 export { default as NetWrapper } from './NetWrapper';
+export { default as Intro } from './Intro';
+export { default as Discussion } from './Discussion';
