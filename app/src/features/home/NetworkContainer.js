@@ -7,16 +7,13 @@ import * as math from 'mathjs';
 import * as PIXI from 'pixi.js';
 import * as actions from './redux/actions';
 import NetWrapper from './NetWrapper';
+import ConnectedInputRow from './InputRow';
 import Neuron from './Neuron';
 import { ConnectionDirection } from './Connection';
 import ConnectionRight from './ConnectionRight';
 import ConnectionLeft from './ConnectionLeft';
 
 export class NetworkContainer extends Component {
-  static contextTypes = {
-    app: PropTypes.object
-  };
-
   static propTypes = {
     home: PropTypes.shape({
       numNeurons: PropTypes.number.isRequired,
@@ -33,7 +30,6 @@ export class NetworkContainer extends Component {
     actions: PropTypes.object.isRequired,
   };
 
-  // TODO: Make neuron position relative to center of stage
   get neurons() {
     const { nv, neuronRadius, networkY, updateDelay } = this.props.home;
     const neurons = [];
@@ -137,24 +133,24 @@ export class NetworkContainer extends Component {
       backgroundColor: 0xC7DAF2,
       antialias: true,
       resolution: 2,
-      autoStart: false,
-      sharedTicker: true
     };
 
+    // Take control of rendering
+    stageOptions.autoStart = false;
+    stageOptions.sharedTicker = true;
     const ticker = PIXI.ticker.shared;
     ticker.autoStart = false;
     ticker.stop();
-
-    console.log(this.context);
 
     const { stageWidth } = this.props.home;
 
     return (
       <div className="home-network-container">
-        <Stage height={350} width={stageWidth} options={stageOptions}>
+        <Stage height={500} width={stageWidth} options={stageOptions}>
           <NetWrapper>
             {this.connections}
             {this.neurons}
+            <ConnectedInputRow />
           </NetWrapper>
         </Stage>
       </div>

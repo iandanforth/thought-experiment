@@ -11,10 +11,6 @@ export const ConnectionDirection = {
 // Inheriting from PureComponent to avoid costly pixi re-renders
 // See https://reactjs.org/docs/react-component.html#shouldcomponentupdate
 export class Connection extends PureComponent {
-  static contextTypes = {
-    app: PropTypes.object
-  };
-
   static propTypes = {
     startX: PropTypes.number.isRequired,
     startY: PropTypes.number.isRequired,
@@ -33,10 +29,6 @@ export class Connection extends PureComponent {
   static defaultProps = {
     weight: 5,
   };
-
-  // componentDidUpdate() {
-  //   this.context.app.render();
-  // }
 
   get arrowhead() {
     const {

@@ -4,7 +4,6 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import * as actions from './redux/actions';
 import ConnectedNetworkContainer from './NetworkContainer';
-import ConnectedInputContainer from './InputContainer';
 import ConnectedNetworkControlButtons from './NetworkControlButtons';
 
 export class Training extends Component {
@@ -22,7 +21,6 @@ export class Training extends Component {
           </div>
         </div>
         <ConnectedNetworkContainer />
-        <ConnectedInputContainer />
         <ConnectedNetworkControlButtons />
       </div>
     );

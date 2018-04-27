@@ -6,7 +6,7 @@ export { default as Connection } from './Connection';
 export { default as Circle } from './Circle';
 export { default as Arc } from './Arc';
 export { default as Controls } from './Controls';
-export { default as InputContainer } from './InputContainer';
+export { default as InputRow } from './InputRow';
 export { default as InputNeuron } from './InputNeuron';
 export { default as Arrowhead } from './Arrowhead';
 export { default as ConnectionRight } from './ConnectionRight';

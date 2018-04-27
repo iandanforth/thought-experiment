@@ -9,6 +9,10 @@ import sphere from '../../images/small-sphere-transparent.png';
 // Inheriting from PureComponent to avoid costly pixi re-renders
 // See https://reactjs.org/docs/react-component.html#shouldcomponentupdate
 export default class Neuron extends PureComponent {
+  static contextTypes = {
+    renderStage: PropTypes.func
+  };
+
   static propTypes = {
     x: PropTypes.number.isRequired,
     y: PropTypes.number.isRequired,
@@ -116,6 +120,7 @@ export default class Neuron extends PureComponent {
         pointerdown={this.grow}
         pointerup={this.shrink}
         scale={1}
+        renderStage={this.context.renderStage}
         key="circle"
       />,
       this.texture

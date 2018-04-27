@@ -2,13 +2,11 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { Stage } from 'react-pixi-fiber';
-import * as PIXI from 'pixi.js';
 import InputNeuron from './InputNeuron';
 import * as actions from './redux/actions';
 
 
-export class InputContainer extends Component {
+export class InputRow extends Component {
   static propTypes = {
     home: PropTypes.shape({
       numNeurons: PropTypes.number.isRequired,
@@ -23,7 +21,7 @@ export class InputContainer extends Component {
   get inputNeurons() {
     const { neuronRadius, iv, updateDelay } = this.props.home;
     const neurons = [];
-    const startY = 50;
+    const startY = 400;
     const fadeDuration = updateDelay / 3;
     for (let i = 0; i < iv.length; i++) {
       let active = false;
@@ -60,26 +58,7 @@ export class InputContainer extends Component {
   }
 
   render() {
-    const stageOptions = {
-      backgroundColor: 0xC7DAF2,
-      antialias: true,
-      resolution: 2,
-      autoStart: false
-    };
-
-    const ticker = PIXI.ticker.shared;
-    ticker.autoStart = false;
-    ticker.stop();
-
-    const { stageWidth } = this.props.home;
-
-    return (
-      <div className="home-input-container">
-        <Stage height={100} width={stageWidth} options={stageOptions}>
-          {this.inputNeurons}
-        </Stage>
-      </div>
-    );
+    return this.inputNeurons;
   }
 }
 
@@ -100,4 +79,4 @@ function mapDispatchToProps(dispatch) {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(InputContainer);
+)(InputRow);

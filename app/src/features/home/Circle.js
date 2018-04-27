@@ -46,13 +46,19 @@ export const behavior = {
     this.applyDisplayObjectProps(cleanOldProps, cleanNewProps);
     const {
       fill,
-      radius
+      radius,
+      renderStage
     } = cleanNewProps;
     instance.clear();
     const fillObj = parseColor(fill);
     instance.beginFill(fillObj.hex);
     instance.drawCircle(0, 0, radius);
     instance.endFill();
+
+    // This is used in animated components so we need to tell the stage
+    // to re-render. This method is throttled so we *should* be ok 
+    // calling it lots and lots.
+    renderStage();
   }
 };
 export default CustomPIXIComponent(behavior, TYPE);
