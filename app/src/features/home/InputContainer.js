@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Stage } from 'react-pixi-fiber';
+import * as PIXI from 'pixi.js';
 import InputNeuron from './InputNeuron';
 import * as actions from './redux/actions';
 
@@ -62,8 +63,13 @@ export class InputContainer extends Component {
     const stageOptions = {
       backgroundColor: 0xC7DAF2,
       antialias: true,
-      resolution: 2
+      resolution: 2,
+      autoStart: false
     };
+
+    const ticker = PIXI.ticker.shared;
+    ticker.autoStart = false;
+    ticker.stop();
 
     const { stageWidth } = this.props.home;
 

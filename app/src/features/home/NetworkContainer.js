@@ -4,13 +4,19 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Stage } from 'react-pixi-fiber';
 import * as math from 'mathjs';
+import * as PIXI from 'pixi.js';
 import * as actions from './redux/actions';
+import NetWrapper from './NetWrapper';
 import Neuron from './Neuron';
 import { ConnectionDirection } from './Connection';
 import ConnectionRight from './ConnectionRight';
 import ConnectionLeft from './ConnectionLeft';
 
 export class NetworkContainer extends Component {
+  static contextTypes = {
+    app: PropTypes.object
+  };
+
   static propTypes = {
     home: PropTypes.shape({
       numNeurons: PropTypes.number.isRequired,
@@ -130,16 +136,26 @@ export class NetworkContainer extends Component {
     const stageOptions = {
       backgroundColor: 0xC7DAF2,
       antialias: true,
-      resolution: 2
+      resolution: 2,
+      autoStart: false,
+      sharedTicker: true
     };
+
+    const ticker = PIXI.ticker.shared;
+    ticker.autoStart = false;
+    ticker.stop();
+
+    console.log(this.context);
 
     const { stageWidth } = this.props.home;
 
     return (
       <div className="home-network-container">
         <Stage height={350} width={stageWidth} options={stageOptions}>
-          {this.connections}
-          {this.neurons}
+          <NetWrapper>
+            {this.connections}
+            {this.neurons}
+          </NetWrapper>
         </Stage>
       </div>
     );
