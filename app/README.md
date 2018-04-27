@@ -59,6 +59,34 @@ Math.js - An extensive math library with a flexible expression parser with suppo
 
 ## Tips about these libraries
 
+### React
+
+#### Context
+
+The context API is in flux. Previously you had to define `static contextTypes` on your class to receive
+context.
+
+Then you had to define `static childContextTypes` to provide a specific piece of context to children AND
+`getChildContext()` to return an object containing the desired context.
+
+Now there is a new "stable" context API that is based on Providers and Consumers. 
+
+```js
+const {Provider, Consumer} = React.createContext(defaultValue);
+```
+
+The basic idea is that you wrap the top of a component tree in a provider and
+then any component that needs access to the context is wrapped in a consumer
+AND a function that takes the context as an argument and returns the normal
+output of render()
+
+Note the similarities to the redux API where there is a producer and connected
+components are wrapped in a connect() method.
+
+In the new context API there's no explicit equivalent of Actions though. You
+can pass down functions that modify context (e.g. centralized state) but it is
+a direct modification rather than an indirect one which goes through reducers.
+
 ### Math.js
 
 While the expression parser works *a little* like octave there are some big gaps. For example:
@@ -91,8 +119,25 @@ Notes:
 
 #### Avoid calling render()
 
-If nothing has changed in your scene Pixi's render method should not be called
-to prevent this ...
+If nothing has changed in your scene Pixi's render method should not be called.
+
+By default PIXI will start a Ticker that is called every RAF frame. (1/60th of a second).
+If there are any registered callbacks it will call update(). Some combination of
+PIXI defaults and RPF means there is a registered callback that calls render().
+
+This means that by default render() is called 60x per second instead of just 
+when things are updated. This will eat your users batteries.
+
+One way around this is to turn off autoStart in the PIXI app, set sharedTicker to true,
+and then turn off the shared ticker with ticker.stop() and ticker.autoStart = false.
+
+From then on you'll be in charge of calling render() (which is less than ideal).
+
+If you need to call render() indiscriminantly then you can wrap context.app.render()
+in an underscope throttle() method which will prevent duplicate executions.
+
+A better way to handle this might be to provide your own Ticker to PIXI and only
+render when a 'dirty' flag is set, but I haven't done this so ymmv.
 
 ### Rekit
 
@@ -143,7 +188,7 @@ import Foo from './Foo'; // BAD - Don't do this!
 
 Luckily this is caught by eslint with the `import/no-named-as-default` rule.
 
-#### SimpleNave is Simple
+#### SimpleNav is Simple
 
 This default nav component for Rekit isn't really production worthy.
 It also does some funky stuff like displaying the catchall /* route from
