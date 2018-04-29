@@ -17,13 +17,31 @@ is no way to decay a sequence propagating from previous neuron activity alone.
 
 If your only choice of signal is all or nothing (and you choose all) the signal doesn't decay.
 
+In addition because the final group is potentially connected to the first the
+sequence can 'wrap.'
+
+#### Stable Sequences
+
+The following input patterns will be maintained indefinitely (with 8 groups):
+ - 1on
+ - 1on-3off-1on
+
+
 ### Saturation
 
 If you probe the network while it's got a perpetual sequence running you can
-start two sets of neurons firing in a progressive sequence, but this is not stable.
+start two sets of neurons firing in a progressive sequence, but this is usually not stable.
 
 As the connections adapt to the new sequence they eventually cause all the
 neurons to activate and then the network is locked in a saturated perpetually firing state.
+
+The following input patterns will lead to saturating the network (with 8 groups):
+ - 2+on
+ - 1on-1off-1on
+ - 1on-2off-1on
+ - 1on-4off-1on (equivalent to 1on-2off-1on)
+ - 1on-5off-1on (equivalent to 1on-1off-1on)
+ - 1on-6off-1on (equivalent to 2on)
 
 ## React Pixi Fiber Notes
 
@@ -56,6 +74,10 @@ Pixi.js/react-pixi-fiber - Drawing Library
 Animated - Animation Library
 Rekit - Web based React/Redux IDE
 Math.js - An extensive math library with a flexible expression parser with support for symbolic computation
+
+## Extra Libraries
+
+cytoscape.js - Graph theory / network topology visualization
 
 ## Tips about these libraries
 
