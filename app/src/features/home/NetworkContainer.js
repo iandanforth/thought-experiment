@@ -12,23 +12,55 @@ import Neuron from './Neuron';
 import { ConnectionDirection } from './Connection';
 import ConnectionRight from './ConnectionRight';
 import ConnectionLeft from './ConnectionLeft';
+import { getNextInputVector } from '../../common/inputVector';
+import { getNextNeuronVector } from '../../common/neuronVector';
+import { getNextTransitionMatrix } from '../../common/transitionMatrix';
+
 
 export class NetworkContainer extends Component {
   static propTypes = {
     home: PropTypes.shape({
       numNeurons: PropTypes.number.isRequired,
       nv: PropTypes.array.isRequired,
+      iv: PropTypes.array.isRequired,
       neuronSpacing: PropTypes.number.isRequired,
       neuronRadius: PropTypes.number.isRequired,
       baseConnectionHeight: PropTypes.number.isRequired,
       baseConnectionWidth: PropTypes.number.isRequired,
       tm: PropTypes.object.isRequired,
       updateDelay: PropTypes.number.isRequired,
+      inputRunning: PropTypes.bool.isRequired,
+      probeOnce: PropTypes.bool.isRequired,
       networkY: PropTypes.number.isRequired,
       stageWidth: PropTypes.number.isRequired
     }).isRequired,
     actions: PropTypes.object.isRequired,
   };
+
+  constructor(props) {
+    super(props);
+
+    this.updateTimer = null;
+
+    this.stepInput = this.stepInput.bind(this);
+    this.tick = this.tick.bind(this);
+    this.updateNetwork = this.updateNetwork.bind(this);
+  }
+
+  componentDidMount() {
+    // Start ticker here
+    const { updateDelay } = this.props.home;
+    if (this.updateTimer === null) {
+      this.updateTimer = setTimeout(this.tick, updateDelay);
+    }
+  }
+
+  componentWillUnmount() {
+    if (this.updateTimer !== null) {
+      clearInterval(this.updateTimer);
+      this.updateTimer = null;
+    }
+  }
 
   get neurons() {
     const { nv, neuronRadius, networkY, updateDelay } = this.props.home;
@@ -117,6 +149,47 @@ export class NetworkContainer extends Component {
     return connections;
   }
 
+  stepInput() {
+    const { iv } = this.props.home;
+    const { updateInputVector } = this.props.actions;
+    // For now we always advance to the next input being on in a repeating cycle
+    const nextIV = getNextInputVector(iv);
+    updateInputVector(nextIV);
+    return nextIV;
+  }
+
+  tick() {
+    const { inputRunning, updateDelay, probeOnce, iv } = this.props.home;
+    const { disableProbe } = this.props.actions;
+
+    // Special case where we want to probe the network with a single
+    // 'flash' of an input
+    // TODO: This is an ugly hack ... figure out something better
+    if (probeOnce) {
+      setTimeout(disableProbe, updateDelay / 2);
+    }
+
+    let nextIV = iv;
+    if (inputRunning) {
+      nextIV = this.stepInput();
+    }
+    this.updateNetwork(nextIV);
+
+    this.updateTimeout = setTimeout(this.tick, updateDelay);
+  }
+
+  // Updates both the neuron vector and the transition matrix
+  updateNetwork(inputVector) {
+    // ES6 absurdity asignment is right to left. prevNV is assigned value of nv.
+    const { nv: prevNV, tm: prevTM } = this.props.home;
+    const { updateNeuronVector, updateTransitionMatrix } = this.props.actions;
+    // Our neuron vector is now up to date
+    const nextNV = getNextNeuronVector(prevNV, inputVector, prevTM);
+    updateNeuronVector(nextNV);
+    const nextTM = getNextTransitionMatrix(prevTM, prevNV, nextNV);
+    updateTransitionMatrix(nextTM);
+  }
+
   calcNeuronX(index) {
     const { stageWidth, neuronSpacing, neuronRadius, numNeurons } = this.props.home;
     const stageCenter = stageWidth / 2;
@@ -126,11 +199,6 @@ export class NetworkContainer extends Component {
     const offset = spacing * neuronOffest;
     const neuronX = stageCenter + offset;
     return neuronX;
-  }
-
-  componentDidUnmount() {
-    const { resetNetwork } = this.props.actions;
-    resetNetwork();
   }
 
   render() {

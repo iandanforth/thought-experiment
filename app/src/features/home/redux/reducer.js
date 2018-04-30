@@ -24,6 +24,7 @@ import { reducer as startInputRunningReducer } from './startInputRunning';
 import { reducer as stopInputRunningReducer } from './stopInputRunning';
 import { reducer as enableProbeReducer } from './enableProbe';
 import { reducer as disableProbeReducer } from './disableProbe';
+import { reducer as updateSimReducer } from './updateSim';
 
 const reducers = [
   updateTransitionMatrixReducer,
@@ -42,6 +43,7 @@ const reducers = [
   stopInputRunningReducer,
   enableProbeReducer,
   disableProbeReducer,
+  updateSimReducer,
 ];
 
 export default function reducer(state = initialState, action) {

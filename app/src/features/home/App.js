@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { Route } from 'react-router-dom';
 import SimpleNav from '../common/SimpleNav';
 import ConnectedControls from './Controls';
 import routeConfig from '../../common/routeConfig';
@@ -23,7 +24,7 @@ export default class App extends Component {
       <div className="home-app">
         <div className="sidebar">
           <SimpleNav routes={routeConfig} />
-          <ConnectedControls />
+          <Route path="/training" component={ConnectedControls} />
         </div>
         <div className="page-container">
           {this.props.children}

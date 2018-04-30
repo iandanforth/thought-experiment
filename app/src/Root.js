@@ -50,7 +50,9 @@ export default class Root extends React.Component {
     const children = renderRouteConfigV3(this.props.routeConfig, '/');
     return (
       <Provider store={this.props.store}>
-        <ConnectedRouter history={history}>{children}</ConnectedRouter>
+        <ConnectedRouter history={history}>
+          {children}
+        </ConnectedRouter>
       </Provider>
     );
   }

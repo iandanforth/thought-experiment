@@ -109,6 +109,11 @@ In the new context API there's no explicit equivalent of Actions though. You
 can pass down functions that modify context (e.g. centralized state) but it is
 a direct modification rather than an indirect one which goes through reducers.
 
+### React router
+
+To split anywhere on a route you create a <Route path={path} component={component} />
+If the URL is not that path it will return null.
+
 ### Math.js
 
 While the expression parser works *a little* like octave there are some big gaps. For example:

@@ -16,3 +16,4 @@ export { startInputRunning } from './startInputRunning';
 export { stopInputRunning } from './stopInputRunning';
 export { enableProbe } from './enableProbe';
 export { disableProbe } from './disableProbe';
+export { updateSim } from './updateSim';
