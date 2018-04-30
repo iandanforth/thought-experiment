@@ -1,8 +1,9 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Stage } from 'react-pixi-fiber';
+import { isEqual } from 'underscore';
 import * as math from 'mathjs';
 import * as PIXI from 'pixi.js';
 import * as actions from './redux/actions';
@@ -17,7 +18,7 @@ import { getNextNeuronVector } from '../../common/neuronVector';
 import { getNextTransitionMatrix } from '../../common/transitionMatrix';
 
 
-export class NetworkContainer extends Component {
+export class NetworkContainer extends PureComponent {
   static propTypes = {
     home: PropTypes.shape({
       numNeurons: PropTypes.number.isRequired,
@@ -56,10 +57,15 @@ export class NetworkContainer extends Component {
   }
 
   componentWillUnmount() {
+    const { resetNeuronVector, resetInputVector, stopInputRunning } = this.props.actions;
     if (this.updateTimer !== null) {
+      console.log('Cleaning up timer');
       clearInterval(this.updateTimer);
       this.updateTimer = null;
     }
+    stopInputRunning();
+    resetInputVector();
+    resetNeuronVector();
   }
 
   get neurons() {
@@ -182,12 +188,12 @@ export class NetworkContainer extends Component {
   updateNetwork(inputVector) {
     // ES6 absurdity asignment is right to left. prevNV is assigned value of nv.
     const { nv: prevNV, tm: prevTM } = this.props.home;
-    const { updateNeuronVector, updateTransitionMatrix } = this.props.actions;
-    // Our neuron vector is now up to date
+    const { updateFullNetwork } = this.props.actions;
     const nextNV = getNextNeuronVector(prevNV, inputVector, prevTM);
-    updateNeuronVector(nextNV);
-    const nextTM = getNextTransitionMatrix(prevTM, prevNV, nextNV);
-    updateTransitionMatrix(nextTM);
+    if (!isEqual(prevNV, nextNV)) {
+      const nextTM = getNextTransitionMatrix(prevTM, prevNV, nextNV);
+      updateFullNetwork(nextNV, nextTM);
+    }
   }
 
   calcNeuronX(index) {

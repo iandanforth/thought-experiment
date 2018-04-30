@@ -33,52 +33,53 @@ export class Controls extends Component {
     return (
       <div className="home-controls">
         <div className={sliderClasses}>
-          <div className="slider-label">
-            Neuron Spacing
-          </div>
-          <Slider
-            min={0}
-            max={200}
-            step={1}
-            value={neuronSpacing}
-            tooltip={false}
-            labels={{ 0: '0', 100: '100', 200: '200' }}
-            onChange={updateNeuronSpacing}
-          />
-          <div className="slider-label">
-            Connection Height
-          </div>
-          <Slider
-            min={0}
-            max={200}
-            step={1}
-            value={baseConnectionHeight}
-            tooltip={false}
-            labels={{ 0: '0', 100: '100', 200: '200' }}
-            onChange={updateConnectionHeight}
-          />
-          <div className="slider-label">
-            Neuron Radius
-          </div>
-          <Slider
-            min={0}
-            max={200}
-            step={1}
-            value={neuronRadius}
-            tooltip={false}
-            labels={{ 0: '0', 100: '100', 200: '200' }}
-            onChange={updateNeuronRadius}
-          />
+          {// <div className="slider-label">
+          //   Neuron Spacing
+          // </div>
+          // <Slider
+          //   min={0}
+          //   max={200}
+          //   step={1}
+          //   value={neuronSpacing}
+          //   tooltip={false}
+          //   labels={{ 0: '0', 100: '100', 200: '200' }}
+          //   onChange={updateNeuronSpacing}
+          // />
+          // <div className="slider-label">
+          //   Connection Height
+          // </div>
+          // <Slider
+          //   min={0}
+          //   max={200}
+          //   step={1}
+          //   value={baseConnectionHeight}
+          //   tooltip={false}
+          //   labels={{ 0: '0', 100: '100', 200: '200' }}
+          //   onChange={updateConnectionHeight}
+          // />
+          // <div className="slider-label">
+          //   Neuron Radius
+          // </div>
+          // <Slider
+          //   min={0}
+          //   max={200}
+          //   step={1}
+          //   value={neuronRadius}
+          //   tooltip={false}
+          //   labels={{ 0: '0', 100: '100', 200: '200' }}
+          //   onChange={updateNeuronRadius}
+          // />
+          }
           <div className="slider-label">
             Simulation Speed
           </div>
           <Slider
-            min={100}
+            min={200}
             max={1000}
             step={10}
             value={updateDelay}
             tooltip={false}
-            labels={{ 100: 'Fast', 1000: 'Slow' }}
+            labels={{ 200: 'Fast', 1000: 'Slow' }}
             onChange={updateUpdateDelay}
           />
         </div>

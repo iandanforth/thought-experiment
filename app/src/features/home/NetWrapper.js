@@ -1,8 +1,8 @@
-import { Component } from 'react';
+import { PureComponent } from 'react';
 import Proptypes from 'prop-types';
 import { throttle } from 'underscore';
 
-export default class NetWrapper extends Component {
+export default class NetWrapper extends PureComponent {
   static contextTypes = {
     app: Proptypes.object
   }
@@ -29,6 +29,7 @@ export default class NetWrapper extends Component {
   }
 
   componentDidUpdate() {
+    console.log('I decided to update');
     setTimeout(this.renderStage, 0);
   }
 
