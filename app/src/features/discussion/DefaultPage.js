@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 
-export default class Discussion extends Component {
+export default class DefaultPage extends Component {
   static propTypes = {
 
   };
 
   render() {
     return (
-      <div className="home-discussion">
+      <div className="discussion-default-page">
         <h1>Discussion</h1>
         <h2>Network Dynamics</h2>
         <p>

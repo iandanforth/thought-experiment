@@ -1,20 +1,20 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import { expect } from 'chai';
-import { Training } from 'src/features/home/Training';
+import { DefaultPage } from 'src/features/discussion/DefaultPage';
 
-describe('home/Training', () => {
+describe('discussion/DefaultPage', () => {
   it('renders node with correct class name', () => {
-    const pageProps = {
-      home: {},
+    const props = {
+      discussion: {},
       actions: {},
     };
     const renderedComponent = shallow(
-      <Training {...pageProps} />
+      <DefaultPage {...props} />
     );
 
     expect(
-      renderedComponent.find('.home-training').getElement()
+      renderedComponent.find('.discussion-default-page').getElement()
     ).to.exist;
   });
 });

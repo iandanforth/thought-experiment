@@ -2,12 +2,16 @@ import { App } from '../features/home';
 import { PageNotFound } from '../features/common';
 import homeRoute from '../features/home/route';
 import commonRoute from '../features/common/route';
+import introductionRoute from '../features/introduction/route';
+import discussionRoute from '../features/discussion/route';
 
 // NOTE: DO NOT CHANGE the 'childRoutes' name and the declaration pattern.
 // This is used for Rekit cmds to register routes config for new features, and remove config when remove features, etc.
 const childRoutes = [
+  introductionRoute,
   homeRoute,
   commonRoute,
+  discussionRoute,
 ];
 
 const routes = [{

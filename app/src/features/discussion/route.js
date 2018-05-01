@@ -2,11 +2,11 @@
 // Learn more from: http://rekit.js.org/docs/routing.html
 
 import {
-  Simulation,
+  DefaultPage,
 } from './';
 
 export default {
-  path: '/simulation',
-  name: 'Simulation',
-  component: Simulation
+  path: 'discussion',
+  name: 'Discussion',
+  component: DefaultPage,
 };

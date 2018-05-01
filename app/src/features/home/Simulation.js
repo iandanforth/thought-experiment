@@ -6,7 +6,7 @@ import * as actions from './redux/actions';
 import ConnectedNetworkContainer from './NetworkContainer';
 import ConnectedNetworkControlButtons from './NetworkControlButtons';
 
-export class Training extends Component {
+export class Simulation extends Component {
   static propTypes = {
     home: PropTypes.object.isRequired,
     actions: PropTypes.object.isRequired,
@@ -14,7 +14,7 @@ export class Training extends Component {
 
   render() {
     return (
-      <div className="home-training">
+      <div className="home-simulation">
         <div className="title-container">
           <div className="slide-title">
             STDP - based strengthening / weakening of connections following uni-direction sequential excitation
@@ -44,4 +44,4 @@ function mapDispatchToProps(dispatch) {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(Training);
+)(Simulation);
