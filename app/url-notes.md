@@ -58,4 +58,9 @@ images -> github.com/iandanforth/thought-experiment/docs/images : Works
 
 Note the canonical way to use github.io pages is to use RELATIVE URLS
 
+### Deploying a react-router based app
+
+You must use HashHistory with /#/ URLs, otherwise nested URLs cannot be
+linked to externally or bookmarked.
+
 
