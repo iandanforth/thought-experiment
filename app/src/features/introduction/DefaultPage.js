@@ -19,16 +19,16 @@ export default class DefaultPage extends Component {
         </p>
         <h2>Simulation</h2>
         <p>
-          See the <Link to="simulation">Simulation</Link> page.
+          See the <Link to="simulation" href="simulation">Simulation</Link> page.
         </p>
         <h2>Question</h2>
         <p>
-          Using just Hebbian learning and a potentially fully connected network of neuron groups can a 
+          Using just Hebbian learning and a potentially fully connected network of neuron groups can a
           sequence be learned and then replayed given just the start of that sequence?
         </p>
         <p>
-          The answer is <strong>yes</strong> and you can watch that happen with the provided simulation. Interesting
-          network dynamics observed under these constraints are explored in the <Link to="/discussion">discussion</Link> section.
+          The answer is <strong>yes</strong> and you can watch that happen with the provided simulation.
+          Interesting network dynamics observed under these constraints are explored in the <Link to="/discussion" href="simulation">discussion</Link> section.
         </p>
         <h2>Instructions</h2>
         <img src="images/sim-hero-2.jpg" alt="Network training tool visualization" />
@@ -57,7 +57,7 @@ export default class DefaultPage extends Component {
           another (above threshold) the connection will change color.
         </p>
         <div className="connection-strengths-container">
-          <img src="/images/connection-strengths.jpg" alt="Disconnected, Weakly Connected, and Above Threshold neuron groups" />
+          <img src="images/connection-strengths.jpg" alt="Disconnected, Weakly Connected, and Above Threshold neuron groups" />
         </div>
         <p>
           When all the appropriate connections are above threshold you should stop the input sequence and
@@ -65,22 +65,23 @@ export default class DefaultPage extends Component {
         </p>
         <h3>Stop Input and Silence Neurons</h3>
         <p>
-          To stop the input click <img className="button-image" src="/images/stop-input.jpg" alt="Stop Input button" /> If all neurons had connections
+          To stop the input click <img className="button-image" src="images/stop-input.jpg" alt="Stop Input button" /> If all neurons had connections
           above threshold when you do this you'll notice that the sequence is <em>maintained by the network</em>.
         </p>
         <p>
-          To stop neural group activity click <img className="button-image" src="/images/silence-neurons.jpg" alt="Silence Neurons button" />.
+          To stop neural group activity click <img className="button-image" src="images/silence-neurons.jpg" alt="Silence Neurons button" />.
         </p>
         <h3>Use a single input to trigger sequence recall</h3>
         <p>
-          To trigger sequence recall in a trained network click once on <img className="button-image" src="/images/single-input.jpg" alt="Single Input button" />.
+          To trigger sequence recall in a trained network click once on <img className="button-image" src="images/single-input.jpg" alt="Single Input button" />.
         </p>
         <p>
           If you accidentally (or intentionally) click on Single Input more than once you may see some interesting network dynamics.
         </p>
         <h3>Reset the Simulation</h3>
         <p>
-          If the simulation begins behaving oddly at any point or you want to watch the training again click the <img className="button-image" src="/images/reset-simulation.jpg" alt="Reset Simulation button" /> button.
+          If the simulation begins behaving oddly at any point or you want to watch the training again
+          click the <img className="button-image" src="images/reset-simulation.jpg" alt="Reset Simulation button" /> button.
         </p>
         <h3>Changing Simulation Speed</h3>
         <p>

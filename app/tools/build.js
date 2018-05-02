@@ -50,11 +50,14 @@ if (args.profile) {
   }));
 }
 
-// Clean folder
+// Clean folders
 const buildFolder = path.join(__dirname, '../build');
 shell.rm('-rf', buildFolder);
 shell.mkdir(buildFolder);
 shell.mkdir(`${buildFolder}/static`);
+
+const docsFolder = path.join(__dirname, '../../docs');
+shell.rm('-rf', docsFolder);
 
 // Bundle versioning using timestamp hash to prevent browser cache.
 const timestamp = crypto
@@ -77,6 +80,9 @@ shell.cp(path.join(__dirname, '../src/favicon.png'), buildFolder);
 
 // Copy images
 shell.cp('-R', path.join(__dirname, '../src/images'), buildFolder);
+
+// Copy build to docs
+shell.cp('-R', buildFolder, docsFolder);
 
 // Create symlink for local dev builds
 shell.ln('-s', buildFolder, path.join(buildFolder, 'thought-experiment'));

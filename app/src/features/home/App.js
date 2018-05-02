@@ -24,7 +24,7 @@ export default class App extends Component {
       <div className="home-app">
         <div className="sidebar">
           <SimpleNav routes={routeConfig} />
-          <Route path="/simulation" component={ConnectedControls} />
+          <Route path="/thought-experiment/simulation" component={ConnectedControls} />
         </div>
         <div className="page-container">
           {this.props.children}
