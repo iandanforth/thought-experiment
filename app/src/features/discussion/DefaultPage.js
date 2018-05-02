@@ -38,12 +38,12 @@ export default class DefaultPage extends Component {
           if a single input is added 4 ahead or 4 behind the initial propegating single group sequence you will get
           a stable propegation of two groups.
         </p>
-        <img src="/images/stable-network-1-3-1.png" alt="Network snapshot showing propegation of a two-active sequence" />
+        <img src="images/stable-network-1-3-1.png" alt="Network snapshot showing propegation of a two-active sequence" />
         <p>
           Why is this and are there any others? It is a bit hard to see in the simulation but by redrawing
           the connections of the network as a graph with a circular layout a pattern emerges.
         </p>
-        <img src="/images/ring-topo.jpg" alt="Three circular network graphs showing above threshold connections between neuron groups" />
+        <img src="images/ring-topo.jpg" alt="Three circular network graphs showing above threshold connections between neuron groups" />
         <p>
           Graph A is a ring of 8 nodes evenly spaced on a circle. Each node is connected to the next node
           in the ring and the node (n+3) % 8. Note that none of the edges pass through the center point of the

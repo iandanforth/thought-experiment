@@ -6,7 +6,7 @@ import {
 } from './';
 
 export default {
-  path: 'simulation',
+  path: '/simulation',
   name: 'Simulation',
   component: Simulation
 };

@@ -71,9 +71,6 @@ shell.ShellString(indexHtml).to(path.join(buildFolder, 'index.html'));
 // Copy favicon
 shell.cp(path.join(__dirname, '../src/favicon.png'), buildFolder);
 
-// Copy Images
-shell.cp('-R', path.join(__dirname, '../src/images'), buildFolder);
-
 // Webpack build
 console.log('Building, it may take a few seconds...');
 console.time('Done');

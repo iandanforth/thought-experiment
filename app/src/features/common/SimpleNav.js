@@ -13,7 +13,6 @@ export default class SimpleNav extends PureComponent {
   };
 
   renderLinks(items, basePath) {
-    console.log(basePath);
     return (
       <ul>
         {items.reduce((prev, item) => {
@@ -26,7 +25,6 @@ export default class SimpleNav extends PureComponent {
           } else {
             path = `${basePath}/${item.path}`;
           }
-          console.log(path);
           prev.push(<li key={path}><Link to={path}>{item.name || item.path}</Link></li>);
 
           if (item.childRoutes && item.childRoutes.length) {
@@ -41,7 +39,7 @@ export default class SimpleNav extends PureComponent {
   render() {
     return (
       <div className="common-simple-nav">
-        {this.renderLinks(this.props.routes[0].childRoutes, this.props.routes[0].path)}
+        {this.renderLinks(this.props.routes[0].childRoutes, '')}
       </div>
     );
   }

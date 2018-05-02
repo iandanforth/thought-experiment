@@ -19,16 +19,16 @@ export default class DefaultPage extends Component {
         </p>
         <h2>Simulation</h2>
         <p>
-          See the <Link to="simulation">Simulation</Link> page.
+          See the <Link to="/simulation">Simulation</Link> page.
         </p>
         <h2>Question</h2>
         <p>
-          Using just Hebbian learning and a potentially fully connected network of neuron groups can a
+          Using just Hebbian learning and a potentially fully connected network of neuron groups can a 
           sequence be learned and then replayed given just the start of that sequence?
         </p>
         <p>
           The answer is <strong>yes</strong> and you can watch that happen with the provided simulation. Interesting
-          network dynamics observed under these constraints are explored in the <Link to="discussion">discussion</Link> section.
+          network dynamics observed under these constraints are explored in the <Link to="/discussion">discussion</Link> section.
         </p>
         <h2>Instructions</h2>
         <img src="/images/sim-hero-2.jpg" alt="Network training tool visualization" />
