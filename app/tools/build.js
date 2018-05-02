@@ -82,12 +82,6 @@ shell.cp(path.join(__dirname, '../src/favicon.png'), buildFolder);
 // Copy images
 shell.cp('-R', path.join(__dirname, '../src/images'), buildFolder);
 
-// Copy build to docs
-shell.cp('-R', buildFolder, docsFolder);
-
-// Create symlink for local dev builds
-shell.ln('-s', buildFolder, path.join(buildFolder, 'thought-experiment'));
-
 // Webpack build
 console.log('Building, it may take a few seconds...');
 console.time('Done');
@@ -112,6 +106,14 @@ compiler.run((err) => {
       shell.mv(path.join(buildFolder, './static/main.js'), path.join(
         buildFolder, `/static/main.${timestamp}.js`));
       console.timeEnd('Done');
+
+      // Copy build to docs
+      shell.cp('-R', buildFolder, docsFolder);
+
+      // Create symlink for local dev builds
+      shell.ln('-s', buildFolder, path.join(buildFolder,
+        'thought-experiment'));
+
     }, 100);
   }
 });
