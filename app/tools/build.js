@@ -72,7 +72,8 @@ const timestamp = crypto
 let lines = shell.cat(path.join(__dirname, '../src/index.html')).split(/\r?\n/);
 lines = lines.filter(line => line.indexOf('/.tmp/dev-vendors.js') < 0); // remove dev-vendors
 let indexHtml = lines.join('\n');
-indexHtml = indexHtml.replace('/static/main.js', `/static/main.${timestamp}.js`);
+indexHtml = indexHtml.replace('/static/main.js', `static/main.${timestamp}.js`);
+indexHtml = indexHtml.replace('/favicon.png', 'favicon.png');
 shell.ShellString(indexHtml).to(path.join(buildFolder, 'index.html'));
 
 // Copy favicon
