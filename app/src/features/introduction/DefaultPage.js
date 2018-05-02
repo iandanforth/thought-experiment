@@ -19,7 +19,7 @@ export default class DefaultPage extends Component {
         </p>
         <h2>Simulation</h2>
         <p>
-          See the <Link to="/simulation">Simulation</Link> page.
+          See the <Link to="simulation">Simulation</Link> page.
         </p>
         <h2>Question</h2>
         <p>
@@ -31,7 +31,7 @@ export default class DefaultPage extends Component {
           network dynamics observed under these constraints are explored in the <Link to="/discussion">discussion</Link> section.
         </p>
         <h2>Instructions</h2>
-        <img src="/images/sim-hero-2.jpg" alt="Network training tool visualization" />
+        <img src="images/sim-hero-2.jpg" alt="Network training tool visualization" />
         <div className="caption">
           The Simulation Interface
         </div>
@@ -45,7 +45,7 @@ export default class DefaultPage extends Component {
         <h3>Train the Network</h3>
         <p>
           To start the simulation, and present a sequence of inputs for the network to learn, click
-          <img className="button-image" src="/images/start-input.jpg" alt="Start Input button" />
+          <img className="button-image" src="images/start-input.jpg" alt="Start Input button" />
         </p>
         <p>
           As the sequence is presented to the network you can observe the the connection strengths in the

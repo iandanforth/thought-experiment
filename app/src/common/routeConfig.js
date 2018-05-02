@@ -15,7 +15,7 @@ const childRoutes = [
 ];
 
 const routes = [{
-  path: 'thought-experiment/',
+  path: '/thought-experiment',
   component: App,
   childRoutes: [
     ...childRoutes,

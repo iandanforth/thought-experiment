@@ -42,7 +42,7 @@ export default class SimpleNav extends PureComponent {
   render() {
     return (
       <div className="common-simple-nav">
-        {this.renderLinks(this.props.routes[0].childRoutes, '')}
+        {this.renderLinks(this.props.routes[0].childRoutes, this.props.routes[0].path)}
       </div>
     );
   }

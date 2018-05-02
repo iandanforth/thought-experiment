@@ -6,7 +6,7 @@ import {
 } from './';
 
 export default {
-  path: '/',
+  path: '',
   name: 'Introduction',
   component: DefaultPage,
 };
