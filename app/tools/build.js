@@ -110,10 +110,6 @@ compiler.run((err) => {
       // Copy build to docs
       shell.cp('-R', buildFolder, docsFolder);
 
-      // Create symlink for local dev builds
-      shell.ln('-s', buildFolder, path.join(buildFolder,
-        'thought-experiment'));
-
     }, 100);
   }
 });
