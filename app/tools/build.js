@@ -6,11 +6,15 @@
 const path = require('path');
 const shell = require('shelljs');
 const crypto = require('crypto');
-const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
+const {
+  BundleAnalyzerPlugin
+} = require('webpack-bundle-analyzer');
 const webpack = require('webpack');
 const ProgressPlugin = require('webpack/lib/ProgressPlugin');
 const config = require('../webpack-config')('dist');
-const { ArgumentParser } = require('argparse');
+const {
+  ArgumentParser
+} = require('argparse');
 
 const parser = new ArgumentParser({
   addHelp: true,
@@ -71,6 +75,12 @@ shell.ShellString(indexHtml).to(path.join(buildFolder, 'index.html'));
 // Copy favicon
 shell.cp(path.join(__dirname, '../src/favicon.png'), buildFolder);
 
+// Copy images
+shell.cp('-R', path.join(__dirname, '../src/images'), buildFolder);
+
+// Create symlink for local dev builds
+shell.ln('-s', buildFolder, path.join(buildFolder, 'thought-experiment'));
+
 // Webpack build
 console.log('Building, it may take a few seconds...');
 console.time('Done');
@@ -92,7 +102,8 @@ compiler.run((err) => {
     // Add timestamp hash to bundle file name.
     // Use timeout so that the bundle analyzer will find main.js before renaming.
     setTimeout(() => {
-      shell.mv(path.join(buildFolder, './static/main.js'), path.join(buildFolder, `/static/main.${timestamp}.js`));
+      shell.mv(path.join(buildFolder, './static/main.js'), path.join(
+        buildFolder, `/static/main.${timestamp}.js`));
       console.timeEnd('Done');
     }, 100);
   }
