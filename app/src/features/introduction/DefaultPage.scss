@@ -59,12 +59,13 @@
     margin-top: -4px;
   }
 
-  .connection-strengths-container {
+  .connection-strengths-flex-container {
     display: flex;
     margin: 1rem;
+    justify-content: center;
 
-    img {
-      margin: auto;
+    .connection-strengths-container {
+      max-width: 554px;
     }
   }
 

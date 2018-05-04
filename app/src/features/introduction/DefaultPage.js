@@ -13,7 +13,7 @@ export default class DefaultPage extends Component {
         <p className="question-text">
           Using a single layer, laterally connected network and a learning rule based on&nbsp;
           <a href="https://en.wikipedia.org/wiki/Spike-timing-dependent_plasticity">
-            spike timing dependant plasticity
+            spike timing dependent plasticity
           </a> can a sequence be learned and then replayed given just the start of that
           sequence?
         </p>
@@ -22,7 +22,10 @@ export default class DefaultPage extends Component {
           Interesting network dynamics observed under these constraints are explored in the <Link to="/discussion" href="simulation">discussion</Link> section.
         </p>
         <p>
-          This thought experiment was originally proposed by Dr. Mu-ming Poo at Canonical Computations in Brains and Machines 2018.
+          This thought experiment was originally proposed by&nbsp;
+          <a href="http://www.ion.ac.cn/laboratories/int.asp?id=42">
+            Dr. Mu-ming Poo
+          </a> at Canonical Computations in Brains and Machines 2018.
           (<a href="https://www.youtube.com/watch?v=D2OpUPturUY">Main Talk</a> -&nbsp;
           <a href="https://www.youtube.com/watch?v=D2OpUPturUY&feature=youtu.be&list=PLBHioGD0U1Cjd-meZbEcz-9ZxK-mb50tZ&t=1322">
             Thought Experiment Portion
@@ -58,8 +61,13 @@ export default class DefaultPage extends Component {
           When a connection between two groups is strong enough that activity in one will drive activity in
           another (above threshold) the connection will change color.
         </p>
-        <div className="connection-strengths-container">
-          <img src="images/connection-strengths.jpg" alt="Disconnected, Weakly Connected, and Above Threshold neuron groups" />
+        <div className="connection-strengths-flex-container">
+          <div className="connection-strengths-container">
+            <img src="images/connection-strengths.jpg" alt="Disconnected, Weakly Connected, and Above Threshold neuron groups" />
+            <p className="caption">
+              Note: All connections are excitatory. Orange and blue indicate direction (right or left) for stylistic purposes.
+            </p>
+          </div>
         </div>
         <p>
           When all the appropriate connections are above threshold you should stop the input sequence and

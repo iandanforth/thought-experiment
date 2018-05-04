@@ -15,7 +15,7 @@ export function initTransitionMatrix(n) {
  * Increment or Decrement, heh :)
  * delta should either be -1 or 1
  *
- * See https://www.desmos.com/calculator/yadurf7yzd
+ * See https://www.desmos.com/calculator/eatrqep72z
  * for an explanation of equations and magic numbers slope/expansion
  */
 function xcrement(delta, matrix, slope, expansion, mask) {
@@ -27,6 +27,8 @@ function xcrement(delta, matrix, slope, expansion, mask) {
     mask
   };
 
+  // This is much more complicated than it needs to be, I just wanted to play with smooth functions.
+  // an alternate implementation would store integer values 0 - 12 since that's the effective operative range
   const resultSet = math.eval(`
     masked = matrix .* (mask == 0)
     unmasked = matrix .* (mask == 1)
