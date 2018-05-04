@@ -46,6 +46,7 @@ export default class Neuron extends PureComponent {
       animValue,
     };
 
+    this.loadedTextures = 0;
     this.interpInputRange = [1, 8];
     this.interpolatedValue = animValue.interpolate({
       inputRange: this.interpInputRange,
@@ -75,9 +76,12 @@ export default class Neuron extends PureComponent {
     const spriteX = x - radius;
     const spriteY = y - radius;
     const alpha = 0.6;
+    const texture = PIXI.Texture.fromImage(sphere);
+    // Texture loading doesn't cause state change so handle render separately here
+    texture.on('update', this.context.renderStage);
     return (
       <Sprite
-        texture={PIXI.Texture.fromImage(sphere)}
+        texture={texture}
         width={spriteWidth}
         height={spriteWidth}
         x={spriteX}
@@ -108,6 +112,10 @@ export default class Neuron extends PureComponent {
         duration: fadeDuration
       }
     ).start();
+  }
+
+  renderAfterTextureLoad() {
+
   }
 
   render() {

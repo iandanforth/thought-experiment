@@ -67,7 +67,7 @@ export default class DefaultPage extends Component {
         </p>
         <h3>Stop Input and Silence Neurons</h3>
         <p>
-          To stop the input click <img className="button-image" src="images/stop-input.jpg" alt="Stop Input button" /> If all neurons had connections
+          To stop the input click <img className="button-image" src="images/stop-input.jpg" alt="Stop Input button" />. If all neurons had connections
           above threshold when you do this you'll notice that the sequence is <em>maintained by the network</em>.
         </p>
         <p>

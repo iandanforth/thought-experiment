@@ -1,6 +1,6 @@
 import { PureComponent } from 'react';
 import Proptypes from 'prop-types';
-import { throttle } from 'underscore';
+
 
 export default class NetWrapper extends PureComponent {
   static contextTypes = {
@@ -11,11 +11,12 @@ export default class NetWrapper extends PureComponent {
     renderStage: Proptypes.func
   };
 
-  constructor(props, context) {
+  constructor(props) {
     super(props);
-    this.renderStage = throttle(() => {
-      context.app.render();
-    }, 20);
+    this.stageNeedsRender = false;
+    this.renderStage = this.renderStage.bind(this);
+    this.tick = this.tick.bind(this);
+    this.raf = null;
   }
 
   getChildContext() {
@@ -25,12 +26,31 @@ export default class NetWrapper extends PureComponent {
   }
 
   componentDidMount() {
-    setTimeout(this.renderStage, 0);
+    this.renderStage();
+    this.tick();
   }
 
   componentDidUpdate() {
-    console.log('I decided to update');
-    setTimeout(this.renderStage, 0);
+    this.renderStage();
+  }
+
+  componentWillUnmount() {
+    window.cancelAnimationFrame(this.raf);
+    this.stageNeedsRender = false;
+  }
+
+  // This externalizes the standard PIXI ticker for greater control
+  tick() {
+    if (this.stageNeedsRender) {
+      this.context.app.render();
+      this.stageNeedsRender = false;
+    }
+    this.raf = window.requestAnimationFrame(this.tick);
+  }
+
+  renderStage() {
+    // Don't invoke setState as we're managing pixi re-render not React
+    this.stageNeedsRender = true;
   }
 
   render() {
