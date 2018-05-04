@@ -10,25 +10,27 @@ export default class DefaultPage extends Component {
     return (
       <div className="introduction-default-page">
         <h1>Thought Experiment</h1>
-        <p>
-          This is an implementation of a thought experiment by Dr. Mu-ming Poo at Canonical Computations in Brains and Machines 2018.
-          (<a href="https://www.youtube.com/watch?v=D2OpUPturUY">Main Talk</a> -&nbsp;
-          <a href="https://www.youtube.com/watch?v=D2OpUPturUY&feature=youtu.be&list=PLBHioGD0U1Cjd-meZbEcz-9ZxK-mb50tZ&t=1322">
-            Thought Experiment Portion
-          </a>)
-        </p>
-        <h2>Simulation</h2>
-        <p>
-          See the <Link to="simulation" href="simulation">Simulation</Link> page.
-        </p>
-        <h2>Question</h2>
-        <p>
-          Using just Hebbian learning and a potentially fully connected network of neuron groups can a
-          sequence be learned and then replayed given just the start of that sequence?
+        <p className="question-text">
+          Using a single layer, laterally connected network and a learning rule based on&nbsp;
+          <a href="https://en.wikipedia.org/wiki/Spike-timing-dependent_plasticity">
+            spike timing dependant plasticity
+          </a> can a sequence be learned and then replayed given just the start of that
+          sequence?
         </p>
         <p>
           The answer is <strong>yes</strong> and you can watch that happen with the provided simulation.
           Interesting network dynamics observed under these constraints are explored in the <Link to="/discussion" href="simulation">discussion</Link> section.
+        </p>
+        <p>
+          This thought experiment was originally proposed by Dr. Mu-ming Poo at Canonical Computations in Brains and Machines 2018.
+          (<a href="https://www.youtube.com/watch?v=D2OpUPturUY">Main Talk</a> -&nbsp;
+          <a href="https://www.youtube.com/watch?v=D2OpUPturUY&feature=youtu.be&list=PLBHioGD0U1Cjd-meZbEcz-9ZxK-mb50tZ&t=1322">
+            Thought Experiment Portion
+          </a>) This is an independant implementation of that section of his talk. Any errors are mine and not those of Dr. Poo.
+        </p>
+        <h2>Simulation</h2>
+        <p>
+          See the <Link to="simulation" href="simulation">Simulation</Link> page.
         </p>
         <h2>Instructions</h2>
         <img src="images/sim-hero-2.jpg" alt="Network training tool visualization" />
@@ -49,8 +51,8 @@ export default class DefaultPage extends Component {
         </p>
         <p>
           As the sequence is presented to the network you can observe the the connection strengths in the
-          network changing. It takes four full presentations of the sequence for the connections to get
-          above threshold and start driving the next, predicted neuron group.
+          network changing. <strong>It takes four full presentations of the sequence for the connections to get
+          above threshold and start driving the next, predicted neuron group.</strong>
         </p>
         <p>
           When a connection between two groups is strong enough that activity in one will drive activity in
