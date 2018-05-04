@@ -181,12 +181,12 @@ export class NetworkContainer extends PureComponent {
     }
     this.updateNetwork(nextIV);
 
-    this.updateTimeout = setTimeout(this.tick, updateDelay);
+    this.updateTimer = setTimeout(this.tick, updateDelay);
   }
 
   // Updates both the neuron vector and the transition matrix
   updateNetwork(inputVector) {
-    // ES6 absurdity asignment is right to left. prevNV is assigned value of nv.
+    // ES6 absurdity: Asignment is right to left. prevNV is assigned value of nv.
     const { nv: prevNV, tm: prevTM } = this.props.home;
     const { updateFullNetwork } = this.props.actions;
     const nextNV = getNextNeuronVector(prevNV, inputVector, prevTM);
@@ -215,6 +215,7 @@ export class NetworkContainer extends PureComponent {
     };
 
     // Take control of rendering
+    // See NetWrapper for new rendering loop
     stageOptions.autoStart = false;
     stageOptions.sharedTicker = true;
     const ticker = PIXI.ticker.shared;

@@ -13,10 +13,12 @@ export default class NetWrapper extends PureComponent {
 
   constructor(props) {
     super(props);
+
     this.stageNeedsRender = false;
+    this.raf = null;
+
     this.renderStage = this.renderStage.bind(this);
     this.tick = this.tick.bind(this);
-    this.raf = null;
   }
 
   getChildContext() {
@@ -27,6 +29,7 @@ export default class NetWrapper extends PureComponent {
 
   componentDidMount() {
     this.renderStage();
+    // Start render loop here
     this.tick();
   }
 
