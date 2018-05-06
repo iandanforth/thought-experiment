@@ -21,7 +21,7 @@ export class InputRow extends Component {
   get inputNeurons() {
     const { neuronRadius, iv, updateDelay } = this.props.home;
     const neurons = [];
-    const startY = 400;
+    const startY = 415;
     const fadeDuration = updateDelay / 3;
     for (let i = 0; i < iv.length; i++) {
       let active = false;
