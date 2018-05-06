@@ -9,39 +9,53 @@ export default class DefaultPage extends Component {
     return (
       <div className="discussion-default-page">
         <h1>Discussion</h1>
-        <h2>Network Dynamics</h2>
         <p>
-          By default the network is trained on a single uni-directional sequence of intputs, but it is never
-          fixed. By starting and stopping the sequence or by adding single inputs during a sequence the
-          network is recalling it can learn new patterns. When deviating from a perfect uni-directrional series
-          of inputs two major modes are observed. 1. Network Saturation and 2. Alternate stable patterns. These
-          are discussed below a long with some thoughts on the implementation process and possible next steps.
+          Despite the simplicity of the implemented network there are a couple of features I found particularly
+          interesting. Saturation - Where the all units in the network would be end up perpetually active and
+          Stability - Where a small number of patterns could be maintained by the network without leading to
+          saturation.
         </p>
-        <h3>Network Saturation</h3>
+        <h2>Network Saturation</h2>
+        <img src="images/saturated-network.png" alt="A network where all units are active" />
         <p>
-          If you train a network to threshold and stop the input sequence that sequence will be maintained in the
-          activity of the neuron groups. If you then provide an additional single input to the network you will have
-          two sets of propogating neuron group activity. Most of these two-active-group sequences are not stable and lead
-          to network saturation. As they propegate around the network the connections between groups are still being
-          strengthened. Eventually in addition to propegating each active neuron one timestep into the future the
-          network learns to predict the activity of the second neuron group from the first and visa versa. This
-          causes the network to activate additional neuron groups and eventually the network saturates with many
-          above threshold connections leading to every neuron group being driven from the activity of the previous
-          timestep.
+          Saturation is realatively easy to observe. If you train the network with at least four repetitions
+          of the standard input sequence (so that connections between immediate neighbors of the network are
+          above threshold) and then present multiple single inputs, it is likely that the network
+          will become saturated. This occurs because the network learns equally from activations that are
+          driven from lateral inputs as from those driven by bottom up inputs. As the network learns to
+          try to predict its own behavior it begins strengthening more and more connections until a large
+          percentage are above threshold, which drives further unit activity and more learning.
+        </p>
+        <h2>Stable Patterns</h2>
+        <p>
+          The simplest stable pattern is the one presented as the original input sequence. One unit comes on
+          followed by the next, then the next, etc. Wrapping around to the beginning as it reaches the end of
+          the line of units. I'll refer to this as a one-active pattern. You can't do it from the provided
+          UI but it doesn't matter which unit comes on first after the pattern is learned, it will start
+          perpetual recall of this sequence. In addition the direction of the pattern doesn't matter. The network
+          is symetric after all.
         </p>
         <p>
-          Thoughts on how to ameliorate these effects can be found in the Next Steps section.
+          One-active patterns don't need to be consecutive. You can train the network on a pattern that
+          skips input units and it will learn this just fine, as long as any one unit only ever predicts one
+          other unit. If the pattern is such that at one time period a unit predicts one unit and at another
+          a separate unit the network will strengthen both connections to the point that eventually the first
+          will immediately drive two other units. This leads quickly to network saturation.
         </p>
-        <h3>Stable Patterns</h3>
         <p>
-          Interestingly there is a class of two-active-group sequences which is stable. In the 8 group case
-          if a single input is added 4 ahead or 4 behind the initial propegating single group sequence you will get
-          a stable propegation of two groups.
+          There is also a class of stable two-active patterns. Patterns where there are two units active in
+          the network at the same time. Most two-active sequences are not stable and lead
+          to network saturation.
+        </p>
+        <p>
+          In the 8 unit case if a single input is added 4 ahead or 4 behind the initial propegating active unit
+          you will get a stable propegation of two active units.
         </p>
         <img src="images/stable-network-1-3-1.png" alt="Network snapshot showing propegation of a two-active sequence" />
         <p>
           Why is this and are there any others? It is a bit hard to see in the simulation but by redrawing
-          the connections of the network as a graph with a circular layout a pattern emerges.
+          the connections of the network as a graph with a circular layout a pattern emerges. Every active unit
+          in the stable case always predicts only units that will become active in the next timestep.
         </p>
         <img src="images/ring-topo.jpg" alt="Three circular network graphs showing above threshold connections between neuron groups" />
         <p>
@@ -58,22 +72,19 @@ export default class DefaultPage extends Component {
           C is a ring of 10 evenly spaced nodes where the calculation of non-ring edges is (n+5) % 10.
         </p>
         <p>
-          A is an example of the above-threshold connections formed initially in an unstable two-active-group.
+          A is an example of the above-threshold connections formed initially in an unstable two-active sequence.
           B and C are connections formed and maintained in stable two-active groups. They are also examples of
           wheel graphs (they form an implicit hub node). More specifically they are wheel graphs with symetric spokes
-          which only occurs with an even number of ring nodes. Indeed it appears that this symmetry is what allows
+          which only occurs with an even number of ring nodes. Indeed it is this symmetry is that allows
           for the stable propagation of two-active sequences. Any other n-active group or two-active group
-          does not form a symetric wheel graph at any point and does not lead to stability.
+          does not form a symetric wheel graph at any point and does not lead to stability. In any other type of
+          sequence you get units which will not be active in the immediately next timestep.
 
           With this view we can postulate that for any network with an even number of neuron groups (n) if you
           present the network with a two-active sequence where the two active neurons are k and k + ( (n / 2) mod n )
           then the above threshold connections in the network will form a symetric wheel graph and propegate
           stably.
         </p>
-
-
-        <h2>Implementation Notes</h2>
-
       </div>
     );
   }
