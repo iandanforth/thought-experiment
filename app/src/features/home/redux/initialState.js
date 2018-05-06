@@ -4,7 +4,7 @@
 // So Rekit extracts the initial state definition into a separate module so that you can have
 // a quick view about what data is used for the feature, at any time.
 import { initTransitionMatrix } from '../../../common/transitionMatrix';
-import { initInputVector } from '../../../common/inputVector';
+import { initInputVector, INPUT_DIRECTION } from '../../../common/inputVector';
 
 // NOTE: initialState constant is necessary so that Rekit could auto add initial state when creating async actions.
 const initialNumNeurons = 8;
@@ -22,6 +22,7 @@ const initialState = {
   baseConnectionHeight: 10,
   baseConnectionWidth: 7,
   numInputNeurons: initialNumNeurons,
+  inputDirection: INPUT_DIRECTION.RIGHT,
   updateDelay: initialUpdateDelay,
   propegationDelayRatio,
   propagationDelay: initialPropegationDelay,

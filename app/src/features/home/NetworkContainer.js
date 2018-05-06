@@ -24,6 +24,7 @@ export class NetworkContainer extends PureComponent {
       numNeurons: PropTypes.number.isRequired,
       nv: PropTypes.array.isRequired,
       iv: PropTypes.array.isRequired,
+      inputDirection: PropTypes.number.isRequired,
       neuronSpacing: PropTypes.number.isRequired,
       neuronRadius: PropTypes.number.isRequired,
       baseConnectionHeight: PropTypes.number.isRequired,
@@ -156,10 +157,10 @@ export class NetworkContainer extends PureComponent {
   }
 
   stepInput() {
-    const { iv } = this.props.home;
+    const { iv, inputDirection } = this.props.home;
     const { updateInputVector } = this.props.actions;
     // For now we always advance to the next input being on in a repeating cycle
-    const nextIV = getNextInputVector(iv);
+    const nextIV = getNextInputVector(iv, inputDirection);
     updateInputVector(nextIV);
     return nextIV;
   }

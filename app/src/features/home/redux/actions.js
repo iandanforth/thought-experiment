@@ -18,3 +18,4 @@ export { enableProbe } from './enableProbe';
 export { disableProbe } from './disableProbe';
 export { updateFullNetwork } from './updateFullNetwork';
 export { updateNumNeurons } from './updateNumNeurons';
+export { updateInputDirection } from './updateInputDirection';

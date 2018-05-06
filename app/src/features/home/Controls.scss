@@ -7,10 +7,21 @@
 .home-controls {
 
   .slider-container {
-    .slider-label {
-      margin-top: 35px;
-      margin-bottom: 5px;
-    }
+    margin-bottom: 55px;
+  }
+  .control-label {
+    margin-top: 35px;
+    margin-bottom: 5px;
+    font-size: 0.9rem;
+  }
+
+  // Dropdown overrides
+  .Dropdown-control {
+    padding: 8px 38px 8px 10px;
+  }
+
+  .Dropdown-placeholder, .Dropdown-option {
+    font-size: 0.9rem;
   }
 
 }

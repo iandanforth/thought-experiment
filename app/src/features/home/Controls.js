@@ -8,6 +8,8 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import * as actions from './redux/actions';
 
+import { INPUT_DIRECTION } from '../../common/inputVector';
+
 export class Controls extends Component {
   static propTypes = {
     home: PropTypes.object.isRequired,
@@ -18,6 +20,7 @@ export class Controls extends Component {
     super(props);
 
     this.handleNeuronGroupCountSelect = this.handleNeuronGroupCountSelect.bind(this);
+    this.handleSequenceDirectionSelect = this.handleSequenceDirectionSelect.bind(this);
   }
 
   handleNeuronGroupCountSelect(selection) {
@@ -40,6 +43,15 @@ export class Controls extends Component {
     resetTransitionMatrix();
   }
 
+  handleSequenceDirectionSelect(selection) {
+    assert.ok(
+      Object.prototype.hasOwnProperty.call(selection, 'value'),
+      'Selection must be an object with a property "value".'
+    );
+    const { updateInputDirection } = this.props.actions;
+    updateInputDirection(selection.value);
+  }
+
   render() {
     const {
       // neuronSpacing,
@@ -53,62 +65,30 @@ export class Controls extends Component {
       // updateNeuronRadius,
       updateUpdateDelay,
     } = this.props.actions;
-    const sliderClasses = classNames({
-      'slider-container': true
-    });
 
-    const { numNeurons } = this.props.home;
-    const dropdownOptions = [
+    const { numNeurons, inputDirection } = this.props.home;
+    const nnDropdownOptions = [
       { value: 8, label: '8' },
       { value: 9, label: '9' },
       { value: 10, label: '10' },
       { value: 11, label: '11' },
       { value: 12, label: '12' }
     ];
-    const dropdownValueIndex = dropdownOptions.findIndex(item => item.value === numNeurons);
-    const dropdownValue = dropdownOptions[dropdownValueIndex];
+    const nnOptionsInd = nnDropdownOptions.findIndex(item => item.value === numNeurons);
+    const nnDropdownValue = nnDropdownOptions[nnOptionsInd];
+
+    // Sequence direction
+    const sdDropdownOptions = [
+      { value: INPUT_DIRECTION.RIGHT, label: 'Right to Left' },
+      { value: INPUT_DIRECTION.LEFT, label: 'Left to Right' }
+    ];
+    const sdOptionsInd = sdDropdownOptions.findIndex(item => item.value === inputDirection);
+    const sdDropdownValue = sdDropdownOptions[sdOptionsInd];
 
     return (
       <div className="home-controls">
-        <div className={sliderClasses}>
-          {// <div className="slider-label">
-          //   Neuron Spacing
-          // </div>
-          // <Slider
-          //   min={0}
-          //   max={200}
-          //   step={1}
-          //   value={neuronSpacing}
-          //   tooltip={false}
-          //   labels={{ 0: '0', 100: '100', 200: '200' }}
-          //   onChange={updateNeuronSpacing}
-          // />
-          // <div className="slider-label">
-          //   Connection Height
-          // </div>
-          // <Slider
-          //   min={0}
-          //   max={200}
-          //   step={1}
-          //   value={baseConnectionHeight}
-          //   tooltip={false}
-          //   labels={{ 0: '0', 100: '100', 200: '200' }}
-          //   onChange={updateConnectionHeight}
-          // />
-          // <div className="slider-label">
-          //   Neuron Radius
-          // </div>
-          // <Slider
-          //   min={0}
-          //   max={200}
-          //   step={1}
-          //   value={neuronRadius}
-          //   tooltip={false}
-          //   labels={{ 0: '0', 100: '100', 200: '200' }}
-          //   onChange={updateNeuronRadius}
-          // />
-          }
-          <div className="slider-label">
+        <div className="slider-container">
+          <div className="control-label">
             Simulation Speed
           </div>
           <Slider
@@ -120,13 +100,24 @@ export class Controls extends Component {
             labels={{ 200: 'Fast', 1000: 'Slow' }}
             onChange={updateUpdateDelay}
           />
-          <div className="slider-label">
+        </div>
+        <div className="dropdowns-container">
+          <div className="control-label">
             Neuron Groups
           </div>
           <Dropdown
-            options={dropdownOptions}
+            options={nnDropdownOptions}
             onChange={this.handleNeuronGroupCountSelect}
-            value={dropdownValue}
+            value={nnDropdownValue}
+            placeholder="Select an option"
+          />
+          <div className="control-label">
+            Sequence Direction
+          </div>
+          <Dropdown
+            options={sdDropdownOptions}
+            onChange={this.handleSequenceDirectionSelect}
+            value={sdDropdownValue}
             placeholder="Select an option"
           />
         </div>
