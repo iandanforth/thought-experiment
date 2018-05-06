@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Slider from 'react-rangeslider';
-import classNames from 'classnames';
+import { range } from 'underscore';
 import Dropdown from 'react-dropdown';
 import assert from 'assert';
 import { bindActionCreators } from 'redux';
@@ -67,20 +67,17 @@ export class Controls extends Component {
     } = this.props.actions;
 
     const { numNeurons, inputDirection } = this.props.home;
-    const nnDropdownOptions = [
-      { value: 8, label: '8' },
-      { value: 9, label: '9' },
-      { value: 10, label: '10' },
-      { value: 11, label: '11' },
-      { value: 12, label: '12' }
-    ];
+    /* eslint-disable-next-line arrow-body-style */
+    const nnDropdownOptions = range(2, 13).map((val) => {
+      return { value: val, label: `${val}` };
+    });
     const nnOptionsInd = nnDropdownOptions.findIndex(item => item.value === numNeurons);
     const nnDropdownValue = nnDropdownOptions[nnOptionsInd];
 
     // Sequence direction
     const sdDropdownOptions = [
-      { value: INPUT_DIRECTION.RIGHT, label: 'Right to Left' },
-      { value: INPUT_DIRECTION.LEFT, label: 'Left to Right' }
+      { value: INPUT_DIRECTION.RIGHT, label: 'Left to Right' },
+      { value: INPUT_DIRECTION.LEFT, label: 'Right to Left' }
     ];
     const sdOptionsInd = sdDropdownOptions.findIndex(item => item.value === inputDirection);
     const sdDropdownValue = sdDropdownOptions[sdOptionsInd];

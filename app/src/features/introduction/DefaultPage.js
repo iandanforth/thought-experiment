@@ -93,11 +93,30 @@ export default class DefaultPage extends Component {
           If the simulation begins behaving oddly at any point or you want to watch the training again
           click the <img className="button-image" src="images/reset-simulation.jpg" alt="Reset Simulation button" /> button.
         </p>
-        <h3>Changing Simulation Speed</h3>
-        <p>
-          In the sidebar on the simulation page you'll see a slider to alter how fast the simulation runs.
-          Changing the simulation speed will alter how quickly new inputs are presented and how quickly the network updates itself.
-        </p>
+        <h2>Other Options</h2>
+        <div className="other-options-content-container">
+          <div className="other-options-img-container">
+            <img src="images/sidebar-controls.png" alt="Sidebar controls for Simulation"/>
+          </div>
+          <div className="other-options-text-container">
+            <h3>Simulation Speed</h3>
+            <p>
+              In the sidebar on the simulation page you'll see a slider to alter how fast the simulation runs.
+              Changing the simulation speed will alter how quickly new inputs are presented and how quickly the network updates itself.
+            </p>
+            <h3>Number of Neuron Groups</h3>
+            <p>
+              In the sidebar there is a dropdown selector where you can pick among a small range of values for the
+              number of neuron groups to simulate. Changing this value will reset the simulation and connections.
+            </p>
+            <h3>Input Sequence Direction</h3>
+            <p>
+              You can reverse the direction of the presented input sequence by using the Sequence Direction
+              dropdown to select 'Right to Left'. If you do this after the left to right sequence has been
+              learned it is likely the network will saturate (see <Link to="discussion" href="discussion">Discussion</Link>).
+            </p>
+          </div>
+        </div>
       </div>
     );
   }
