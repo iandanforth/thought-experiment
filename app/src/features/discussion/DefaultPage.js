@@ -18,13 +18,14 @@ export default class DefaultPage extends Component {
         <h2>Network Saturation</h2>
         <img src="images/saturated-network.png" alt="A network where all units are active" />
         <p>
-          Saturation is realatively easy to observe. If you train the network with at least four repetitions
+          Saturation is relatively easy to observe. If you train the network with at least four repetitions
           of the standard input sequence (so that connections between immediate neighbors of the network are
           above threshold) and then present multiple single inputs, it is likely that the network
-          will become saturated. This occurs because the network learns equally from activations that are
+          will become saturated after a short period of time. The network learns equally from activations that are
           driven from lateral inputs as from those driven by bottom up inputs. As the network learns to
           try to predict its own behavior it begins strengthening more and more connections until a large
-          percentage are above threshold, which drives further unit activity and more learning.
+          percentage are above threshold, which eventually drives all units. The network has no signal decay
+          or inhibitory mechanism so once each unit is driven at each timestep it will remain locked in this state.
         </p>
         <h2>Stable Patterns</h2>
         <p>

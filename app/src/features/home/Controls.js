@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Slider from 'react-rangeslider';
 import classNames from 'classnames';
+import Dropdown from 'react-dropdown';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import * as actions from './redux/actions';

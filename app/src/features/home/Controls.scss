@@ -1,5 +1,8 @@
 @import '../../styles/mixins';
-@import './rangeslider.css';
+// ~ imports for node_moduels see
+// https://github.com/gdi2290/angular-starter/issues/727#issuecomment-228300398
+@import '~react-dropdown/style.css';
+@import '~react-rangeslider/umd/rangeslider.css';
 
 .home-controls {
 
