@@ -7,6 +7,8 @@
   padding: 0 10px;
   font-size: 1.1rem;
   line-height: 1.55em;
+  display: flex;
+  flex-direction: column;
 
   h1 {
     font-size: 40px;
@@ -39,6 +41,10 @@
 
   ol {
     padding-left: 40px;
+  }
+
+  img {
+    margin: 0.5rem auto 1.5rem;
   }
 
   .caption {

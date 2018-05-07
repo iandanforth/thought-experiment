@@ -23,11 +23,11 @@ export default class DefaultPage extends Component {
         </p>
         <p>
           This thought experiment was originally proposed by&nbsp;
-          <a href="http://www.ion.ac.cn/laboratories/int.asp?id=42">
+          <a href="http://www.ion.ac.cn/laboratories/int.asp?id=42" target="_blank" rel="noopener noreferrer">
             Dr. Mu-ming Poo
           </a> at Canonical Computations in Brains and Machines 2018.
-          (<a href="https://www.youtube.com/watch?v=D2OpUPturUY">Main Talk</a> -&nbsp;
-          <a href="https://www.youtube.com/watch?v=D2OpUPturUY&feature=youtu.be&list=PLBHioGD0U1Cjd-meZbEcz-9ZxK-mb50tZ&t=1322">
+          (<a href="https://www.youtube.com/watch?v=D2OpUPturUY" target="_blank" rel="noopener noreferrer">Main Talk</a> -&nbsp;
+          <a href="https://www.youtube.com/watch?v=D2OpUPturUY&feature=youtu.be&list=PLBHioGD0U1Cjd-meZbEcz-9ZxK-mb50tZ&t=1322" target="_blank" rel="noopener noreferrer">
             Thought Experiment Portion
           </a>) This is an independant implementation of that section of his talk. Any errors are mine and not those of Dr. Poo.
         </p>
