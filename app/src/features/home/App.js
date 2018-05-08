@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Route } from 'react-router-dom';
 import SimpleNav from '../common/SimpleNav';
+import MobileNav from '../common/MobileNav';
 import ConnectedControls from './Controls';
 import routeConfig from '../../common/routeConfig';
 
@@ -22,6 +23,7 @@ export default class App extends Component {
   render() {
     return (
       <div className="home-app">
+        <MobileNav />
         <div className="sidebar">
           <SimpleNav routes={routeConfig} />
           <Route path="/simulation" component={ConnectedControls} />

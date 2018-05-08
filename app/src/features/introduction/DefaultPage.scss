@@ -50,6 +50,10 @@
     padding-left: 40px;
   }
 
+  img {
+    max-width: 100%;
+  }
+
   .caption {
     font-size: 0.9rem;
   }
@@ -80,7 +84,6 @@
     .other-options-img-container {
       padding-top: 1.2rem;
       margin-right: 1.3rem;
-
     }
   }
 }

@@ -1,0 +1,26 @@
+@import '../../styles/mixins';
+
+.common-mobile-nav {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.9);
+  height: 48px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);  
+
+  @media only screen and (min-width: 600px) {
+    display: none;
+  }
+
+  .link-container {
+    display: flex;
+    justify-content: center;
+
+    a {
+      margin: 15px;
+      color: black;
+    }
+  }
+
+
+}
