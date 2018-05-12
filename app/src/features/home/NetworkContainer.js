@@ -8,7 +8,8 @@ import * as math from 'mathjs';
 import * as PIXI from 'pixi.js';
 import * as actions from './redux/actions';
 import NetWrapper from './NetWrapper';
-import ConnectedInputRow from './InputRow';
+import UnitRow from './UnitRow';
+import InputRow from './InputRow';
 import Neuron from './Neuron';
 import { ConnectionDirection } from './Connection';
 import ConnectionRight from './ConnectionRight';
@@ -71,39 +72,13 @@ export class NetworkContainer extends PureComponent {
   }
 
   get neurons() {
-    const {
-      nv,
-      neuronRadius,
-      networkY,
-      updateDelay,
-      stageWidth,
-      neuronSpacing,
-      numNeurons
-    } = this.props.home;
-    const neurons = [];
-    const fadeDuration = updateDelay / 3;
-    for (let i = nv.length - 1; i >= 0; i--) {
-      let active = false;
-      if (nv[i] === 1) {
-        active = true;
-      }
-      const key = `neuron-${i}`;
-      const x = calcUnitX(i, stageWidth, neuronSpacing, neuronRadius, numNeurons);
-      const y = networkY;
-      const neuron = (
-        <Neuron
-          x={x}
-          y={y}
-          radius={neuronRadius}
-          inactiveColor="rgb(212, 225, 246)"
-          active={active}
-          fadeDuration={fadeDuration}
-          key={key}
-        />
-      );
-      neurons.push(neuron);
-    }
-    return neurons;
+    return (
+      <UnitRow
+        {...this.props.home}
+        startY={this.props.home.networkY}
+        UnitClass={Neuron}
+      />
+    );
   }
 
   get connections() {
@@ -112,7 +87,10 @@ export class NetworkContainer extends PureComponent {
       baseConnectionHeight,
       baseConnectionWidth,
       tm,
-      networkY
+      networkY,
+      stageWidth,
+      neuronSpacing,
+      numNeurons
     } = this.props.home;
 
     const [numRows, numColumns] = tm.size();
@@ -129,7 +107,7 @@ export class NetworkContainer extends PureComponent {
           // How far away (by count of neurons) is our end?
           const targetDistance = Math.abs(ri - ci);
           const vertOffset = vertSpacing * targetDistance;
-          const x = this.calcNeuronX(ri);
+          const x = calcUnitX(ri, stageWidth, neuronSpacing, neuronRadius, numNeurons);
 
           let direction = ConnectionDirection.RIGHT;
           if (ci < ri) {
@@ -137,7 +115,7 @@ export class NetworkContainer extends PureComponent {
           }
           const y = networkY - (neuronRadius * direction);
           const connectionHeight = (baseConnectionHeight + vertOffset) * direction;
-          const endX = this.calcNeuronX(ci);
+          const endX = calcUnitX(ci, stageWidth, neuronSpacing, neuronRadius, numNeurons);
           let connection;
           const connectionProps = {
             startX: x,
@@ -229,7 +207,7 @@ export class NetworkContainer extends PureComponent {
           <NetWrapper>
             {this.connections}
             {this.neurons}
-            <ConnectedInputRow />
+            <InputRow {...this.props.home} />
           </NetWrapper>
         </Stage>
       </div>

@@ -29,7 +29,7 @@ export default class Neuron extends PureComponent {
 
   static defaultProps = {
     active: false,
-    inactiveColor: 'rgb(136, 136, 152)',
+    inactiveColor: 'rgb(212, 225, 246)',
     activeColor: 'rgb(255, 121, 0)',
     displayTexture: true,
     interactive: false,
