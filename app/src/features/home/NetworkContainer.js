@@ -4,20 +4,15 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Stage } from 'react-pixi-fiber';
 import { isEqual } from 'underscore';
-import * as math from 'mathjs';
 import * as PIXI from 'pixi.js';
 import * as actions from './redux/actions';
 import NetWrapper from './NetWrapper';
-import UnitRow from './UnitRow';
 import InputRow from './InputRow';
-import Neuron from './Neuron';
-import { ConnectionDirection } from './Connection';
-import ConnectionRight from './ConnectionRight';
-import ConnectionLeft from './ConnectionLeft';
+import NeuronGroupRow from './NeuronGroupRow';
+import NetworkConnections from './NetworkConnections';
 import { getNextInputVector } from '../../common/inputVector';
 import { getNextNeuronVector } from '../../common/neuronVector';
 import { getNextTransitionMatrix } from '../../common/transitionMatrix';
-import { calcUnitX } from '../../common/displayHelpers';
 
 
 export class NetworkContainer extends PureComponent {
@@ -69,78 +64,6 @@ export class NetworkContainer extends PureComponent {
     stopInputRunning();
     resetInputVector();
     resetNeuronVector();
-  }
-
-  get neurons() {
-    return (
-      <UnitRow
-        {...this.props.home}
-        startY={this.props.home.networkY}
-        UnitClass={Neuron}
-      />
-    );
-  }
-
-  get connections() {
-    const {
-      neuronRadius,
-      baseConnectionHeight,
-      baseConnectionWidth,
-      tm,
-      networkY,
-      stageWidth,
-      neuronSpacing,
-      numNeurons
-    } = this.props.home;
-
-    const [numRows, numColumns] = tm.size();
-
-    const connections = [];
-    const vertSpacing = 30;
-    for (let ri = 0; ri < numRows; ri++) {
-      // Go in reverse order so that closest connections are on top
-      for (let ci = numColumns - 1; ci >= 0; ci--) {
-        // Ignore diagonal / recurrent connections
-        if (ri !== ci) {
-          const weight = tm.subset(math.index(ri, ci));
-          const key = `connection-${ri}-${ci}`;
-          // How far away (by count of neurons) is our end?
-          const targetDistance = Math.abs(ri - ci);
-          const vertOffset = vertSpacing * targetDistance;
-          const x = calcUnitX(ri, stageWidth, neuronSpacing, neuronRadius, numNeurons);
-
-          let direction = ConnectionDirection.RIGHT;
-          if (ci < ri) {
-            direction = ConnectionDirection.LEFT;
-          }
-          const y = networkY - (neuronRadius * direction);
-          const connectionHeight = (baseConnectionHeight + vertOffset) * direction;
-          const endX = calcUnitX(ci, stageWidth, neuronSpacing, neuronRadius, numNeurons);
-          let connection;
-          const connectionProps = {
-            startX: x,
-            startY: y,
-            endX,
-            endY: y,
-            height: connectionHeight,
-            width: baseConnectionWidth,
-            weight,
-            key
-          };
-          if (direction === ConnectionDirection.RIGHT) {
-            connection = (
-              <ConnectionRight {...connectionProps} />
-            );
-          } else if (direction === ConnectionDirection.LEFT) {
-            connection = (
-              <ConnectionLeft {...connectionProps} />
-            );
-          }
-          connections.push(connection);
-        }
-      }
-    }
-    return connections;
   }
 
   stepInput() {
@@ -205,8 +128,8 @@ export class NetworkContainer extends PureComponent {
       <div className="home-network-container">
         <Stage height={500} width={stageWidth} options={stageOptions}>
           <NetWrapper>
-            {this.connections}
-            {this.neurons}
+            <NetworkConnections {...this.props.home} />
+            <NeuronGroupRow {...this.props.home} />
             <InputRow {...this.props.home} />
           </NetWrapper>
         </Stage>

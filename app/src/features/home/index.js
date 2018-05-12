@@ -15,3 +15,5 @@ export { default as NetworkContainer } from './NetworkContainer';
 export { default as NetworkControlButtons } from './NetworkControlButtons';
 export { default as NetWrapper } from './NetWrapper';
 export { default as UnitRow } from './UnitRow';
+export { default as NetworkConnections } from './NetworkConnections';
+export { default as NeuronGroupRow } from './NeuronGroupRow';
