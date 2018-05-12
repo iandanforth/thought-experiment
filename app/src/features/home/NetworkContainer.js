@@ -16,6 +16,7 @@ import ConnectionLeft from './ConnectionLeft';
 import { getNextInputVector } from '../../common/inputVector';
 import { getNextNeuronVector } from '../../common/neuronVector';
 import { getNextTransitionMatrix } from '../../common/transitionMatrix';
+import { calcUnitX } from '../../common/displayHelpers';
 
 
 export class NetworkContainer extends PureComponent {
@@ -70,7 +71,15 @@ export class NetworkContainer extends PureComponent {
   }
 
   get neurons() {
-    const { nv, neuronRadius, networkY, updateDelay } = this.props.home;
+    const {
+      nv,
+      neuronRadius,
+      networkY,
+      updateDelay,
+      stageWidth,
+      neuronSpacing,
+      numNeurons
+    } = this.props.home;
     const neurons = [];
     const fadeDuration = updateDelay / 3;
     for (let i = nv.length - 1; i >= 0; i--) {
@@ -79,7 +88,7 @@ export class NetworkContainer extends PureComponent {
         active = true;
       }
       const key = `neuron-${i}`;
-      const x = this.calcNeuronX(i);
+      const x = calcUnitX(i, stageWidth, neuronSpacing, neuronRadius, numNeurons);
       const y = networkY;
       const neuron = (
         <Neuron
@@ -195,17 +204,6 @@ export class NetworkContainer extends PureComponent {
       const nextTM = getNextTransitionMatrix(prevTM, prevNV, nextNV);
       updateFullNetwork(nextNV, nextTM);
     }
-  }
-
-  calcNeuronX(index) {
-    const { stageWidth, neuronSpacing, neuronRadius, numNeurons } = this.props.home;
-    const stageCenter = stageWidth / 2;
-    const middleNeuron = (numNeurons / 2) - 0.5; // 0 based
-    const neuronOffest = index - middleNeuron;
-    const spacing = neuronSpacing + (2 * neuronRadius);
-    const offset = spacing * neuronOffest;
-    const neuronX = stageCenter + offset;
-    return neuronX;
   }
 
   render() {

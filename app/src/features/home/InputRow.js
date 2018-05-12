@@ -4,6 +4,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import InputNeuron from './InputNeuron';
 import * as actions from './redux/actions';
+import { calcUnitX } from '../../common/displayHelpers';
 
 
 export class InputRow extends Component {
@@ -19,7 +20,7 @@ export class InputRow extends Component {
   };
 
   get inputNeurons() {
-    const { neuronRadius, iv, updateDelay } = this.props.home;
+    const { stageWidth, neuronSpacing, neuronRadius, numNeurons, iv, updateDelay } = this.props.home;
     const neurons = [];
     const startY = 415;
     const fadeDuration = updateDelay / 3;
@@ -29,7 +30,7 @@ export class InputRow extends Component {
         active = true;
       }
       const key = `input-neuron-${i}`;
-      const x = this.calcNeuronX(i);
+      const x = calcUnitX(i, stageWidth, neuronSpacing, neuronRadius, numNeurons);
       const y = startY;
       const neuron = (
         <InputNeuron
@@ -44,17 +45,6 @@ export class InputRow extends Component {
       neurons.push(neuron);
     }
     return neurons;
-  }
-
-  calcNeuronX(index) {
-    const { stageWidth, neuronSpacing, neuronRadius, numNeurons } = this.props.home;
-    const stageCenter = stageWidth / 2;
-    const middleNeuron = (numNeurons / 2) - 0.5; // 0 based
-    const neuronOffest = index - middleNeuron;
-    const spacing = neuronSpacing + (2 * neuronRadius);
-    const offset = spacing * neuronOffest;
-    const neuronX = stageCenter + offset;
-    return neuronX;
   }
 
   render() {
